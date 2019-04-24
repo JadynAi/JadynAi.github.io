@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="AiLo">
+    
+    <meta name="description" content="Android AI DeepLearning">
+    
+    
+    
+    
+    
+    
+    <title>MediaCodeC硬解码视频，并将视频帧存储为图片文件 | Life is Like A Boat</title>
+    <link href="”https://yoursite.com“" rel="”prefetch”">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+</head></html>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://yoursite.com" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse" aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://yoursite.com">
+                
+                <!-- 这里background使用imgs/${logo_image}(路径文件名) -->
+                <style>
+                    #gal-header .navbar-brand {
+                        width: 200px;
+                        height: 50px;
+                        display: block;
+                        background: url('/imgs/favicon.png') no-repeat;
+                    }
+                </style>
+                    
+                <div class="navbar-brand"></div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class>
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class>
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/技术讨论/">技术讨论</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Android/">Android</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Python/">Python</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 gal-right" id="mainstay">
+                    
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://yoursite.com">Life is Like A Boat</a>
+        >
+        <span>MediaCodeC硬解码视频，并将视频帧存储为图片文件</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2019/01/25/2019-01-25-MediaCodeC-Decode-1/">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Android/">Android</a>, 
+                
+                <a href="/tags/视频/">视频</a>, 
+                
+                <a href="/tags/MediaCodeC/">MediaCodeC</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2019-01-25
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2019/01/25/2019-01-25-MediaCodeC-Decode-1/">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2019-01-25
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Android/">Android</a>, 
+                
+                <a href="/tags/视频/">视频</a>, 
+                
+                <a href="/tags/MediaCodeC/">MediaCodeC</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <p><strong>原创文章，转载请联系作者</strong></p>
+<blockquote>
+<p>醉拍春衫惜旧香，天将离恨恼疏狂。<br>年年陌上生秋草，日日楼中到夕阳。</p>
+</blockquote>
+<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><ul>
+<li>MediaCodeC搭配MediaExtractor将视频完整解码</li>
+<li>视频帧存储为JPEG文件</li>
+<li>使用两种方式达成<ul>
+<li>硬编码输出数据二次封装为YuvImage，并直接输出为JPEG格式文件</li>
+<li>硬编码搭配Surface，用OpenGL封装为RGBA数据格式，再利用Bitmap压缩为图片文件</li>
+<li>二者皆可以调整图片输出质量</li>
+</ul>
+</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li>YUV的处理方式，强推大家观看这篇文章<a href="https://www.polarxiong.com/archives/Android-MediaCodec%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E7%A1%AC%E4%BB%B6%E8%A7%A3%E7%A0%81-%E9%AB%98%E6%95%88%E7%8E%87%E5%BE%97%E5%88%B0YUV%E6%A0%BC%E5%BC%8F%E5%B8%A7-%E5%BF%AB%E9%80%9F%E4%BF%9D%E5%AD%98JPEG%E5%9B%BE%E7%89%87-%E4%B8%8D%E4%BD%BF%E7%94%A8OpenGL.html" target="_blank" rel="noopener">高效率得到YUV格式帧</a>，绝对整的明明白白</li>
+<li>OpenGL的处理方式，当然是最出名的<a href="https://bigflake.com/mediacodec/ExtractMpegFramesTest_egl14.java.txt" target="_blank" rel="noopener">BigFlake</a>，硬编码相关的示例代码很是详细</li>
+</ul>
+<h3 id="解码效率分析"><a href="#解码效率分析" class="headerlink" title="解码效率分析"></a>解码效率分析</h3><ul>
+<li>参考对象为一段约为13.8s，H.264编码，FPS为24，72*1280的MPEG-4的视频文件。<a href="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/yazi.mp4" target="_blank" rel="noopener">鸭鸭戏水视频</a><ul>
+<li>此视频的视频帧数为332    </li>
+</ul>
+</li>
+<li>略好点的设备解码时间稍短一点。但两种解码方式的效率对比下来，<code>OpenGl渲染</code>耗费的时间比<code>YUV转JPEG</code>多。<ul>
+<li>另：差一点的设备上，这个差值会被提高，约为一倍多。较好的设备，则小于一倍。</li>
+</ul>
+</li>
+</ul>
+<h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><p>对整个视频的解析，以及压入MediaCodeC输入队列都是通用步骤。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mediaExtractor.setDataSource(dataSource)</span><br><span class="line">// 查看是否含有视频轨</span><br><span class="line">val trackIndex = mediaExtractor.selectVideoTrack()</span><br><span class="line">if (trackIndex &lt; 0) &#123;</span><br><span class="line">    throw RuntimeException(&quot;this data source not video&quot;)</span><br><span class="line">&#125;</span><br><span class="line">mediaExtractor.selectTrack(trackIndex)</span><br><span class="line">      </span><br><span class="line">       </span><br><span class="line">fun MediaExtractor.selectVideoTrack(): Int &#123;</span><br><span class="line">    val numTracks = trackCount</span><br><span class="line">    for (i in 0 until numTracks) &#123;</span><br><span class="line">        val format = getTrackFormat(i)</span><br><span class="line">        val mime = format.getString(MediaFormat.KEY_MIME)</span><br><span class="line">        if (mime.startsWith(&quot;video/&quot;)) &#123;</span><br><span class="line">            return i</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置MediaCodeC解码器，将解码输出格式设置为<strong>COLOR_FormatYUV420Flexible</strong>，这种模式几乎所有设备都会支持。<br><strong>使用OpenGL渲染的话，MediaCodeC要配置一个输出Surface。使用YUV方式的话，则不需要配置</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">outputSurface = if (isSurface) OutputSurface(mediaFormat.width, mediaFormat.height) else null</span><br><span class="line"></span><br><span class="line">      // 指定帧格式COLOR_FormatYUV420Flexible,几乎所有的解码器都支持</span><br><span class="line">      if (decoder.codecInfo.getCapabilitiesForType(mediaFormat.mime).isSupportColorFormat(defDecoderColorFormat)) &#123;</span><br><span class="line">          mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, defDecoderColorFormat)</span><br><span class="line">          decoder.configure(mediaFormat, outputSurface?.surface, null, 0)</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">          throw RuntimeException(&quot;this mobile not support YUV 420 Color Format&quot;)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      val startTime = System.currentTimeMillis()</span><br><span class="line">      Log.d(TAG, &quot;start decode frames&quot;)</span><br><span class="line">      isStart = true</span><br><span class="line">      val bufferInfo = MediaCodec.BufferInfo()</span><br><span class="line">      // 是否输入完毕</span><br><span class="line">      var inputEnd = false</span><br><span class="line">      // 是否输出完毕</span><br><span class="line">      var outputEnd = false</span><br><span class="line">      decoder.start()</span><br><span class="line">      var outputFrameCount = 0</span><br><span class="line"></span><br><span class="line">      while (!outputEnd &amp;&amp; isStart) &#123;</span><br><span class="line">          if (!inputEnd) &#123;</span><br><span class="line">              val inputBufferId = decoder.dequeueInputBuffer(DEF_TIME_OUT)</span><br><span class="line">              if (inputBufferId &gt;= 0) &#123;</span><br><span class="line">                  // 获得一个可写的输入缓存对象</span><br><span class="line">                  val inputBuffer = decoder.getInputBuffer(inputBufferId)</span><br><span class="line">                  // 使用MediaExtractor读取数据</span><br><span class="line">                  val sampleSize = videoAnalyze.mediaExtractor.readSampleData(inputBuffer, 0)</span><br><span class="line">                  if (sampleSize &lt; 0) &#123;</span><br><span class="line">                      // 2019/2/8-19:15 没有数据</span><br><span class="line">                      decoder.queueInputBuffer(inputBufferId, 0, 0, 0L,</span><br><span class="line">                              MediaCodec.BUFFER_FLAG_END_OF_STREAM)</span><br><span class="line">                      inputEnd = true</span><br><span class="line">                  &#125; else &#123;</span><br><span class="line">                      // 将数据压入到输入队列</span><br><span class="line">                      val presentationTimeUs = videoAnalyze.mediaExtractor.sampleTime</span><br><span class="line">                      decoder.queueInputBuffer(inputBufferId, 0,</span><br><span class="line">                              sampleSize, presentationTimeUs, 0)</span><br><span class="line">                      videoAnalyze.mediaExtractor.advance()</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br></pre></td></tr></table></figure>
+<p>可以大致画一个流程图如下：<br></p>
+<p><img src="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/decode_line.png" alt></p>
+<h4 id="YUV"><a href="#YUV" class="headerlink" title="YUV"></a>YUV</h4><p>通过以上通用的步骤后，接下来就是对MediaCodeC的输出数据作YUV处理了。步骤如下：</p>
+<p>1.使用MediaCodeC的<code>getOutputImage (int index)</code>函数，得到一个只读的Image对象，其包含原始视频帧信息。</p>
+<blockquote>
+<p>By：当MediaCodeC配置了输出Surface时，此值返回null</p>
+</blockquote>
+<p>2.将Image得到的数据封装到YuvImage中，再使用YuvImage的<code>compressToJpeg</code>方法压缩为JPEG文件</p>
+<blockquote>
+<p>YuvImage的封装，官方文档有这样一段描述：<code>Currently only ImageFormat.NV21 and ImageFormat.YUY2 are supported</code>。<br>YuvImage只支持<em>NV21</em>或者<em>YUY2</em>格式，所以还可能需要对Image的原始数据作进一步处理，将其转换为<em>NV21</em>的Byte数组 </p>
+</blockquote>
+<h5 id="读取Image信息并封装为Byte数组"><a href="#读取Image信息并封装为Byte数组" class="headerlink" title="读取Image信息并封装为Byte数组"></a>读取Image信息并封装为Byte数组</h5><p>此次演示的机型，反馈的Image格式如下：<br></p>
+<blockquote>
+<p>getFormat = 35<br>getCropRect().width()=720<br>getCropRect().height()=1280</p>
+</blockquote>
+<p>35代表<code>ImageFormat.YUV_420_888格式</code>。Image的<code>getPlanes</code>会返回一个数组，其中0代表Y，1代表U，2代表V。由于是420格式，那么四个Y值共享一对UV分量，比例为4：1。<br><strong>代码如下，参考<a href="https://www.polarxiong.com/archives/Android-YUV_420_888%E7%BC%96%E7%A0%81Image%E8%BD%AC%E6%8D%A2%E4%B8%BAI420%E5%92%8CNV21%E6%A0%BC%E5%BC%8Fbyte%E6%95%B0%E7%BB%84.html" target="_blank" rel="noopener">YUV_420_888编码Image转换为I420和NV21格式byte数组</a>,不过我这里只保留了NV21格式的转换</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">fun Image.getDataByte(): ByteArray &#123;</span><br><span class="line">    val format = format</span><br><span class="line">    if (!isSupportFormat()) &#123;</span><br><span class="line">        throw RuntimeException(&quot;image can not support format is $format&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    // 指定了图片的有效区域，只有这个Rect内的像素才是有效的</span><br><span class="line">    val rect = cropRect</span><br><span class="line">    val width = rect.width()</span><br><span class="line">    val height = rect.height()</span><br><span class="line">    val planes = planes</span><br><span class="line">    val data = ByteArray(width * height * ImageFormat.getBitsPerPixel(format) / 8)</span><br><span class="line">    val rowData = ByteArray(planes[0].rowStride)</span><br><span class="line"></span><br><span class="line">    var channelOffset = 0</span><br><span class="line">    var outputStride = 1</span><br><span class="line">    for (i in 0 until planes.size) &#123;</span><br><span class="line">        when (i) &#123;</span><br><span class="line">            0 -&gt; &#123;</span><br><span class="line">                channelOffset = 0</span><br><span class="line">                outputStride = 1</span><br><span class="line">            &#125;</span><br><span class="line">            1 -&gt; &#123;</span><br><span class="line">                channelOffset = width * height + 1</span><br><span class="line">                outputStride = 2</span><br><span class="line">            &#125;</span><br><span class="line">            2 -&gt; &#123;</span><br><span class="line">                channelOffset = width * height</span><br><span class="line">                outputStride = 2</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 此时得到的ByteBuffer的position指向末端</span><br><span class="line">        val buffer = planes[i].buffer</span><br><span class="line">        //  行跨距</span><br><span class="line">        val rowStride = planes[i].rowStride</span><br><span class="line">        // 行内颜色值间隔，真实间隔值为此值减一</span><br><span class="line">        val pixelStride = planes[i].pixelStride</span><br><span class="line"></span><br><span class="line">        val TAG = &quot;getDataByte&quot;</span><br><span class="line"></span><br><span class="line">        Log.d(TAG, &quot;planes index is  $i&quot;)</span><br><span class="line">        Log.d(TAG, &quot;pixelStride $pixelStride&quot;)</span><br><span class="line">        Log.d(TAG, &quot;rowStride $rowStride&quot;)</span><br><span class="line">        Log.d(TAG, &quot;width $width&quot;)</span><br><span class="line">        Log.d(TAG, &quot;height $height&quot;)</span><br><span class="line">        Log.d(TAG, &quot;buffer size &quot; + buffer.remaining())</span><br><span class="line"></span><br><span class="line">        val shift = if (i == 0) 0 else 1</span><br><span class="line">        val w = width.shr(shift)</span><br><span class="line">        val h = height.shr(shift)</span><br><span class="line">        buffer.position(rowStride * (rect.top.shr(shift)) + pixelStride +</span><br><span class="line">                (rect.left.shr(shift)))</span><br><span class="line">        for (row in 0 until h) &#123;</span><br><span class="line">            var length: Int</span><br><span class="line">            if (pixelStride == 1 &amp;&amp; outputStride == 1) &#123;</span><br><span class="line">                length = w</span><br><span class="line">                // 2019/2/11-23:05 buffer有时候遗留的长度，小于length就会报错</span><br><span class="line">                buffer.getNoException(data, channelOffset, length)</span><br><span class="line">                channelOffset += length</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                length = (w - 1) * pixelStride + 1</span><br><span class="line">                buffer.getNoException(rowData, 0, length)</span><br><span class="line">                for (col in 0 until w) &#123;</span><br><span class="line">                    data[channelOffset] = rowData[col * pixelStride]</span><br><span class="line">                    channelOffset += outputStride</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (row &lt; h - 1) &#123;</span><br><span class="line">                buffer.position(buffer.position() + rowStride - length)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return data</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="最后封装YuvImage并压缩为文件"><a href="#最后封装YuvImage并压缩为文件" class="headerlink" title="最后封装YuvImage并压缩为文件"></a>最后封装YuvImage并压缩为文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val rect = image.cropRect</span><br><span class="line">   val yuvImage = YuvImage(image.getDataByte(), ImageFormat.NV21, rect.width(), rect.height(), null)</span><br><span class="line">   yuvImage.compressToJpeg(rect, 100, fileOutputStream)</span><br><span class="line">   fileOutputStream.close()</span><br></pre></td></tr></table></figure>
+<h4 id="MediaCodeC配置输出Surface，使用OpenGL渲染"><a href="#MediaCodeC配置输出Surface，使用OpenGL渲染" class="headerlink" title="MediaCodeC配置输出Surface，使用OpenGL渲染"></a>MediaCodeC配置输出Surface，使用OpenGL渲染</h4><p>OpenGL的环境搭建和渲染代码不再赘述，只是强调几个点：</p>
+<ul>
+<li>渲染纹理的线程一定要和MediaCodeC配置Surface的线程保持一致</li>
+<li>在渲染纹理代码前，一定要调用MediaCodeC的<code>releaseOutputBuffer</code>函数，将输出数据及时渲染到输出Surface上，否则Surface内的纹理将不会收到任何数据</li>
+</ul>
+<h5 id="获得可用的RGBA数据，使用Bitmap压缩为指定格式文件"><a href="#获得可用的RGBA数据，使用Bitmap压缩为指定格式文件" class="headerlink" title="获得可用的RGBA数据，使用Bitmap压缩为指定格式文件"></a>获得可用的RGBA数据，使用Bitmap压缩为指定格式文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">fun saveFrame(fileName: String) &#123;</span><br><span class="line">        pixelBuf.rewind()</span><br><span class="line">        GLES20.glReadPixels(0, 0, width, height, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuf)</span><br><span class="line">        var bos: BufferedOutputStream? = null</span><br><span class="line">        try &#123;</span><br><span class="line">            bos = BufferedOutputStream(FileOutputStream(fileName))</span><br><span class="line">            val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)</span><br><span class="line">            pixelBuf.rewind()</span><br><span class="line">            bmp.copyPixelsFromBuffer(pixelBuf)</span><br><span class="line">            bmp.compress(Bitmap.CompressFormat.JPEG, 100, bos)</span><br><span class="line">            bmp.recycle()</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            bos?.close()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h3><p>到目前为止，针对样例视频，<code>YUV</code>解码出来的视频帧亮度会稍低一点，且图片边缘处有细微的失真。<code>OpenGL渲染</code>解码的视频帧会明亮一些，放大三四倍边缘无失真。后续会继续追踪这个问题，会使用<code>FFmpeg</code>解码来作为对比。</p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p><a href="https://github.com/JadynAi/MediaLearn/tree/master/app/src/main/java/com/jadyn/ai/medialearn/decode" target="_blank" rel="noopener">此处有项目地址，点击传送</a></p>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'MediaCodeC硬解码视频，并将视频帧存储为图片文件'
+    }
+</script>
+
+                </div>
+                <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get" action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            AiLo
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description"></p><p>Android AI DeepLearning</p>
+<p></p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/">使用MediaCodeC将图片集编码为视频</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/">MediaCodeC解码视频指定帧，迅捷、精确</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/25/2019-01-25-MediaCodeC-Decode-1/">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/29/2018-07-29-AStarmaze/">使用A*算法求解机器人迷宫最短路径</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/05/2018-07-05-kotlin-adapter/">使用DSL模式构建Recyclerview适配器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/01/2018-07-01-glide-round/">提供一个Glide灵活加载圆角图片的方法</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/21/2018-06-21-fragment-v/">提供一种Fragment可见性改变的监测方案</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/10/2018-06-10-flip/">仿FlipBoard直板翻页效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/05/19/2018-05-19-pen/">基于Java代码实现的喷漆笔刷</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/30/flickerView/">仿ios京东启动页“跳过”效果</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/21/2018-06-21-fragment-v/">提供一种Fragment可见性改变的监测方案</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/01/2018-07-01-glide-round/">提供一个Glide灵活加载圆角图片的方法</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/29/2018-07-29-AStarmaze/">使用A*算法求解机器人迷宫最短路径</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/">使用MediaCodeC将图片集编码为视频</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/04/28/android-firefly/">Android萤火虫飞舞粒子效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/04/28/hello-world/">Hello World</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/03/10/2018_face_book/">吐血整理！17年下半年面试问题以及解析精华整理</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/25/2019-01-25-MediaCodeC-Decode-1/">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/">MediaCodeC解码视频指定帧，迅捷、精确</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/02/audio_start_learn/">【闻弦歌】--初识音频</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2019/01/25/2019-01-25-MediaCodeC-Decode-1/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="/2019/01/25/2019-01-25-MediaCodeC-Decode-1/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/技术讨论/" style="font-size: 15.853397563578614px;" class="tag-cloud-link">技术讨论</a>
+    
+    <a href="/tags/Android/" style="font-size: 8.973570009198117px;" class="tag-cloud-link">Android</a>
+    
+    <a href="/tags/Python/" style="font-size: 18.13375429091538px;" class="tag-cloud-link">Python</a>
+    
+    <a href="/tags/算法/" style="font-size: 10.0046760603223px;" class="tag-cloud-link">算法</a>
+    
+    <a href="/tags/视频/" style="font-size: 18.419319814683412px;" class="tag-cloud-link">视频</a>
+    
+    <a href="/tags/MediaCodeC/" style="font-size: 13.152802138679567px;" class="tag-cloud-link">MediaCodeC</a>
+    
+    <a href="/tags/Canvas动画/" style="font-size: 13.272851186866792px;" class="tag-cloud-link">Canvas动画</a>
+    
+    <a href="/tags/视觉设计/" style="font-size: 18.290982304261476px;" class="tag-cloud-link">视觉设计</a>
+    
+    <a href="/tags/交互体验/" style="font-size: 19.25668414059186px;" class="tag-cloud-link">交互体验</a>
+    
+    <a href="/tags/开发经验/" style="font-size: 9.431537139646114px;" class="tag-cloud-link">开发经验</a>
+    
+    <a href="/tags/科普向/" style="font-size: 9.342675323479153px;" class="tag-cloud-link">科普向</a>
+    
+    <a href="/tags/音频/" style="font-size: 14.677896082087472px;" class="tag-cloud-link">音频</a>
+    
+</div>
+                
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/JadynAi/" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://juejin.im/user/566d95f260b2ed36d9580add" target="_blank">juejin</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 AiLo Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+</body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://myau.moe/js/comment/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Fri Jan 25 2019 00:00:00 GMT+0800'
+      window.commentConfig.owner = 'JadynAi'
+      window.commentConfig.repo = 'JadynAi.github.io'
+      window.commentConfig.client_id = 'b199888872a9ccadaa16'
+      window.commentConfig.client_secret = '6230f262fc987c09b996cbd106c2a2d651c6486a'
+      window.commentConfig.redirect_uri = ''
+    } else {
+      window.commentConfig = {
+      	id: 'Fri Jan 25 2019 00:00:00 GMT+0800',
+        owner: 'JadynAi',
+        repo: 'JadynAi.github.io',
+        client_id: 'b199888872a9ccadaa16',
+        client_secret: '6230f262fc987c09b996cbd106c2a2d651c6486a',
+        redirect_uri: ''
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

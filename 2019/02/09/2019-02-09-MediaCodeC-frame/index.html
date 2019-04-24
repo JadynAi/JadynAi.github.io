@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="AiLo">
+    
+    <meta name="description" content="Android AI DeepLearning">
+    
+    
+    
+    
+    
+    
+    <title>MediaCodeC解码视频指定帧，迅捷、精确 | Life is Like A Boat</title>
+    <link href="”https://yoursite.com“" rel="”prefetch”">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+</head></html>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://yoursite.com" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse" aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://yoursite.com">
+                
+                <!-- 这里background使用imgs/${logo_image}(路径文件名) -->
+                <style>
+                    #gal-header .navbar-brand {
+                        width: 200px;
+                        height: 50px;
+                        display: block;
+                        background: url('/imgs/favicon.png') no-repeat;
+                    }
+                </style>
+                    
+                <div class="navbar-brand"></div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class>
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class>
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/技术讨论/">技术讨论</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Android/">Android</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Python/">Python</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 gal-right" id="mainstay">
+                    
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://yoursite.com">Life is Like A Boat</a>
+        >
+        <span>MediaCodeC解码视频指定帧，迅捷、精确</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/">MediaCodeC解码视频指定帧，迅捷、精确</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Android/">Android</a>, 
+                
+                <a href="/tags/视频/">视频</a>, 
+                
+                <a href="/tags/MediaCodeC/">MediaCodeC</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2019-02-09
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/">MediaCodeC解码视频指定帧，迅捷、精确</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2019-02-09
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Android/">Android</a>, 
+                
+                <a href="/tags/视频/">视频</a>, 
+                
+                <a href="/tags/MediaCodeC/">MediaCodeC</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <p><strong>原创文章，转载请联系作者</strong></p>
+<blockquote>
+<p>若待明朝风雨过，人在天涯！春在天涯</p>
+</blockquote>
+<h3 id="提要"><a href="#提要" class="headerlink" title="提要"></a>提要</h3><p>最近在整理硬编码<strong>MediaCodec</strong>相关的学习笔记，以及代码文档，分享出来以供参考。本人水平有限，项目难免有思虑不当之处，若有问题可以提<code>Issues</code>。<a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/video/decode/VideoDecoder2.kt" target="_blank" rel="noopener">项目地址传送门</a><br>此篇文章，主要是分享如何用<code>MediaCodeC</code>解码视频指定时间的一帧，回调Bitmap对象。之前还有一篇<a href="http://ailoli.me/2019/02/01/MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>，主要内容是将视频完整解码，并存储为JPEG文件，大家感兴趣可以去看一看。</p>
+<h3 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h3><p><code>VideoDecoder2</code>上手简单直接，首先需要创建一个解码器对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val videoDecoder2 = VideoDecoder2(dataSource)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>dataSoure就是视频文件地址</p>
+</blockquote>
+<p>解码器会在对象创建的时候，对视频文件进行分析，得出时长、帧率等信息。有了解码器对象后，在需要解码帧的地方，直接调用函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">videoDecoder2.getFrame(time, &#123; it-&gt;</span><br><span class="line">					//成功回调，it为对应帧Bitmap对象</span><br><span class="line">                &#125;, &#123;</span><br><span class="line">                 //失败回调</span><br><span class="line">              &#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>time 接受一个Float数值，级别为秒</p>
+</blockquote>
+<p><code>getFrame</code>函数式一个异步回调，会自动回调到主线程里来。同时这个函数也没有<strong>过度调用限制</strong>。也就是说——，你可以频繁调用而不用担心出现其他问题。</p>
+<h3 id="代码结构、实现过程"><a href="#代码结构、实现过程" class="headerlink" title="代码结构、实现过程"></a>代码结构、实现过程</h3><h4 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h4><p><code>VideoDecoder2</code>目前只支持硬编码解码，在某些机型或者版本下，可能会出现兼容问题。后续会继续补上软解码的功能模块。<br>先来看一下<code>VideoDecoder2</code>的代码框架，有哪些类构成，以及这些类起到的作用。<br><img src="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/code_framework.png" alt><br>在<code>VideoDecoder2</code>中，<code>DecodeFrame</code>承担着核心任务，由它发起这一帧的解码工作。获取了目标帧的YUV数据后；由<code>GLCore</code>来将这一帧转为Bitmap对象，它内部封装了<strong>OpenGL</strong>环境的搭建，以及配置了<code>Surface</code>供给<code>MediaCodeC</code>使用。<br><code>FrameCache</code>主要是做着缓存的工作，内部有内存缓存<em>LruCache</em>以及磁盘缓存<em>DiskLruCache</em>，因为缓存的存在，很大程度上提高了二次读取的效率。</p>
+<h4 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h4><p><code>VideoDecoder2</code>的工作流程，是一个线性任务队列串行的方式。其工作流程图如下：<br><img src="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/decode_frame_work.png" alt><br>具体流程：<br></p>
+<ul>
+<li>1.当执行<code>getFrame</code>函数时，首先从缓存从获取这一帧的图片缓存。</li>
+<li>2.如果缓存中没有这一帧的缓存，那么首先判断任务队列中<strong>正在执行的任务</strong>是否和此时需要的任务重复，如果不重复，则创建一个<code>DecodeFrame</code>任务加入队列。</li>
+<li>3.任务队列的任务是在一个特定的子线程内，线性执行。新的任务会被加入队列尾端，而已有任务则会被提高优先级，移到队列中<code>index为1</code>的位置。</li>
+<li>4、<code>DecodeFrame</code>获取到这一帧的Bitmap后，会将这一帧缓存为内存缓存，并在会在<strong>缓存线程</strong>内作磁盘缓存，方便二次读取。</li>
+</ul>
+<p>接下来分析一下，实现过程中的几个重要的点。</p>
+<h4 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h4><ul>
+<li>如何定位和目标时间戳相近的采样点</li>
+<li>如何使用<code>MediaCodeC</code>获取视频特定时间帧</li>
+<li>缓存是如何工作，起到的作用有哪些</li>
+</ul>
+<h5 id="定位精确帧"><a href="#定位精确帧" class="headerlink" title="定位精确帧"></a>定位精确帧</h5><p><strong>精确</strong>其实是一个相对而言的概念，<code>MediaExtractor</code>的<code>seekTo</code>函数，有三个可供选择的标记：SEEK_TO_PREVIOUS_SYNC, SEEK_TO_CLOSEST_SYNC, SEEK_TO_NEXT_SYNC，分别是seek指定帧的上一帧，最近帧和下一帧。<br>其实，<code>seekTo</code>并无法每次都准确的跳到指定帧，这个函数只会seek到目标时间的最接近的（CLOSEST）、上一帧（PREVIOUS）和下一帧（NEXT）。因为视频编码的关系，解码器只会从关键帧开始解码，也就是I帧。因为只有I帧才包含完整的信息。而P帧和B帧包含的信息并不完全，只有依靠前后帧的信息才能解码。所以这里的解决办法是：先定位到目标时间的上一帧，然后<code>advance</code>，直到读取的时间和目标时间的差值最小，或者读取的时间和目标时间的差值小于<strong>帧间隔</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">val MediaFormat.fps: Int</span><br><span class="line">    get() = try &#123;</span><br><span class="line">        getInteger(MediaFormat.KEY_FRAME_RATE)</span><br><span class="line">    &#125; catch (e: Exception) &#123;</span><br><span class="line">        0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">    * </span><br><span class="line">    * return : 每一帧持续时间，微秒</span><br><span class="line">    * */</span><br><span class="line">    val perFrameTime by lazy &#123;</span><br><span class="line">        1000000L / mediaFormat.fps</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">    * </span><br><span class="line">    * 查找这个时间点对应的最接近的一帧。</span><br><span class="line">    * 这一帧的时间点如果和目标时间相差不到 一帧间隔 就算相近</span><br><span class="line">    * </span><br><span class="line">    * maxRange:查找范围</span><br><span class="line">    * */</span><br><span class="line">    fun getValidSampleTime(time: Long, @IntRange(from = 2) maxRange: Int = 5): Long &#123;</span><br><span class="line">        checkExtractor.seekTo(time, MediaExtractor.SEEK_TO_PREVIOUS_SYNC)</span><br><span class="line">        var count = 0</span><br><span class="line">        var sampleTime = checkExtractor.sampleTime</span><br><span class="line">        while (count &lt; maxRange) &#123;</span><br><span class="line">            checkExtractor.advance()</span><br><span class="line">            val s = checkExtractor.sampleTime</span><br><span class="line">            if (s != -1L) &#123;</span><br><span class="line">                count++</span><br><span class="line">                // 选取和目标时间差值最小的那个</span><br><span class="line">                sampleTime = time.minDifferenceValue(sampleTime, s)</span><br><span class="line">                if (Math.abs(sampleTime - time) &lt;= perFrameTime) &#123;</span><br><span class="line">                    //如果这个差值在 一帧间隔 内，即为成功</span><br><span class="line">                    return sampleTime</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                count = maxRange</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return sampleTime</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>帧间隔其实就是：1s/帧率</p>
+</blockquote>
+<h5 id="使用MediaCodeC解码指定帧"><a href="#使用MediaCodeC解码指定帧" class="headerlink" title="使用MediaCodeC解码指定帧"></a>使用<code>MediaCodeC</code>解码指定帧</h5><p>获取到相对精确的采样点（帧）后，接下来就是使用<code>MediaCodeC</code>解码了。首先，使用<code>MediaExtractor</code>的<code>seekTo</code>函数定位到目标采样点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mediaExtractor.seekTo(time, MediaExtractor.SEEK_TO_PREVIOUS_SYNC)</span><br></pre></td></tr></table></figure>
+<p>然后<code>MediaCodeC</code>将<code>MediaExtractor</code>读取的数据压入输入队列，不断循环，直到拿到想要的目标帧的数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">* 持续压入数据，直到拿到目标帧</span><br><span class="line">* */</span><br><span class="line">private fun handleFrame(time: Long, info: MediaCodec.BufferInfo, emitter: ObservableEmitter&lt;Bitmap&gt;? = null) &#123;</span><br><span class="line">    var outputDone = false</span><br><span class="line">    var inputDone = false</span><br><span class="line">    videoAnalyze.mediaExtractor.seekTo(time, MediaExtractor.SEEK_TO_PREVIOUS_SYNC)</span><br><span class="line">    while (!outputDone) &#123;</span><br><span class="line">        if (!inputDone) &#123;</span><br><span class="line">            decoder.dequeueValidInputBuffer(DEF_TIME_OUT) &#123; inputBufferId, inputBuffer -&gt;</span><br><span class="line">                val sampleSize = videoAnalyze.mediaExtractor.readSampleData(inputBuffer, 0)</span><br><span class="line">                if (sampleSize &lt; 0) &#123;</span><br><span class="line">                    decoder.queueInputBuffer(inputBufferId, 0, 0, 0L,</span><br><span class="line">                            MediaCodec.BUFFER_FLAG_END_OF_STREAM)</span><br><span class="line">                    inputDone = true</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    // 将数据压入到输入队列</span><br><span class="line">                    val presentationTimeUs = videoAnalyze.mediaExtractor.sampleTime</span><br><span class="line">                    Log.d(TAG, &quot;$&#123;if (emitter != null) &quot;main time&quot; else &quot;fuck time&quot;&#125; dequeue time is $presentationTimeUs &quot;)</span><br><span class="line">                    decoder.queueInputBuffer(inputBufferId, 0,</span><br><span class="line">                            sampleSize, presentationTimeUs, 0)</span><br><span class="line">                    videoAnalyze.mediaExtractor.advance()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">  </span><br><span class="line">        decoder.disposeOutput(info, DEF_TIME_OUT, &#123;</span><br><span class="line">            outputDone = true</span><br><span class="line">        &#125;, &#123; id -&gt;</span><br><span class="line">            Log.d(TAG, &quot;out time $&#123;info.presentationTimeUs&#125; &quot;)</span><br><span class="line">            if (decodeCore.updateTexture(info, id, decoder)) &#123;</span><br><span class="line">                if (info.presentationTimeUs == time) &#123;</span><br><span class="line">                    // 遇到目标时间帧，才生产Bitmap</span><br><span class="line">                    outputDone = true</span><br><span class="line">                    val bitmap = decodeCore.generateFrame()</span><br><span class="line">                    frameCache.cacheFrame(time, bitmap)</span><br><span class="line">                    emitter?.onNext(bitmap)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    decoder.flush()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>需要注意的是，解码的时候，并不是压入一帧数据，就能得到一帧输出数据的。<br>常规的做法是，持续不断向输入队列填充帧数据，直到拿到想要的目标帧数据。<br>原因还是因为视频帧的编码，并不是每一帧都是关键帧，有些帧的解码必须依靠前后帧的信息。</p>
+</blockquote>
+<h5 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h5><ul>
+<li>LruCache，内存缓存</li>
+<li>DiskLruCache</li>
+</ul>
+<p>LruCache自不用多说，磁盘缓存使用的是著名的<a href="https://github.com/JakeWharton/DiskLruCache/tree/master/src/main/java/com/jakewharton/disklrucache" target="_blank" rel="noopener">DiskLruCache</a>。缓存在<code>VideoDecoder2</code>中占有很重要的位置，它有效的提高了解码器二次读取的效率，从而不用多次解码以及使用<code>OpenGL</code>绘制。<br></p>
+<blockquote>
+<p>之前在<code>Oppo R15</code>的测试机型上，进行了一轮解码测试。<br>使用<code>MediaCodeC</code>解码一帧到到的Bitmap，大概需要<strong>100~200ms</strong>的时间。<br>而使用磁盘缓存的话，读取时间大概在<strong>50~60ms</strong>徘徊，效率增加了一倍。</p>
+</blockquote>
+<p>在磁盘缓存使用的过程中，有对<a href="https://github.com/JakeWharton/DiskLruCache/tree/master/src/main/java/com/jakewharton/disklrucache" target="_blank" rel="noopener">DiskLruCache</a>进行二次封装，内部使用单线程队列形式。进行磁盘缓存，对外提供了异步和同步两种方式获取缓存。可以直接搭配<code>DiskLruCache</code>使用——<a href="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/mediakit/src/main/java/com/jadyn/mediakit/video/decode/DiskCacheAssist.kt" target="_blank" rel="noopener">DiskCacheAssist.kt</a></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>到目前为止，视频解码的部分已经完成。上一篇是对视频完整解码并存储为图片文件，<a href="http://ailoli.me/2019/02/01/MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>，这一篇是解码指定帧。音视频相关的知识体系还很大，会继续学习下去。</p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p><a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/video/decode/VideoDecoder2.kt" target="_blank" rel="noopener">此处有项目地址，点击传送</a></p>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'MediaCodeC解码视频指定帧，迅捷、精确'
+    }
+</script>
+
+                </div>
+                <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get" action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            AiLo
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description"></p><p>Android AI DeepLearning</p>
+<p></p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/">使用MediaCodeC将图片集编码为视频</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/">MediaCodeC解码视频指定帧，迅捷、精确</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/25/2019-01-25-MediaCodeC-Decode-1/">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/29/2018-07-29-AStarmaze/">使用A*算法求解机器人迷宫最短路径</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/05/2018-07-05-kotlin-adapter/">使用DSL模式构建Recyclerview适配器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/01/2018-07-01-glide-round/">提供一个Glide灵活加载圆角图片的方法</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/21/2018-06-21-fragment-v/">提供一种Fragment可见性改变的监测方案</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/10/2018-06-10-flip/">仿FlipBoard直板翻页效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/05/19/2018-05-19-pen/">基于Java代码实现的喷漆笔刷</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/30/flickerView/">仿ios京东启动页“跳过”效果</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/21/2018-06-21-fragment-v/">提供一种Fragment可见性改变的监测方案</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/01/2018-07-01-glide-round/">提供一个Glide灵活加载圆角图片的方法</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/04/28/hello-world/">Hello World</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/10/2018-06-10-flip/">仿FlipBoard直板翻页效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/03/10/2018_face_book/">吐血整理！17年下半年面试问题以及解析精华整理</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/05/2018-07-05-kotlin-adapter/">使用DSL模式构建Recyclerview适配器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/">MediaCodeC解码视频指定帧，迅捷、精确</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/10/android-infinite-card/">低消耗、带回滚动画的仿探探交互效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/02/audio_start_learn/">【闻弦歌】--初识音频</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/技术讨论/" style="font-size: 15.279422482078134px;" class="tag-cloud-link">技术讨论</a>
+    
+    <a href="/tags/Android/" style="font-size: 8.1939573335149px;" class="tag-cloud-link">Android</a>
+    
+    <a href="/tags/Python/" style="font-size: 11.656812766652793px;" class="tag-cloud-link">Python</a>
+    
+    <a href="/tags/算法/" style="font-size: 16.594343323215437px;" class="tag-cloud-link">算法</a>
+    
+    <a href="/tags/视频/" style="font-size: 15.996708290925435px;" class="tag-cloud-link">视频</a>
+    
+    <a href="/tags/MediaCodeC/" style="font-size: 14.705756609934639px;" class="tag-cloud-link">MediaCodeC</a>
+    
+    <a href="/tags/Canvas动画/" style="font-size: 15.718605388107363px;" class="tag-cloud-link">Canvas动画</a>
+    
+    <a href="/tags/视觉设计/" style="font-size: 18.621775535746217px;" class="tag-cloud-link">视觉设计</a>
+    
+    <a href="/tags/交互体验/" style="font-size: 15.427443566721248px;" class="tag-cloud-link">交互体验</a>
+    
+    <a href="/tags/开发经验/" style="font-size: 15.669148554367776px;" class="tag-cloud-link">开发经验</a>
+    
+    <a href="/tags/科普向/" style="font-size: 10.683772280931706px;" class="tag-cloud-link">科普向</a>
+    
+    <a href="/tags/音频/" style="font-size: 16.022362600355983px;" class="tag-cloud-link">音频</a>
+    
+</div>
+                
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/JadynAi/" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://juejin.im/user/566d95f260b2ed36d9580add" target="_blank">juejin</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 AiLo Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+</body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://myau.moe/js/comment/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Sat Feb 09 2019 00:00:00 GMT+0800'
+      window.commentConfig.owner = 'JadynAi'
+      window.commentConfig.repo = 'JadynAi.github.io'
+      window.commentConfig.client_id = 'b199888872a9ccadaa16'
+      window.commentConfig.client_secret = '6230f262fc987c09b996cbd106c2a2d651c6486a'
+      window.commentConfig.redirect_uri = ''
+    } else {
+      window.commentConfig = {
+      	id: 'Sat Feb 09 2019 00:00:00 GMT+0800',
+        owner: 'JadynAi',
+        repo: 'JadynAi.github.io',
+        client_id: 'b199888872a9ccadaa16',
+        client_secret: '6230f262fc987c09b996cbd106c2a2d651c6486a',
+        redirect_uri: ''
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>
