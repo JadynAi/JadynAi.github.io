@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="AiLo">
+    
+    <meta name="description" content="Android AI DeepLearning">
+    
+    
+    
+    
+    
+    
+    <title>提供一个Glide灵活加载圆角图片的方法 | Life is Like A Boat</title>
+    <link href="”https://yoursite.com“" rel="”prefetch”">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+</head></html>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://yoursite.com" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse" aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://yoursite.com">
+                
+                <!-- 这里background使用imgs/${logo_image}(路径文件名) -->
+                <style>
+                    #gal-header .navbar-brand {
+                        width: 200px;
+                        height: 50px;
+                        display: block;
+                        background: url('/imgs/favicon.png') no-repeat;
+                    }
+                </style>
+                    
+                <div class="navbar-brand"></div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class>
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class>
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/Canvas动画/">Canvas动画</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Android/">Android</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/开发经验/">开发经验</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 gal-right" id="mainstay">
+                    
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://yoursite.com">Life is Like A Boat</a>
+        >
+        <span>提供一个Glide灵活加载圆角图片的方法</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2018/07/01/2018-07-01-glide-round/">提供一个Glide灵活加载圆角图片的方法</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Android/">Android</a>, 
+                
+                <a href="/tags/技术讨论/">技术讨论</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2018-07-01
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2018/07/01/2018-07-01-glide-round/">提供一个Glide灵活加载圆角图片的方法</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2018-07-01
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Android/">Android</a>, 
+                
+                <a href="/tags/技术讨论/">技术讨论</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <p><strong>原创文章，转载请联系作者</strong></p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><code>Glide</code>是目前使用的颇为广泛的图片加载框架，同时也是Google官方推荐使用的。在图片处理方面，它提供了很多不错的功能。</p>
+<h3 id="如何才能灵活"><a href="#如何才能灵活" class="headerlink" title="如何才能灵活"></a>如何才能灵活</h3><p>圆角图片显示，大概是很多APP都会出现的UI设计了，<code>Glide</code>本身也提供了圆角图片的加载方式——<em>但也只是简单的四圆角</em>。实际项目开发中，并不能应付多变的产品需求和善变的UI设计师了。譬如有时候，只需要顶部展示圆角，有时候又只需要左侧展示圆角等等。<br>那么，本次的方法适用于使用了<code>Glide</code>作为项目图片框架的小可爱们，开发者可以对四个圆角进行单独设置，不仅仅是显示隐藏，每个圆角的半径亦是独立存在的。</p>
+<h3 id="使用文档"><a href="#使用文档" class="headerlink" title="使用文档"></a>使用文档</h3><p><code>Glide</code>有对外暴露一个方法，可以在图片显示前，对图片作转换处理——就是<code>Transformations</code>。有关此方面的文字，小可爱们可以看看这篇——<a href="https://mrfu.me/2016/02/28/Glide_Custom_Transformations/" target="_blank" rel="noopener">Glide - 自定义转换</a>。本文的<code>RoundCorner</code>就是继承了<code>BitmapTransformation</code>类来实现的。它对外提供两个构造函数，一个构造函数有四个参数，分别是<code>leftTop:左上角</code>、<code>rightTop:右上角</code>、<code>leftBottom:左下角</code>、<code>rightBottom：右下角</code>。可以供外部，灵活的去选择设置哪几个圆角需要去展示，四个圆角的半径大小。另一个函数，只提供一个参数就是同时设置四个圆角，当然这是用于四个圆角同时展示且半径相同的情况下。于此同时，构造函数中只需要传数值即可，类内部已经做了dp处理。<br>下面做一下简单的展示。</p>
+<ul>
+<li>加载普通圆角图片</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(this).load(&quot;http://p15.qhimg.com/bdm/720_444_0/t01b12dfd7f42342197.jpg&quot;)</span><br><span class="line">        .apply(RequestOptions.bitmapTransform(RoundCorner(20f)))</span><br><span class="line">        .into(img)</span><br></pre></td></tr></table></figure>
+<p><img src="https://wx3.sinaimg.cn/mw690/a28b91d8gy1fsuqu1pfaoj20qm0h0goy.jpg" alt></p>
+<ul>
+<li>只是顶部圆角</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(this).load(&quot;http://p15.qhimg.com/bdm/720_444_0/t01b12dfd7f42342197.jpg&quot;)</span><br><span class="line">        .apply(RequestOptions.bitmapTransform(RoundCorner(leftTop = 20f, rightTop = 20f)))</span><br><span class="line">        .into(img)</span><br></pre></td></tr></table></figure>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/jqw9LvhdsxJMVGR4oYRkW5Gk7G3EBkdv4IHqEN8ydtRhEw64Tofh36Wgl7ricaKYQ7n74VF1uia8IWwDGO3icx3IA/0?wx_fmt=png" alt></p>
+<ul>
+<li>只是左侧圆角</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(this).load(&quot;http://p15.qhimg.com/bdm/720_444_0/t01b12dfd7f42342197.jpg&quot;)</span><br><span class="line">        .apply(RequestOptions.bitmapTransform(RoundCorner(leftTop = 20f, leftBottom = 20f)))</span><br><span class="line">        .into(img)</span><br></pre></td></tr></table></figure>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/jqw9LvhdsxJMVGR4oYRkW5Gk7G3EBkdvoPj9Uz8kvjGadIhNdLmPCI7BunGwxOHt6UfibIMN6vIlz4Zk16gyakQ/0?wx_fmt=png" alt></p>
+<p>以上就是一次简单的展示了，如果你想更加灵活的加载圆角图片,选择这个方法没有错。代码在这里，传送门——<a href="https://github.com/JadynAi/KotlinDiary/blob/master/app/src/main/java/com/jadynai/kotlindiary/function/img/RoundCorner.kt" target="_blank" rel="noopener">RoundCorner</a></p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>以上</p>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = '提供一个Glide灵活加载圆角图片的方法'
+    }
+</script>
+
+                </div>
+                <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get" action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            AiLo
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description"></p><p>Android AI DeepLearning</p>
+<p></p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/29/2018-07-29-AStarmaze/">使用A*算法求解机器人迷宫最短路径</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/05/2018-07-05-kotlin-adapter/">使用DSL模式构建Recyclerview适配器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/01/2018-07-01-glide-round/">提供一个Glide灵活加载圆角图片的方法</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/21/2018-06-21-fragment-v/">提供一种Fragment可见性改变的监测方案</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/10/2018-06-10-flip/">仿FlipBoard直板翻页效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/05/19/2018-05-19-pen/">基于Java代码实现的喷漆笔刷</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/30/flickerView/">仿ios京东启动页“跳过”效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/02/audio_start_learn/">【闻弦歌】--初识音频</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/03/10/2018_face_book/">吐血整理！17年下半年面试问题以及解析精华整理</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/11/02/anim_text/">文字动次打次，让文字动态绘制出来</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/30/flickerView/">仿ios京东启动页“跳过”效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/03/10/2018_face_book/">吐血整理！17年下半年面试问题以及解析精华整理</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/10/android-infinite-card/">低消耗、带回滚动画的仿探探交互效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/02/audio_start_learn/">【闻弦歌】--初识音频</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/08/19/bohe_path/">实现薄荷Loading动画</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/21/2018-06-21-fragment-v/">提供一种Fragment可见性改变的监测方案</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/01/2018-07-01-glide-round/">提供一个Glide灵活加载圆角图片的方法</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/05/19/2018-05-19-pen/">基于Java代码实现的喷漆笔刷</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/05/2018-07-05-kotlin-adapter/">使用DSL模式构建Recyclerview适配器</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2018/07/01/2018-07-01-glide-round/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="/2018/07/01/2018-07-01-glide-round/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/Canvas动画/" style="font-size: 15.559208920818573px;" class="tag-cloud-link">Canvas动画</a>
+    
+    <a href="/tags/Android/" style="font-size: 8.783735479994995px;" class="tag-cloud-link">Android</a>
+    
+    <a href="/tags/开发经验/" style="font-size: 18.74149685729455px;" class="tag-cloud-link">开发经验</a>
+    
+    <a href="/tags/交互体验/" style="font-size: 8.341715144746637px;" class="tag-cloud-link">交互体验</a>
+    
+    <a href="/tags/科普向/" style="font-size: 10.657458093138228px;" class="tag-cloud-link">科普向</a>
+    
+    <a href="/tags/音频/" style="font-size: 15.613431645214636px;" class="tag-cloud-link">音频</a>
+    
+    <a href="/tags/技术讨论/" style="font-size: 16.49519864996952px;" class="tag-cloud-link">技术讨论</a>
+    
+    <a href="/tags/Python/" style="font-size: 15.670004736583392px;" class="tag-cloud-link">Python</a>
+    
+    <a href="/tags/算法/" style="font-size: 17.307790145074463px;" class="tag-cloud-link">算法</a>
+    
+    <a href="/tags/视觉设计/" style="font-size: 11.573255102121776px;" class="tag-cloud-link">视觉设计</a>
+    
+</div>
+                
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/JadynAi/" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://juejin.im/user/566d95f260b2ed36d9580add" target="_blank">juejin</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 AiLo Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+</body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://myau.moe/js/comment/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Sun Jul 01 2018 00:00:00 GMT+0800'
+      window.commentConfig.owner = 'JadynAi'
+      window.commentConfig.repo = 'JadynAi.github.io'
+      window.commentConfig.client_id = 'b199888872a9ccadaa16'
+      window.commentConfig.client_secret = '6230f262fc987c09b996cbd106c2a2d651c6486a'
+      window.commentConfig.redirect_uri = ''
+    } else {
+      window.commentConfig = {
+      	id: 'Sun Jul 01 2018 00:00:00 GMT+0800',
+        owner: 'JadynAi',
+        repo: 'JadynAi.github.io',
+        client_id: 'b199888872a9ccadaa16',
+        client_secret: '6230f262fc987c09b996cbd106c2a2d651c6486a',
+        redirect_uri: ''
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

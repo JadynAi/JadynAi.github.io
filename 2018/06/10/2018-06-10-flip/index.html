@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="AiLo">
+    
+    <meta name="description" content="Android AI DeepLearning">
+    
+    
+    
+    
+    
+    
+    <title>仿FlipBoard直板翻页效果 | Life is Like A Boat</title>
+    <link href="”https://yoursite.com“" rel="”prefetch”">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+</head></html>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://yoursite.com" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse" aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://yoursite.com">
+                
+                <!-- 这里background使用imgs/${logo_image}(路径文件名) -->
+                <style>
+                    #gal-header .navbar-brand {
+                        width: 200px;
+                        height: 50px;
+                        display: block;
+                        background: url('/imgs/favicon.png') no-repeat;
+                    }
+                </style>
+                    
+                <div class="navbar-brand"></div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class>
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class>
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/Canvas动画/">Canvas动画</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Android/">Android</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/开发经验/">开发经验</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 gal-right" id="mainstay">
+                    
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://yoursite.com">Life is Like A Boat</a>
+        >
+        <span>仿FlipBoard直板翻页效果</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2018/06/10/2018-06-10-flip/">仿FlipBoard直板翻页效果</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Canvas动画/">Canvas动画</a>, 
+                
+                <a href="/tags/Android/">Android</a>, 
+                
+                <a href="/tags/交互体验/">交互体验</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2018-06-10
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2018/06/10/2018-06-10-flip/">仿FlipBoard直板翻页效果</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2018-06-10
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Canvas动画/">Canvas动画</a>, 
+                
+                <a href="/tags/Android/">Android</a>, 
+                
+                <a href="/tags/交互体验/">交互体验</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <p><strong>原创文章，转载请联系作者</strong></p>
+<blockquote>
+<p>梧桐落，又还秋色，又还寂寞。</p>
+</blockquote>
+<p>效果图,文件比较大，稍稍等一下 (●ﾟωﾟ●)：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip.gif" alt></p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>首先，首先！<code>Demo</code>只是对<code>FliBoard</code>的立体感直板翻页式交互效果作了模仿，<strong>只是效果只是效果</strong>。那种翻页组件挺麻烦的，以后可能会抽时间做一下(￣▽￣)”<br><br><code>立体感</code>是一种模仿，在二维平面上，合理地利用光影、透视（远小近大）等方式，塑造一种近似现实三维世界的感jio。为什么会产生<strong>立体感</strong>? 是因为人的视网膜接受到的，全是三维世界的投影。是你的大脑以及经验，脑补出了<strong>三维世界</strong>。<br>举栗子，下面这张图片，你会把它看作一个弯曲三角吗<br><img src="https://wx4.sinaimg.cn/mw690/a28b91d8gy1fse15nzxp1j20ty0a2jvs.jpg" alt><br>同理，动画也无非是利用了人眼的<a href="https://zh.wikipedia.org/zh/%E8%A6%96%E8%A6%BA%E6%9A%AB%E7%95%99" target="_blank" rel="noopener">视觉暂留</a>而已。某种程度，它和魔术拥有相同的本质————<em>欺骗</em>。</p>
+<h3 id="效果解析"><a href="#效果解析" class="headerlink" title="效果解析"></a>效果解析</h3><blockquote>
+<p>解析效果前，先提一下会用到的知识点</p>
+</blockquote>
+<h4 id="1、用到的知识点"><a href="#1、用到的知识点" class="headerlink" title="1、用到的知识点"></a>1、用到的知识点</h4><ul>
+<li>graphics.Camera，图形包下用来处理3D旋转的类</li>
+<li>canvas、Matrix</li>
+</ul>
+<h4 id="2、效果拆解"><a href="#2、效果拆解" class="headerlink" title="2、效果拆解"></a>2、效果拆解</h4><p>直板式的翻页，效果其实并不复杂。手机屏幕之后，是一个三维坐标系。想象一下有张板子(Bitmap)放在XY坐标系，要达到翻页效果，让其绕着X轴旋转即可。正常情况下，板子（Bitmap）是作为整体旋转。我们将板子中心点移到X轴上，那么绕着Z轴旋转时，上下两部分运动的方向肯定是相反的。就像这样：<br><img src="https://wx2.sinaimg.cn/mw690/a28b91d8gy1fse15nqz3ej206p06p0us.jpg" alt></p>
+<blockquote>
+<p>上图为绕着X轴旋转45度，缩放0.5f效果</p>
+</blockquote>
+<p>如上图所示，为达到效果，必须将上下两部分分开绘制。你可以采用将<code>Bitmap</code>分割的方式，也可以分割<code>Canvas</code>。Demo里，我采取的是分割<code>Canvas</code>。使用方法<code>canvas.clipRect(left, top, right, bottom)</code>。</p>
+<h4 id="3、手势拆解"><a href="#3、手势拆解" class="headerlink" title="3、手势拆解"></a>3、手势拆解</h4><p>翻页共有三种状态，静态、下翻以及上翻。静态不必赘述，下面会分析一下上翻和下翻绘制。</p>
+<h5 id="3-1-向下翻页绘制解析"><a href="#3-1-向下翻页绘制解析" class="headerlink" title="3.1 向下翻页绘制解析"></a>3.1 向下翻页绘制解析</h5><p>向下翻页，就是翻过当前页回到上一页。在效果拆解那部分，我们已经知道，45度时，上半部分会偏向屏幕后。所以要让上半部分向下翻转。旋转角度得是负数。也就是，在一个完整的下翻周期内，角度的变化为<code>0到-180度</code>。<br>其中<code>0到-90度</code>内，当前页正在下翻，页面变动在上半区域，此时可以看到的界面有：<strong>下翻ing的当前页上半部分</strong>、<strong>当前页产生的阴影</strong>、<strong>上一页的上半部分（保持不动）</strong>。而在<code>-90到-180度</code>阶段，此时下翻的动作接近完成，页面变动在下半区域，此时可以看到的界面有：<strong>即将翻过的上一页的下半部分</strong>、<strong>上一页翻转产生的阴影</strong>、<strong>当前页的下半部分</strong>。<img src="https://wx1.sinaimg.cn/mw690/a28b91d8gy1fse15o9rn8j213i0lyagf.jpg" alt></p>
+<h5 id="3-2-向上翻页绘制解析"><a href="#3-2-向上翻页绘制解析" class="headerlink" title="3.2 向上翻页绘制解析"></a>3.2 向上翻页绘制解析</h5><p>向上翻页，就是翻过当前页去下一页。和下翻逻辑相反，这是一个<code>0到180度</code>的周期活动。<code>0到90度</code>为正在上翻，页面变动在下半区域。而<code>90到180度</code>，上翻动作接近完成，页面变动在上班区域，很快会看到完整的下一页。</p>
+<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><blockquote>
+<p>用自定义View来实现，这里只贴出主要代码，部分逻辑会用伪代码表述，完整代码文末提供。</p>
+</blockquote>
+<h4 id="1、绘制"><a href="#1、绘制" class="headerlink" title="1、绘制"></a>1、绘制</h4><p>因为只是仿写效果，所以全部逻辑放在了一个自定义View内部。先看一些主要的成员变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">  //向下翻旋转角度,0~-180f</span><br><span class="line">  private var rotateF </span><br><span class="line"></span><br><span class="line">  //向上翻旋转角度,0~180f</span><br><span class="line">  private var rotateS</span><br><span class="line"></span><br><span class="line">  //翻动状态，0为松手，1为向下翻，-1为向上翻</span><br><span class="line">  private var statusFlip = 0</span><br><span class="line"></span><br><span class="line">  //当前页</span><br><span class="line">  private var curPage</span><br><span class="line"></span><br><span class="line">//用于3D旋转的Camera类</span><br><span class="line">  private val camera</span><br><span class="line"></span><br><span class="line">//绘制Bitmap的Matrix</span><br><span class="line">  private val drawMatrix</span><br><span class="line"></span><br><span class="line">//中心点X坐标</span><br><span class="line">  private val centerX</span><br><span class="line"></span><br><span class="line">//中心点Y坐标</span><br><span class="line">  private val centerY</span><br><span class="line"></span><br><span class="line">  //当前Bitmap</span><br><span class="line">  private var curBitmap: Bitmap</span><br><span class="line"></span><br><span class="line">  //上一张Bitmap</span><br><span class="line">  private var lastBitmap: Bitmap</span><br><span class="line">  </span><br><span class="line">  //下一张Bitmap</span><br><span class="line">  private var nextBitmap: Bitmap</span><br></pre></td></tr></table></figure>
+<p>我维护了两个变量用来分别控制下翻和上翻的角度变化。与此同时，也分了两个方法，来分别绘制上半部分和下半部分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//上半部分绘制</span><br><span class="line">fun drawFirstHalf(canvas: Canvas?, bitmap: Bitmap?, rotate: Float) &#123;</span><br><span class="line">    canvas?.save()</span><br><span class="line">    //将canvas上半部分切割</span><br><span class="line">    canvas?.clipRect(0, 0, width, height / 2)</span><br><span class="line">    camera.save()</span><br><span class="line">    //camera绕着X轴旋转</span><br><span class="line">    camera.rotateX(角度变化小于-90度，不再处理)</span><br><span class="line">    camera.getMatrix(drawMatrix)</span><br><span class="line">    camera.restore()</span><br><span class="line">    //随着旋转角度变化的缩放值，只缩放Y轴</span><br><span class="line">    drawMatrix.preScale(1.0f, 缩放比)</span><br><span class="line">    //将图片移到中心点</span><br><span class="line">    drawMatrix.preTranslate(-centerX, -centerY)</span><br><span class="line">    drawMatrix.postTranslate(centerX, centerY)</span><br><span class="line">    canvas?.drawBitmap(this, drawMatrix, null)</span><br><span class="line">    canvas?.restore()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">fun drawSecondHalf(canvas: Canvas?, bitmap: Bitmap?, rotate: Float) &#123;  </span><br><span class="line">    canvas?.save()</span><br><span class="line">    camera.save()</span><br><span class="line">    //切割下半部分canvas</span><br><span class="line">    canvas?.clipRect(0, height / 2, width, height)</span><br><span class="line">    camera.rotateX(绕着X轴旋转角度，大于90度后只不再处理变化)</span><br><span class="line">    camera.getMatrix(drawMatrix)</span><br><span class="line">    camera.restore()</span><br><span class="line">    drawMatrix.preScale(1.0f, 缩放比随着角度变化)</span><br><span class="line">    drawMatrix.preTranslate(-centerX, -centerY)</span><br><span class="line">    drawMatrix.postTranslate(centerX, centerY)</span><br><span class="line">    canvas?.drawBitmap(this, drawMatrix, null)</span><br><span class="line">    canvas?.restore()     </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2、-手势处理"><a href="#2、-手势处理" class="headerlink" title="2、 手势处理"></a>2、 手势处理</h4><p>手势处理较为简单，只需要在MOVE的时候，判断此时的状态是上翻还是下翻。然后在抬手UP的时候，根据此时的距离，来判断是否下翻成功或是上翻成功。倘若距离不够标准阈值，那么一切归于原位。</p>
+<ul>
+<li>其中startX、startY为手指落点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">MotionEvent.ACTION_MOVE -&gt; &#123;</span><br><span class="line">                    val x = this.x</span><br><span class="line">                    val y = this.y</span><br><span class="line">                    //当y运动距离大于x的1.5倍时，才判断为垂直翻动</span><br><span class="line">                    val disY = y - startY</span><br><span class="line">                    if (Math.abs(disY) &gt; 1f &amp;&amp; Math.abs(disY) &gt;= Math.abs(x - startX) * 1.5f) &#123;</span><br><span class="line">                        if (statusFlip == 0) &#123;</span><br><span class="line">                            //滑动间距为正并且不是第一页判断为向下翻，滑动间距为负并且不是最后一页判断为向上翻</span><br><span class="line">                            statusFlip = if (disY &gt; 0 &amp;&amp; curPage != 0) DOWN_FLIP</span><br><span class="line">                            else if (disY &lt; 0 &amp;&amp; curPage != girls.lastIndex) UP_FLIP else 0</span><br><span class="line">                        &#125;</span><br><span class="line">                        val ratio = Math.abs(disY) / centerY</span><br><span class="line">                        if (statusFlip == DOWN_FLIP) &#123;</span><br><span class="line">                            //向下翻并且当前页不等于0</span><br><span class="line">                            rotateF = ratio * -180f</span><br><span class="line">                            Log.d(&quot;cece&quot;, &quot;: rotateF : &quot; + rotateF);</span><br><span class="line">                            invalidate()</span><br><span class="line">                        &#125; else if (statusFlip == UP_FLIP) &#123;</span><br><span class="line">                            //向上翻，并且不是最后一页</span><br><span class="line">                            if (curPage != girls.lastIndex) &#123;</span><br><span class="line">                                rotateS = ratio * 180f</span><br><span class="line">                                Log.d(&quot;cece&quot;, &quot;: rotateS : &quot; + rotateS);</span><br><span class="line">                                invalidate()</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当手指抬起时，首先判断此时的状态，然后再判断移动过的距离是否满足阈值。不满足的回归当前页，满足阈值的，继续执行未完成的状态。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">if (statusFlip != 0) &#123;</span><br><span class="line">            drawMatrix.reset()</span><br><span class="line">            //放手的时候，有动画发生</span><br><span class="line">            if (Math.abs(event.y - startY) &lt;= centerY / 2) &#123;</span><br><span class="line">                //滑动距离小于1/4屏幕高，判定仍停留在当前页</span><br><span class="line">                rotateF = 0f</span><br><span class="line">                rotateS = 0f</span><br><span class="line">                statusFlip = 0</span><br><span class="line">                invalidate()</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                //滑动距离超过临界值，判定为跳过当前页</span><br><span class="line">                if (statusFlip == DOWN_FLIP) &#123;</span><br><span class="line">                    //自动执行完下翻到上一页的动作</span><br><span class="line">                    for (i in rotateF.toInt() downTo -180 step 6) &#123;</span><br><span class="line">                        invalidate()</span><br><span class="line">                    &#125;</span><br><span class="line">                    curPage--</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    //自动执行完上翻到下一页的动作</span><br><span class="line">                    for (i in rotateS.toInt() until 180 step 6) &#123;</span><br><span class="line">                        invalidate()</span><br><span class="line">                    &#125;</span><br><span class="line">                    curPage++</span><br><span class="line">                &#125;</span><br><span class="line">                rotateF = 0f</span><br><span class="line">                rotateS = 0f</span><br><span class="line">                statusFlip = 0</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>当距离达到阈值时，就需要代码来继续完成下翻或者上翻的逻辑。这里我使用循环的方式。譬如上翻超过90度了，就循环到180度，继续完成上翻的动作。</p>
+</blockquote>
+<h4 id="3、-阴影部分和绘制顺序"><a href="#3、-阴影部分和绘制顺序" class="headerlink" title="3、 阴影部分和绘制顺序"></a>3、 阴影部分和绘制顺序</h4><p>在<code>onDraw(...)</code>方法内绘制时，一定要注意代码顺序。因为在这个方法内，顺序代表着层次。譬如阴影绘制一定要写在页面绘制之前。<br>阴影部分的绘制也分为上下两部分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fun drawFirstShadow(canvas: Canvas?, rotate: Float) &#123;</span><br><span class="line">    canvas切割上半部分，绘制color即可    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun drawSecondShadow(canvas: Canvas?, rotate: Float) &#123;</span><br><span class="line">    canvas切割下半部分，绘制color即可 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>onDraw(...)</code>方法内的绘制顺序一定要分明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">//绘制当前页底下的一层,翻页进行中</span><br><span class="line">        if (statusFlip == DOWN_FLIP) &#123;</span><br><span class="line">            //向下翻，滑到上一页</span><br><span class="line">            drawFirstHalf(canvas, lastBitmap, 0f)</span><br><span class="line">            drawFirstShadow(canvas, rotateF)</span><br><span class="line">        &#125; else if (statusFlip == UP_FLIP) &#123;</span><br><span class="line">            drawSecondHalf(canvas, nextBitmap, 0f)</span><br><span class="line">            drawSecondShadow(canvas, rotateS)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //绘制当前页</span><br><span class="line">        drawFirstHalf(canvas, curBitmap, rotateF)</span><br><span class="line">        drawSecondHalf(canvas, curBitmap, rotateS)</span><br><span class="line"></span><br><span class="line">        //绘制当前页之上的一层，翻页完成后</span><br><span class="line">        if (statusFlip == DOWN_FLIP) &#123;</span><br><span class="line">            if (rotateF &lt;= -90f) &#123;</span><br><span class="line">                //先绘制阴影</span><br><span class="line">                drawSecondShadow(canvas, rotateF + 180f)</span><br><span class="line">                drawSecondHalf(canvas, lastBitmap, rotateF + 180f)</span><br><span class="line">            &#125;</span><br><span class="line">            //绘制覆盖在翻页Bitmap之上淡淡透明层，透明度固定</span><br><span class="line">            drawFirstColor(canvas, 20)</span><br><span class="line">        &#125; else if (statusFlip == UP_FLIP) &#123;</span><br><span class="line">            if (rotateS &gt;= 90f) &#123;</span><br><span class="line">                drawFirstShadow(canvas, rotateS - 180f)</span><br><span class="line">                drawFirstHalf(canvas, nextBitmap, rotateS - 180f)</span><br><span class="line">            &#125;</span><br><span class="line">            //淡淡透明度的阴影层</span><br><span class="line">            drawSecondColor(canvas, 20)</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>还是得区分一下状态，当下翻时，我们得先绘制上一页的上半部分，而且是静态的。然后再绘制当前页下翻产生的阴影。再绘制当前页，然后在当前页顶上再绘制一层固定淡淡透明度的阴影层，让页面层次更加明显。</p>
+<h4 id="4、效果修正"><a href="#4、效果修正" class="headerlink" title="4、效果修正"></a>4、效果修正</h4><p>到这里主要的逻辑业已完成，但我注意到还是有一些小瑕疵。就是旋转角度和缩放比，变化不明显。通常要角度变化到超过45度，才会有很明显的缩放效果展现出来。<br>最开始我以为是缩放比的算法问题，后来才发现是<code>camera</code>的机位问题，<code>camera</code>默认的拍摄角度是<code>[0,0,-8]</code>，当距离屏幕很近时，变化自然不是很明显。<br>当然，<code>camera</code>提供了设置机位的方法<code>setLocation(x, y, z)</code>。最后我调整到<code>[0,0,-20]</code>才满意这个效果。</p>
+<blockquote>
+<p>下图，我给出了，默认机位和[0，0，-20]机位的效果区别。</p>
+</blockquote>
+<p><img src="https://wx1.sinaimg.cn/mw690/a28b91d8gy1fse6lr7y0kj20j60hwn0q.jpg" alt></p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>Demo里的实现方式并非是唯一，分享出来是为了提供一种思路。路有很多条，选择即是正确。<br><br><strong>以上</strong><br><a href="https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/flipboard" target="_blank" rel="noopener">项目代码</a>在此，大家要是喜欢的话不妨点个赞吧</p>
+<p>有一个公众号，会记录一些开发的经验，也会发一些自己的学习日记。欢迎大家关注。<br><img src="http://JadynAi.github.io/img/wechat_official.png" alt></p>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = '仿FlipBoard直板翻页效果'
+    }
+</script>
+
+                </div>
+                <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get" action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            AiLo
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description"></p><p>Android AI DeepLearning</p>
+<p></p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/29/2018-07-29-AStarmaze/">使用A*算法求解机器人迷宫最短路径</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/05/2018-07-05-kotlin-adapter/">使用DSL模式构建Recyclerview适配器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/01/2018-07-01-glide-round/">提供一个Glide灵活加载圆角图片的方法</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/21/2018-06-21-fragment-v/">提供一种Fragment可见性改变的监测方案</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/10/2018-06-10-flip/">仿FlipBoard直板翻页效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/05/19/2018-05-19-pen/">基于Java代码实现的喷漆笔刷</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/30/flickerView/">仿ios京东启动页“跳过”效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/02/audio_start_learn/">【闻弦歌】--初识音频</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/03/10/2018_face_book/">吐血整理！17年下半年面试问题以及解析精华整理</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/11/02/anim_text/">文字动次打次，让文字动态绘制出来</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/04/28/android-firefly/">Android萤火虫飞舞粒子效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/30/flickerView/">仿ios京东启动页“跳过”效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/04/28/hello-world/">Hello World</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/10/android-infinite-card/">低消耗、带回滚动画的仿探探交互效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/02/audio_start_learn/">【闻弦歌】--初识音频</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/01/2018-07-01-glide-round/">提供一个Glide灵活加载圆角图片的方法</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/29/2018-07-29-AStarmaze/">使用A*算法求解机器人迷宫最短路径</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/05/19/2018-05-19-pen/">基于Java代码实现的喷漆笔刷</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/05/2018-07-05-kotlin-adapter/">使用DSL模式构建Recyclerview适配器</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2018/06/10/2018-06-10-flip/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="/2018/06/10/2018-06-10-flip/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/Canvas动画/" style="font-size: 14.630509630828746px;" class="tag-cloud-link">Canvas动画</a>
+    
+    <a href="/tags/Android/" style="font-size: 12.57417364419831px;" class="tag-cloud-link">Android</a>
+    
+    <a href="/tags/开发经验/" style="font-size: 12.846806985073833px;" class="tag-cloud-link">开发经验</a>
+    
+    <a href="/tags/交互体验/" style="font-size: 9.861465738497845px;" class="tag-cloud-link">交互体验</a>
+    
+    <a href="/tags/科普向/" style="font-size: 17.45799580318185px;" class="tag-cloud-link">科普向</a>
+    
+    <a href="/tags/音频/" style="font-size: 19.516391056496808px;" class="tag-cloud-link">音频</a>
+    
+    <a href="/tags/技术讨论/" style="font-size: 14.157717595719014px;" class="tag-cloud-link">技术讨论</a>
+    
+    <a href="/tags/Python/" style="font-size: 10.188751743785158px;" class="tag-cloud-link">Python</a>
+    
+    <a href="/tags/算法/" style="font-size: 14.9031948478004px;" class="tag-cloud-link">算法</a>
+    
+    <a href="/tags/视觉设计/" style="font-size: 13.477289768481082px;" class="tag-cloud-link">视觉设计</a>
+    
+</div>
+                
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/JadynAi/" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://juejin.im/user/566d95f260b2ed36d9580add" target="_blank">juejin</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 AiLo Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+</body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://myau.moe/js/comment/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Sun Jun 10 2018 00:00:00 GMT+0800'
+      window.commentConfig.owner = 'JadynAi'
+      window.commentConfig.repo = 'JadynAi.github.io'
+      window.commentConfig.client_id = 'b199888872a9ccadaa16'
+      window.commentConfig.client_secret = '6230f262fc987c09b996cbd106c2a2d651c6486a'
+      window.commentConfig.redirect_uri = ''
+    } else {
+      window.commentConfig = {
+      	id: 'Sun Jun 10 2018 00:00:00 GMT+0800',
+        owner: 'JadynAi',
+        repo: 'JadynAi.github.io',
+        client_id: 'b199888872a9ccadaa16',
+        client_secret: '6230f262fc987c09b996cbd106c2a2d651c6486a',
+        redirect_uri: ''
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>
