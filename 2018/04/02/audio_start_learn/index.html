@@ -12,7 +12,7 @@
     
     
     
-    <title>实用性MAX!像普通View一样自由使用的粒子组件 | Life is Like A Boat</title>
+    <title>【闻弦歌】--初识音频 | Life is Like A Boat</title>
     <link href="”https://yoursite.com“" rel="”prefetch”">
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -184,13 +184,13 @@
         <i class="fa fa-home"></i>
         <a href="https://yoursite.com">Life is Like A Boat</a>
         >
-        <span>实用性MAX!像普通View一样自由使用的粒子组件</span>
+        <span>【闻弦歌】--初识音频</span>
     </div>
     <!-- 大型设备详细文章 -->
     <div class="hidden-xs">
         <div class="title-article">
             <h1>
-                <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
+                <a href="/2018/04/02/audio_start_learn/">【闻弦歌】--初识音频</a>
             </h1>
         </div>
         <div class="tag-article">
@@ -198,14 +198,14 @@
             <span class="label label-gal">
                 <i class="fa fa-tags"></i>
                 
-                <a href="/tags/Canvas动画/">Canvas动画</a>, 
+                <a href="/tags/科普向/">科普向</a>, 
                 
-                <a href="/tags/Android/">Android</a>
+                <a href="/tags/音频/">音频</a>
                 
             </span>
             
             <span class="label label-gal">
-                <i class="fa fa-calendar"></i> 2017-06-28
+                <i class="fa fa-calendar"></i> 2018-04-02
             </span>
             
         </div>
@@ -215,19 +215,19 @@
         <center>
             <div class="title-article">
                 <h4>
-                    <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
+                    <a href="/2018/04/02/audio_start_learn/">【闻弦歌】--初识音频</a>
                 </h4>
             </div>
             <p>
-                <i class="fa fa-calendar"></i> 2017-06-28
+                <i class="fa fa-calendar"></i> 2018-04-02
             </p>
             <p>
                 
                 <i class="fa fa-tags"></i>
                 
-                <a href="/tags/Canvas动画/">Canvas动画</a>, 
+                <a href="/tags/科普向/">科普向</a>, 
                 
-                <a href="/tags/Android/">Android</a>
+                <a href="/tags/音频/">音频</a>
                 
                 
                 
@@ -235,44 +235,85 @@
         </center>
     </div>
     <div class="content-article">
-        <blockquote>
-<p>原创文章，转载请注明出处。<br>之前作过一篇<a href="http://ailoli.me/2017/05/03/Android%E7%B2%92%E5%AD%90%E7%89%B9%E6%95%88%E4%B9%8B-%E8%90%A4%E7%81%AB%E8%99%AB%E9%A3%9E%E8%88%9E%E6%95%88%E6%9E%9C/" target="_blank" rel="noopener">萤火虫飞舞粒子效果</a>，当时看还不错。无论是性能还是UI都满足了当时的设计效果，但实际应用到项目中，却发现由于<code>SurfaceView</code>其本身是绘制在<code>window</code>层面上的，对<code>View</code>本身的属性有很多的限制，用起来却不是很实在，还存在着很多不足。</p>
-<p>于是便将之前的效果重新写了一下，改用继承View来实现，虽然说和<code>SurfaceView</code>相比，在绘制性能上有那么一丝丝的不足 。但轮子本质的含义还是为了服务于项目，项目中方便的使用才是最重要的。</p>
-</blockquote>
-<h6 id="阅读本文，大概需要三分半钟。如果需要直观看代码的话请点这里点这里！！"><a href="#阅读本文，大概需要三分半钟。如果需要直观看代码的话请点这里点这里！！" class="headerlink" title="阅读本文，大概需要三分半钟。如果需要直观看代码的话请点这里点这里！！"></a><em>阅读本文，大概需要三分半钟。如果需要直观看代码的话</em><a href="https://github.com/JadynAi/Particle" target="_blank" rel="noopener">请点这里点这里！！</a></h6><h4 id="首先看一下效果图"><a href="#首先看一下效果图" class="headerlink" title="首先看一下效果图"></a>首先看一下效果图</h4><p><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/20170628-blog_particle.gif" alt></p>
-<h4 id="接着分析实现过程中的几个问题"><a href="#接着分析实现过程中的几个问题" class="headerlink" title="接着分析实现过程中的几个问题"></a>接着分析实现过程中的几个问题</h4><ul>
-<li>如何保持不间断的绘制</li>
-<li>粒子的运动轨迹控制（随机方向，碰到边界回弹以及旋转）</li>
+        <p><strong>学习的目的在于掌握以及更好地使用，学习的第一步就是认知。在音频学习时，我们首先要认知的就是声音</strong>。</p>
+<h2 id="声音是什么"><a href="#声音是什么" class="headerlink" title="声音是什么"></a>声音是什么</h2><ul>
+<li>声音由震动而生，它本质上是一种机械波。既然是波，就拥有波动传播的性质，例如频率、波长等。</li>
+<li>对人而言，“声音”于生理学上的体现为大脑接受到的声音，和物理学定义有偏差。人类的耳朵一般只能听到约在20Hz至20,000 Hz（20kHz）范围内的声音，其上限会随年龄增加而降低，蚊音器【注1】就是利用了这种原理。</li>
 </ul>
+<h2 id="声音的采集与存储"><a href="#声音的采集与存储" class="headerlink" title="声音的采集与存储"></a>声音的采集与存储</h2><p>在了解声音采集以及存储之前，我们首先要认知两个概念。即模拟信号和数字信号。<br>信号数据是可以用来表达任何信息的，例如图像、声音、文字等。对信号数据的了解，有利于我们理解声音采集存储的过程中，到底发生了什么。</p>
+<ul>
+<li><p>模拟信号<code>[ analog signal ]</code>, <strong>[Wiki百科]</strong> 是这样解释的：</p>
+<blockquote>
+<p>模拟信号是在时域上数学形式为连续函数的信号，其主要利用对象的一些物理属性来表达传递信息。<br>理论上来说，它的分辨率是接近无穷大的，信息密度大，不存在量化误差。代表着对自然界物理量的描述表达无限逼近真实。<br>同时它也极其容易受干扰。<br>例子：最开始的大哥大传输的就是模拟信号，所以那时候经常出现噪音，通话质量极差。</p>
+</blockquote>
+</li>
+<li><p>数字信号[Digital signal]，<strong>Wiki百科</strong> 解释如下：</p>
+<blockquote>
+<p>数字信号是离散时间信号（discrete-time signal）的数字化表示。<br> 狭义上来说，数字信号就是从模拟信号获取的。</p>
+</blockquote>
+</li>
+</ul>
+<p>OK，简要的说明了信号数据属性，概念总是苍白无力的，那么接下来我们用一个实际的例子来阐述以上两个属性的含义。<br>就从麦克风录音——&gt;录音文件为例，在这个过程到底发生了什么转换，能让声音变成可播放文件的呢？</p>
+<h3 id="录音解密"><a href="#录音解密" class="headerlink" title="录音解密"></a>录音解密</h3><p>对着麦克风录音时，麦克风【拾音设备】作了一轮声电转换，将机械振动信号转为模拟信号【在这里模拟信号的体现为连续电信号】。手机【或者计算机】是无法直接处理或存储模拟信号的，因为它是电信号。<br>所以手机【或者计算机】内部会对模拟信号进行采样收集，转化为数字信号，这个过程称之为<code>A/D，模数转换</code>。在这个过程中，采样模拟的波形和原始波形的误差就是噪音了。当然，一定程度上设备的好坏也决定了噪音的程度。<br>By the way，麦克风的工作原理：</p>
+<blockquote>
+<p>麦克风里有一层薄且敏感的碳膜，声音经过时，会压缩空气导致碳膜挤压发生振动。碳膜下方有一个电极，碳膜振动时会接触电极，接触的长短和频率与声波的振幅和频率有关【注2】。这样就完成了第一轮声电转换。</p>
+</blockquote>
+<p><em>有了录音，自然接下来就是播放了。接着我们会讲一下手机【或者计算机】是如何播放音频文件的。</em></p>
+<h3 id="音频播放"><a href="#音频播放" class="headerlink" title="音频播放"></a>音频播放</h3><p>  音响设备播放声音，需要连续的电波将音盆的磁圈振动。这个过程，要是向它输入数字信号，那可不好使。<br>音响设备此时需要计算机对它输入模拟信号【有强弱变化的电流】，这个过程叫做<code>D/A,数模转换</code>。<br>模拟信号和数字信号是不相通的，通过<code>模数转换/数模转换</code>来互通。譬如手机播放一个MP3，必须将这个MP3文件解码成模拟信号才能推动扬声器来振动产生声音。</p>
+<p><em>好比是乐谱和演奏一样：<code>A/D，模数转换</code>就是将音乐写成乐谱。而<code>D/A,数模转换</code>，就是乐师将乐谱演奏出来。</em></p>
+<h2 id="音频学习学什么"><a href="#音频学习学什么" class="headerlink" title="音频学习学什么"></a>音频学习学什么</h2><p>实际上对于APP应用层开发而言，<code>A/D，模数转换</code>和<code>D/A,数模转换</code>大多数情况下是不用接触的。<br>对于Android平台而言，系统已经封装了相当完善的录音Api。它会直接提供给我们，经过A/D模数变换后的二进制序列 <em>PCM文件</em> <em>【该文件没有附加的文件头和文件结束标志】</em>。<br>而音频开发都是基于PCM文件的。</p>
+<h3 id="PCM文件"><a href="#PCM文件" class="headerlink" title="PCM文件"></a>PCM文件</h3><p>PCM文件是对声音模拟信号的量化，是没有经过压缩的纯音频数据，只有PCM能直接进行声音处理【譬如变声器】。<br>同理，PCM没有文件描述，所以不会有播放器支持播放PCM文件的音乐，除非已知采样率等信息。PCM作为声音的量化体现，主要有以下几个维度来描述声音：</p>
+<ul>
+<li>采样率<code>sampleRate</code>，单位【khz】：<ul>
+<li>取样频率，每秒钟取得声音样本的次数。此值越高，则声音的还原度越高，同时占用的资源也会更多。</li>
+<li>常见的有8khz【电话等使用】、22.05khz【广播】、44.1khz【CD音质】、48khz【数字电视】；常用采样率不会超过48khz</li>
+<li>44.1khz是Android平台已知唯一兼容大多数固件的采样率</li>
+</ul>
+</li>
+<li>采样位数，单位【bit】：<ul>
+<li>每一个采样点的采样值，用来衡量声音波动变化的一个参数，也可以说是声卡的分辨率。数值越大，声音质量越好。</li>
+<li>大小常为为4bit、8bit、16bit、32bit</li>
+</ul>
+</li>
+<li>声道数<code>channel</code>：<ul>
+<li>单声道 <strong>Mono</strong></li>
+<li>双声道 <strong>Stereo</strong></li>
+<li>用耳机举例，单声道并不是只有一个耳机喇叭发出声音。而是两个喇叭同时发出这个声道的声音。<br>双声道就是两个耳机喇叭分别播出两个声道的声音。</li>
+<li>对Android平台而言，立体声就是双声道。</li>
+</ul>
+</li>
+<li>时间</li>
+</ul>
+<h4 id="PCM文件计算大小"><a href="#PCM文件计算大小" class="headerlink" title="PCM文件计算大小"></a>PCM文件计算大小</h4><p>衡量PCM文件数据单位时间内的容量大小，称之为比特率——即1s时间内的比特（bit）数目。那么，来计算一下一个 <code>44.1khz 16bit 2channel</code>的CD音质的比特率为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">44100*16*2=1411200bps=1411.2kbps</span><br></pre></td></tr></table></figure>
+<h5 id="那么一段60s的CD音质的声音大小为："><a href="#那么一段60s的CD音质的声音大小为：" class="headerlink" title="那么一段60s的CD音质的声音大小为："></a>那么一段60s的CD音质的声音大小为：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1411.2*60/8=10584KB=10.34MB</span><br></pre></td></tr></table></figure>
+<h5 id="ok，接下来我们详细介绍一下，以上各个单位的换算详情。"><a href="#ok，接下来我们详细介绍一下，以上各个单位的换算详情。" class="headerlink" title="ok，接下来我们详细介绍一下，以上各个单位的换算详情。"></a>ok，接下来我们详细介绍一下，以上各个单位的换算详情。</h5><ul>
+<li><p>比特率，数据传送速度单位,用来衡量带宽的，每s传输的二进制位数：</p>
+<blockquote>
+<p>Mbps 即 Milionbit pro second(百万位每秒)<br><br>Kbps 即 Kilobit pro second（千位每秒）<br><br>bps 即 bit pro second（位每秒）<br><br>最小的单位就是bit，也是采样位数，通常缩写为<code>b</code>。<strong>这里要着重注意一下，要和另一个单位<code>B</code>区分开来。</strong><br>另，kbps和bps的换算单位也有争议，有的是<code>1kbps=1024bps</code>，有的则是<code>1kbps=1000bps</code>。我们之前计算的<code>10.34MB</code>，是以1000位基准计算的，参考的是wiki百科。</p>
+</blockquote>
+</li>
+<li><p>传输的<strong>字节数</strong>单位，<code>Byte</code>，通常用<code>B</code>表示：</p>
+<blockquote>
+<p>这个才是通常软件上显示的下载速度，也是存储的硬盘上的字节数体现。<br>MB即百万字节也称兆字节<br> KB即千字节<br>B即字节,其换算单位为1024，公式为：<br><br><code>1MB=1024KB=1024*1024B=1024*1024*8b</code><br>所以，一般1M的网络带宽指的是：1Mbps。它下载的速度上限为：1Mbps=1000kbps=1000000bps。一秒钟走过了<code>10^6</code>个bit，那么换算为Bytes为：</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">10^6/8=125000 byte/s=122 KB/s</span><br></pre></td></tr></table></figure>
 <hr>
-<h5 id="问题1：如何保持不间断的绘制"><a href="#问题1：如何保持不间断的绘制" class="headerlink" title="问题1：如何保持不间断的绘制"></a>问题1：如何保持不间断的绘制</h5><p>​       <code>View</code> 的粒子绘制本身实在<code>onDraw</code>中进行的，所以最开始我的方案是在<code>canvas</code>绘制完一波之后，继续调用</p>
-<p><code>invalidate()</code>方法，这样就形成了一个死循环，就达到了不间断重复绘制的效果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">    super.onDraw(canvas);</span><br><span class="line">    canvas.save();</span><br><span class="line">    //粒子的一波绘制</span><br><span class="line">    for (Particle circle : mCircles) &#123;</span><br><span class="line">        circle.drawItem(canvas);</span><br><span class="line">    &#125;</span><br><span class="line">    canvas.restore();</span><br><span class="line">    invalidate();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>PS：有关<code>1kbps=1024bps</code>和<code>1kbps=1000bps</code>的用法依然是混乱的。<br>作为万国共通的SI单位系「k」「M」等接头辞有着1000乘方的意义，IEEE和IEC等学会标准化团体等也正式地跟随这些的用法。但出于计算机初期软件和硬件设计上的情况，是把1024比特作为1000比特，结果在数据的容量和通信速率等中适用这个规则的人增多，导致了现在这样的混乱状态。<br>在通讯的世界中，由于数据通讯开始之前就遵从SI单位系而使用1000倍，并且调制解调器的通信速率开始时也是使用75bps，300bps，1200bps等非2乘方的值，所以一般认为1kbps=1000bps是妥当的。大致来说，存储器和硬盘等存储容量一般使用「1024」，通信速率使用「1000」,但因为根据状况会有不同，需要充分注意使用的是哪边的意义</strong></p>
+<hr>
+<h4 id="PCM文件格式可以直接作声音处理"><a href="#PCM文件格式可以直接作声音处理" class="headerlink" title="PCM文件格式可以直接作声音处理"></a>PCM文件格式可以直接作声音处理</h4><p>对一个PCM文件而言，以采样频率作为变量，其余属性不变。则采样频率越小，播放出来的声音越粗，速度越慢。采样频率越高，声音越细，速度越快。<br>怎么样，是不是很熟悉呢？这种效果差不多就是变声器的原理了，不过变声器要比这个复杂的更多。</p>
+<p><strong>以上</strong></p>
 <blockquote>
-<p>这里需要注意的是，canvas的绘制是一个阻塞的过程，也就是从<code>canvas.save()</code>方法之后，一直到<code>invalidate()</code>之前，是阻塞的。</p>
-<p>重绘是会一直等到所有的粒子绘制完成之后，才会继续调起的。</p>
+<p><strong>注1</strong>：蚊音器，也叫蚊音警报器，是一种通过发出高频声音来制止年轻人集会的一种电器设备。<br>最新的版本于2008年晚些时候上市，其可以设置两种频段。一种是大约17.4kHz[1]，一般只有年轻人可以听到的。另一种为8kHz，能被大多数人听到。其最大的前在输出的声压级为108dB。由于人耳朵的功能会随着年纪变化，因此此种声音只有差不多25岁以下的年轻人才听得到。<br><strong>注2</strong>：参考《音视频开发进阶指南》第一张第二节</p>
 </blockquote>
-<h6 id="Tips："><a href="#Tips：" class="headerlink" title="Tips："></a>Tips：</h6><ul>
-<li>canvas的save和restore方法是搭配使用的。save存储之前的canvas状态，restore恢复save之前的状态。</li>
-<li>save方法是可以多次使用的，可以搭配使用的是方法restoreToCount(saveCount)。参数saveCount从1开始计数，表示可以恢复到第几次save之前的状态。</li>
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a href="http://blog.51cto.com/1676454/1426376" target="_blank" rel="noopener">Mbps、Kbps、bps、kb、mb的区别，带宽换算
+</a></li>
+<li><a href="https://www.douban.com/group/topic/27210767/" target="_blank" rel="noopener">AD/DA转换、模拟、数字的扫盲贴</a></li>
 </ul>
-<p>​      这种方式的缺点在demo完成之后很明显的体现了出来。第一，速度不可控制，譬如有些时候恰恰需要粒子变慢一点呢。使用这种方式就不太好实现了。第二，粒子动画的播放和暂停实现起来不优雅，诚然写一个布尔值来控制也可以，但也难免………………太不优雅了吧。反正我个人是比较不喜欢写这种代码的。</p>
-<p>​      那么，最终我的实现方式，是采用了属性动画来实现的，没错——就是<code>ValueAnimator</code>。来看代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private ValueAnimator mParticleAnim;</span><br><span class="line">-----------------</span><br><span class="line">mParticleAnim = ValueAnimator.ofInt(0).setDuration(30);</span><br><span class="line">mParticleAnim.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line">mParticleAnim.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationRepeat(Animator animation) &#123;</span><br><span class="line">        super.onAnimationRepeat(animation);</span><br><span class="line">        Log.d(TAG, &quot;onAnimationRepeat: &quot; + System.currentTimeMillis());</span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这段代码展示出来，你懂得。</p>
-<p>在一个无限循环的属性动画里，在Repeat监听事件里，调用<code>View</code>的<code>invalidate</code>方法重绘。这样每次触发重绘的时间间隔就是属性动画的持续时间。</p>
-<p>要是想控制粒子的运动速率，那么只需要调整动画的持续时间即可。</p>
-<p>而且如果要对外暴露粒子动画开始或者停止的方法，只需要控制属性动画的<code>start</code>和<code>stop</code>就行了。</p>
-</blockquote>
-<h5 id="问题2：粒子的运动轨迹"><a href="#问题2：粒子的运动轨迹" class="headerlink" title="问题2：粒子的运动轨迹"></a>问题2：粒子的运动轨迹</h5><p>​       在构建轮子的时候，思路其实一直都很清晰。<code>View</code>层级主要是调起和控制绘制。具体要绘制什么东西和路线的控制都由粒子对象内部来实现。这样就可以贯彻单一原则，各自负责各自的东西，降低耦合性。</p>
-<p>​       我们来看一下粒子对象<code>Particle</code>内的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public Particle(Bitmap drawBitmap, Matrix matrix, Paint paint, float x, float y, int width, int height) &#123;</span><br><span class="line">	//绘制的bitmap对象和矩阵对象，矩阵用来控制旋转和运动方向</span><br><span class="line">    mDrawBitmap = drawBitmap;</span><br><span class="line">    mBitmapMatrix = matrix;</span><br><span class="line"></span><br><span class="line">    mDrawBitmapWidth = drawBitmap.getWidth();</span><br><span class="line">    mDrawBitmapHeight = drawBitmap.getHeight();</span><br><span class="line"></span><br><span class="line">    mBitmapCenterX = mDrawBitmapWidth / 2f;</span><br><span class="line">    mBitmapCenterY = mDrawBitmapHeight / 2f;</span><br><span class="line"></span><br><span class="line">	//画笔对象</span><br><span class="line">    mPaint = paint;</span><br><span class="line">	//view 的宽和高用来判断边界</span><br><span class="line">    this.mWidth = width;</span><br><span class="line">    this.mHeight = height;</span><br><span class="line">    //粒子运动的坐标</span><br><span class="line">    this.mX = x;</span><br><span class="line">    this.mY = y;</span><br><span class="line">	//粒子的开始坐标</span><br><span class="line">    mStartX = x;</span><br><span class="line">    mStartY = y;</span><br><span class="line">	//x 和y轴的运动方向选择，随机函数</span><br><span class="line">    mIsAddX = mRandom.nextBoolean();</span><br><span class="line">    mIsAddY = mRandom.nextBoolean();</span><br><span class="line"></span><br><span class="line">    setRandomParm();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void setRandomParm() &#123;</span><br><span class="line">	//x 和 y轴每次运动的距离和每次旋转的角度，随机值</span><br><span class="line">     mDisX = mRandom.nextInt(2) + 1.2f;</span><br><span class="line">     mDisY = mRandom.nextInt(2) + 1.2f;</span><br><span class="line">     mAddDegree = mRandom.nextInt(5) + 3f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​         运动轨迹这方面只需要随机出来x和y轴的方向，还有每次递增或者递减的值即可。怎么样是不是丝毫没有技术难度啊。好了，看绘制和到边界的处理代码吧。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public void drawItem(Canvas canvas) &#123;</span><br><span class="line">    //绘制</span><br><span class="line">    mBitmapMatrix.reset();</span><br><span class="line">    mBitmapMatrix.preTranslate(mX += getPNValue(mIsAddX, mDisX), mY += getPNValue(mIsAddY, mDisY));</span><br><span class="line">    mBitmapMatrix.preRotate(mDegrees += mAddDegree, mBitmapCenterX, mBitmapCenterY);</span><br><span class="line">    canvas.drawBitmap(mDrawBitmap, mBitmapMatrix, mPaint);</span><br><span class="line">    Log.d(TAG, &quot;mX : &quot; + mX);</span><br><span class="line">    Log.d(TAG, &quot;mY : &quot; + mY);</span><br><span class="line">    judgeOutline();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void judgeOutline() &#123;</span><br><span class="line">    boolean judgeX = mX &lt;= 0 || mX &gt;= (mWidth - mDrawBitmapWidth);</span><br><span class="line">    boolean judgeY = mY &lt;= 0 || mY &gt;= (mHeight - mDrawBitmapHeight);</span><br><span class="line">    if (judgeX) &#123;</span><br><span class="line">        mIsAddX = !mIsAddX;</span><br><span class="line">        mIsAddY = mRandom.nextBoolean();</span><br><span class="line">        setRandomParm();</span><br><span class="line">        if (mX &lt;= 0) &#123;</span><br><span class="line">            mX = 0;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            mX = mWidth - mDrawBitmapWidth;</span><br><span class="line">        &#125;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (judgeY) &#123;</span><br><span class="line">        mIsAddY = !mIsAddY;</span><br><span class="line">        mIsAddX = mRandom.nextBoolean();</span><br><span class="line">        setRandomParm();</span><br><span class="line">        if (mY &lt;= 0) &#123;</span><br><span class="line">            mY = 0;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            mY = mHeight - mDrawBitmapHeight;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​         以上就是粒子对象内部的运动轨迹和边界判断代码了，怎样，是不是超级简单呢？</p>
-<p>​    <img src="http://ubq.ubiaoqing.com/ubiaoqing98134eb63a4fca7ea739c6e566ca71e7.jpg" alt></p>
-<h3 id="好了，如果你喜欢我的文章的话，那么请不要犹豫，给我一个star吧。GitHub地址：这里这里！！"><a href="#好了，如果你喜欢我的文章的话，那么请不要犹豫，给我一个star吧。GitHub地址：这里这里！！" class="headerlink" title="好了，如果你喜欢我的文章的话，那么请不要犹豫，给我一个star吧。GitHub地址：这里这里！！"></a>好了，如果你喜欢我的文章的话，那么请不要犹豫，给我一个star吧。GitHub地址：<a href="https://github.com/JadynAi/Particle" target="_blank" rel="noopener">这里这里！！</a></h3>
+
     </div>
 </article>
 
@@ -282,7 +323,7 @@
 <script>
 	if(!window.commentConfig) {
       window.commentConfig = {}
-      window.commentConfig.title = '实用性MAX!像普通View一样自由使用的粒子组件'
+      window.commentConfig.title = '【闻弦歌】--初识音频'
     }
 </script>
 
@@ -474,13 +515,13 @@
 
                 
                 <li>
-                    <a href="/2017/06/28/android_partical/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                    <a href="/2018/04/02/audio_start_learn/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
                 </li>
                 
                 
                 
                 <li>
-                    <a href="/2017/06/28/android_partical/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                    <a href="/2018/04/02/audio_start_learn/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
                 </li>
                 
             </ul>
@@ -488,17 +529,17 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/Canvas动画/" style="font-size: 16.054248512449384px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 17.160912023692305px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/Android/" style="font-size: 19.66369889230337px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 8.595012012175864px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/开发经验/" style="font-size: 13.355455725019258px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 16.890187535569353px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/交互体验/" style="font-size: 14.252056292599878px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 11.994280362636047px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/科普向/" style="font-size: 11.054945714673487px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 19.83078968042586px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 14.860403588473778px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 18.152475588192654px;" class="tag-cloud-link">音频</a>
     
 </div>
                 
@@ -592,7 +633,7 @@
 <script src="https://myau.moe/js/comment/gitment.browser.js"></script>
 <script>
     if(window.commentConfig) {
-      window.commentConfig.id = 'Wed Jun 28 2017 00:00:00 GMT+0800'
+      window.commentConfig.id = 'Mon Apr 02 2018 00:00:00 GMT+0800'
       window.commentConfig.owner = 'JadynAi'
       window.commentConfig.repo = 'JadynAi.github.io'
       window.commentConfig.client_id = 'b199888872a9ccadaa16'
@@ -600,7 +641,7 @@
       window.commentConfig.redirect_uri = ''
     } else {
       window.commentConfig = {
-      	id: 'Wed Jun 28 2017 00:00:00 GMT+0800',
+      	id: 'Mon Apr 02 2018 00:00:00 GMT+0800',
         owner: 'JadynAi',
         repo: 'JadynAi.github.io',
         client_id: 'b199888872a9ccadaa16',

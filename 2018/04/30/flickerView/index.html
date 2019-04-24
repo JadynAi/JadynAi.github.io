@@ -12,7 +12,7 @@
     
     
     
-    <title>实用性MAX!像普通View一样自由使用的粒子组件 | Life is Like A Boat</title>
+    <title>仿ios京东启动页“跳过”效果 | Life is Like A Boat</title>
     <link href="”https://yoursite.com“" rel="”prefetch”">
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -184,13 +184,13 @@
         <i class="fa fa-home"></i>
         <a href="https://yoursite.com">Life is Like A Boat</a>
         >
-        <span>实用性MAX!像普通View一样自由使用的粒子组件</span>
+        <span>仿ios京东启动页“跳过”效果</span>
     </div>
     <!-- 大型设备详细文章 -->
     <div class="hidden-xs">
         <div class="title-article">
             <h1>
-                <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
+                <a href="/2018/04/30/flickerView/">仿ios京东启动页“跳过”效果</a>
             </h1>
         </div>
         <div class="tag-article">
@@ -205,7 +205,7 @@
             </span>
             
             <span class="label label-gal">
-                <i class="fa fa-calendar"></i> 2017-06-28
+                <i class="fa fa-calendar"></i> 2018-04-30
             </span>
             
         </div>
@@ -215,11 +215,11 @@
         <center>
             <div class="title-article">
                 <h4>
-                    <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
+                    <a href="/2018/04/30/flickerView/">仿ios京东启动页“跳过”效果</a>
                 </h4>
             </div>
             <p>
-                <i class="fa fa-calendar"></i> 2017-06-28
+                <i class="fa fa-calendar"></i> 2018-04-30
             </p>
             <p>
                 
@@ -236,43 +236,40 @@
     </div>
     <div class="content-article">
         <blockquote>
-<p>原创文章，转载请注明出处。<br>之前作过一篇<a href="http://ailoli.me/2017/05/03/Android%E7%B2%92%E5%AD%90%E7%89%B9%E6%95%88%E4%B9%8B-%E8%90%A4%E7%81%AB%E8%99%AB%E9%A3%9E%E8%88%9E%E6%95%88%E6%9E%9C/" target="_blank" rel="noopener">萤火虫飞舞粒子效果</a>，当时看还不错。无论是性能还是UI都满足了当时的设计效果，但实际应用到项目中，却发现由于<code>SurfaceView</code>其本身是绘制在<code>window</code>层面上的，对<code>View</code>本身的属性有很多的限制，用起来却不是很实在，还存在着很多不足。</p>
-<p>于是便将之前的效果重新写了一下，改用继承View来实现，虽然说和<code>SurfaceView</code>相比，在绘制性能上有那么一丝丝的不足 。但轮子本质的含义还是为了服务于项目，项目中方便的使用才是最重要的。</p>
+<p>天共水，水远与天连<br>天净水平寒月漾，水光月色两相兼</p>
 </blockquote>
-<h6 id="阅读本文，大概需要三分半钟。如果需要直观看代码的话请点这里点这里！！"><a href="#阅读本文，大概需要三分半钟。如果需要直观看代码的话请点这里点这里！！" class="headerlink" title="阅读本文，大概需要三分半钟。如果需要直观看代码的话请点这里点这里！！"></a><em>阅读本文，大概需要三分半钟。如果需要直观看代码的话</em><a href="https://github.com/JadynAi/Particle" target="_blank" rel="noopener">请点这里点这里！！</a></h6><h4 id="首先看一下效果图"><a href="#首先看一下效果图" class="headerlink" title="首先看一下效果图"></a>首先看一下效果图</h4><p><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/20170628-blog_particle.gif" alt></p>
-<h4 id="接着分析实现过程中的几个问题"><a href="#接着分析实现过程中的几个问题" class="headerlink" title="接着分析实现过程中的几个问题"></a>接着分析实现过程中的几个问题</h4><ul>
-<li>如何保持不间断的绘制</li>
-<li>粒子的运动轨迹控制（随机方向，碰到边界回弹以及旋转）</li>
-</ul>
-<hr>
-<h5 id="问题1：如何保持不间断的绘制"><a href="#问题1：如何保持不间断的绘制" class="headerlink" title="问题1：如何保持不间断的绘制"></a>问题1：如何保持不间断的绘制</h5><p>​       <code>View</code> 的粒子绘制本身实在<code>onDraw</code>中进行的，所以最开始我的方案是在<code>canvas</code>绘制完一波之后，继续调用</p>
-<p><code>invalidate()</code>方法，这样就形成了一个死循环，就达到了不间断重复绘制的效果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">    super.onDraw(canvas);</span><br><span class="line">    canvas.save();</span><br><span class="line">    //粒子的一波绘制</span><br><span class="line">    for (Particle circle : mCircles) &#123;</span><br><span class="line">        circle.drawItem(canvas);</span><br><span class="line">    &#125;</span><br><span class="line">    canvas.restore();</span><br><span class="line">    invalidate();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>简单展示一下动画效果：</strong><br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flicker.gif" alt></p>
+<p><strong><a href="https://github.com/JadynAi/LoadingLovely/blob/master/app/src/main/java/com/example/jadynai/loadinglovely/flicker/TextFlickerView.java" target="_blank" rel="noopener">项目地址在此</a>，大家若是喜欢的话，不妨点个赞吧</strong><br><br><em>好了，简单阐述一下本次动画的原理：</em></p>
 <blockquote>
-<p>这里需要注意的是，canvas的绘制是一个阻塞的过程，也就是从<code>canvas.save()</code>方法之后，一直到<code>invalidate()</code>之前，是阻塞的。</p>
-<p>重绘是会一直等到所有的粒子绘制完成之后，才会继续调起的。</p>
+<p>光的效果使用<code>Paint</code>设置<code>Shader</code>来实现，具体则是<code>LinearGradient</code>水平渐变渲染。<br>光影的平移依赖于<code>LinearGradient</code>的<code>setLocalMatrix</code>，通过<code>Matrix</code>的<code>translate</code>来促使光影移动。</p>
 </blockquote>
-<h6 id="Tips："><a href="#Tips：" class="headerlink" title="Tips："></a>Tips：</h6><ul>
-<li>canvas的save和restore方法是搭配使用的。save存储之前的canvas状态，restore恢复save之前的状态。</li>
-<li>save方法是可以多次使用的，可以搭配使用的是方法restoreToCount(saveCount)。参数saveCount从1开始计数，表示可以恢复到第几次save之前的状态。</li>
+<h4 id="在自定义View的onSizeChanged-int-w-int-h-int-oldw-int-oldh-方法内初始化引擎："><a href="#在自定义View的onSizeChanged-int-w-int-h-int-oldw-int-oldh-方法内初始化引擎：" class="headerlink" title="在自定义View的onSizeChanged(int w, int h, int oldw, int oldh)方法内初始化引擎："></a>在自定义View的<code>onSizeChanged(int w, int h, int oldw, int oldh)</code>方法内初始化引擎：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    protected void onSizeChanged(int w, int h, int oldw, int oldh) &#123;</span><br><span class="line">        super.onSizeChanged(w, h, oldw, oldh);</span><br><span class="line">        tryInitEngine(w);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">     private void tryInitEngine(int w) &#123;</span><br><span class="line">        if (mShadowMatrix == null) &#123;</span><br><span class="line">            if (w &gt; 0) &#123;</span><br><span class="line">                //控制阴影的Matrix，通过Matrix的变化来实现闪光的滑过效果</span><br><span class="line">                mShadowMatrix = new Matrix();</span><br><span class="line">                //因为使用了LinearGradient,所以Paint本身的color将毫无意义，所以colors的起始点的色值必须和本来色值一致</span><br><span class="line">                int currentTextColor = getCurrentTextColor();</span><br><span class="line">                //渐变色层.x0,y0是起点坐标，x1，y1是终点坐标</span><br><span class="line">                mLinearGradient = new LinearGradient(0, 0, 50, 0, new int[] &#123;currentTextColor, Color.GREEN, currentTextColor&#125;,</span><br><span class="line">                        null, Shader.TileMode.CLAMP);</span><br><span class="line">                //画笔设置Shader</span><br><span class="line">                getPaint().setShader(mLinearGradient);</span><br><span class="line">                //使用属性动画作为引擎，数值从-SHADOW变化到TextView本身的宽度。间隔时间未1500ms</span><br><span class="line">                mValueAnimator = ValueAnimator.ofFloat(-50, w).setDuration(1500);</span><br><span class="line">                mValueAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">                mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">                        float value = (float) animation.getAnimatedValue();</span><br><span class="line">                        //Matrix移动来实现闪光滑动</span><br><span class="line">                        mShadowMatrix.setTranslate(value, 0);</span><br><span class="line">                        invalidate();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">                mValueAnimator.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void onAnimationRepeat(Animator animation) &#123;</span><br><span class="line">                        super.onAnimationRepeat(animation);</span><br><span class="line">                        mShadowMatrix.reset();</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    @Override</span><br><span class="line">                    public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">                        super.onAnimationEnd(animation);</span><br><span class="line">                        mShadowMatrix.reset();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">                mValueAnimator.setRepeatCount(mRepeatCount);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>简要说明几个重要变量：<ul>
+<li><code>mShadowMatrix</code>,用来控制<code>Shader</code>位置的<code>Matrix</code>。</li>
+<li><code>mLinearGradient</code>,实现<em>闪光</em>效果的<code>Shader</code>，水平渐变层。</li>
+<li><code>mValueAnimator</code>，属性动画引擎。</li>
 </ul>
-<p>​      这种方式的缺点在demo完成之后很明显的体现了出来。第一，速度不可控制，譬如有些时候恰恰需要粒子变慢一点呢。使用这种方式就不太好实现了。第二，粒子动画的播放和暂停实现起来不优雅，诚然写一个布尔值来控制也可以，但也难免………………太不优雅了吧。反正我个人是比较不喜欢写这种代码的。</p>
-<p>​      那么，最终我的实现方式，是采用了属性动画来实现的，没错——就是<code>ValueAnimator</code>。来看代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private ValueAnimator mParticleAnim;</span><br><span class="line">-----------------</span><br><span class="line">mParticleAnim = ValueAnimator.ofInt(0).setDuration(30);</span><br><span class="line">mParticleAnim.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line">mParticleAnim.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationRepeat(Animator animation) &#123;</span><br><span class="line">        super.onAnimationRepeat(animation);</span><br><span class="line">        Log.d(TAG, &quot;onAnimationRepeat: &quot; + System.currentTimeMillis());</span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="这里面使用了一个LinearGradient线性渐变的着色器。着重说一下它的使用方法。"><a href="#这里面使用了一个LinearGradient线性渐变的着色器。着重说一下它的使用方法。" class="headerlink" title="这里面使用了一个LinearGradient线性渐变的着色器。着重说一下它的使用方法。"></a>这里面使用了一个<code>LinearGradient</code>线性渐变的着色器。着重说一下它的使用方法。</h5><p>先看一下<code>LinearGradient</code>的构造函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> /** Create a shader that draws a linear gradient along a line. </span><br><span class="line">        @param x0           The x-coordinate for the start of the gradient line </span><br><span class="line">        @param y0           The y-coordinate for the start of the gradient line </span><br><span class="line">        @param x1           The x-coordinate for the end of the gradient line </span><br><span class="line">        @param y1           The y-coordinate for the end of the gradient line </span><br><span class="line">        @param  colors      The colors to be distributed along the gradient line </span><br><span class="line">        @param  positions   May be null. The relative positions [0..1] of </span><br><span class="line">                            each corresponding color in the colors array. If this is null, </span><br><span class="line">                            the the colors are distributed evenly along the gradient line. </span><br><span class="line">        @param  tile        The Shader tiling mode </span><br><span class="line">    */  </span><br><span class="line">    public LinearGradient(float x0, float y0, float x1, float y1, int colors[], float positions[],  </span><br><span class="line">            TileMode tile) &#123;  </span><br><span class="line">.........  </span><br><span class="line">.....  </span><br><span class="line">......  </span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>这段代码展示出来，你懂得。</p>
-<p>在一个无限循环的属性动画里，在Repeat监听事件里，调用<code>View</code>的<code>invalidate</code>方法重绘。这样每次触发重绘的时间间隔就是属性动画的持续时间。</p>
-<p>要是想控制粒子的运动速率，那么只需要调整动画的持续时间即可。</p>
-<p>而且如果要对外暴露粒子动画开始或者停止的方法，只需要控制属性动画的<code>start</code>和<code>stop</code>就行了。</p>
+<p>这其中：<br>x0，y0—-&gt;代表起点的坐标<br>x1，y1—-&gt;代表终点的坐标<br>colors—-&gt;colors表示渲染的颜色，它是一个颜色数组，数组长度必须大于等于2<br>positions—-&gt;positions表示colors数组中几个颜色的相对位置，是一个float类型的数组，该数组的长度必须与colors数组的长度相同。如果这个参数使用null也可以，这时系统会按照梯度线来均匀分配colors数组中的颜色<br>title—-&gt;代表了系统提供的几种渲染模式，这里选用了<code>LinearGradient.TileMode.CLAMP</code>模式，<strong>表示重复colors数组里的最后一种颜色直到该View结束的地方</strong></p>
 </blockquote>
-<h5 id="问题2：粒子的运动轨迹"><a href="#问题2：粒子的运动轨迹" class="headerlink" title="问题2：粒子的运动轨迹"></a>问题2：粒子的运动轨迹</h5><p>​       在构建轮子的时候，思路其实一直都很清晰。<code>View</code>层级主要是调起和控制绘制。具体要绘制什么东西和路线的控制都由粒子对象内部来实现。这样就可以贯彻单一原则，各自负责各自的东西，降低耦合性。</p>
-<p>​       我们来看一下粒子对象<code>Particle</code>内的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public Particle(Bitmap drawBitmap, Matrix matrix, Paint paint, float x, float y, int width, int height) &#123;</span><br><span class="line">	//绘制的bitmap对象和矩阵对象，矩阵用来控制旋转和运动方向</span><br><span class="line">    mDrawBitmap = drawBitmap;</span><br><span class="line">    mBitmapMatrix = matrix;</span><br><span class="line"></span><br><span class="line">    mDrawBitmapWidth = drawBitmap.getWidth();</span><br><span class="line">    mDrawBitmapHeight = drawBitmap.getHeight();</span><br><span class="line"></span><br><span class="line">    mBitmapCenterX = mDrawBitmapWidth / 2f;</span><br><span class="line">    mBitmapCenterY = mDrawBitmapHeight / 2f;</span><br><span class="line"></span><br><span class="line">	//画笔对象</span><br><span class="line">    mPaint = paint;</span><br><span class="line">	//view 的宽和高用来判断边界</span><br><span class="line">    this.mWidth = width;</span><br><span class="line">    this.mHeight = height;</span><br><span class="line">    //粒子运动的坐标</span><br><span class="line">    this.mX = x;</span><br><span class="line">    this.mY = y;</span><br><span class="line">	//粒子的开始坐标</span><br><span class="line">    mStartX = x;</span><br><span class="line">    mStartY = y;</span><br><span class="line">	//x 和y轴的运动方向选择，随机函数</span><br><span class="line">    mIsAddX = mRandom.nextBoolean();</span><br><span class="line">    mIsAddY = mRandom.nextBoolean();</span><br><span class="line"></span><br><span class="line">    setRandomParm();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void setRandomParm() &#123;</span><br><span class="line">	//x 和 y轴每次运动的距离和每次旋转的角度，随机值</span><br><span class="line">     mDisX = mRandom.nextInt(2) + 1.2f;</span><br><span class="line">     mDisY = mRandom.nextInt(2) + 1.2f;</span><br><span class="line">     mAddDegree = mRandom.nextInt(5) + 3f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​         运动轨迹这方面只需要随机出来x和y轴的方向，还有每次递增或者递减的值即可。怎么样是不是丝毫没有技术难度啊。好了，看绘制和到边界的处理代码吧。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public void drawItem(Canvas canvas) &#123;</span><br><span class="line">    //绘制</span><br><span class="line">    mBitmapMatrix.reset();</span><br><span class="line">    mBitmapMatrix.preTranslate(mX += getPNValue(mIsAddX, mDisX), mY += getPNValue(mIsAddY, mDisY));</span><br><span class="line">    mBitmapMatrix.preRotate(mDegrees += mAddDegree, mBitmapCenterX, mBitmapCenterY);</span><br><span class="line">    canvas.drawBitmap(mDrawBitmap, mBitmapMatrix, mPaint);</span><br><span class="line">    Log.d(TAG, &quot;mX : &quot; + mX);</span><br><span class="line">    Log.d(TAG, &quot;mY : &quot; + mY);</span><br><span class="line">    judgeOutline();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void judgeOutline() &#123;</span><br><span class="line">    boolean judgeX = mX &lt;= 0 || mX &gt;= (mWidth - mDrawBitmapWidth);</span><br><span class="line">    boolean judgeY = mY &lt;= 0 || mY &gt;= (mHeight - mDrawBitmapHeight);</span><br><span class="line">    if (judgeX) &#123;</span><br><span class="line">        mIsAddX = !mIsAddX;</span><br><span class="line">        mIsAddY = mRandom.nextBoolean();</span><br><span class="line">        setRandomParm();</span><br><span class="line">        if (mX &lt;= 0) &#123;</span><br><span class="line">            mX = 0;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            mX = mWidth - mDrawBitmapWidth;</span><br><span class="line">        &#125;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (judgeY) &#123;</span><br><span class="line">        mIsAddY = !mIsAddY;</span><br><span class="line">        mIsAddX = mRandom.nextBoolean();</span><br><span class="line">        setRandomParm();</span><br><span class="line">        if (mY &lt;= 0) &#123;</span><br><span class="line">            mY = 0;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            mY = mHeight - mDrawBitmapHeight;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​         以上就是粒子对象内部的运动轨迹和边界判断代码了，怎样，是不是超级简单呢？</p>
-<p>​    <img src="http://ubq.ubiaoqing.com/ubiaoqing98134eb63a4fca7ea739c6e566ca71e7.jpg" alt></p>
-<h3 id="好了，如果你喜欢我的文章的话，那么请不要犹豫，给我一个star吧。GitHub地址：这里这里！！"><a href="#好了，如果你喜欢我的文章的话，那么请不要犹豫，给我一个star吧。GitHub地址：这里这里！！" class="headerlink" title="好了，如果你喜欢我的文章的话，那么请不要犹豫，给我一个star吧。GitHub地址：这里这里！！"></a>好了，如果你喜欢我的文章的话，那么请不要犹豫，给我一个star吧。GitHub地址：<a href="https://github.com/JadynAi/Particle" target="_blank" rel="noopener">这里这里！！</a></h3>
+<p><em>这里我们来做个试验，将colors的最后一个色值改为<code>Color.BLUE</code></em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mLinearGradient = new LinearGradient(0, 0, SHADOW_W, 0, new int[] &#123;currentTextColor, Color.GREEN, Color.BLUE&#125;,</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>OK,看一下试验效果.</p>
+</blockquote>
+<p><img src="https://wx4.sinaimg.cn/mw690/a28b91d8gy1fqunw73pdrg207i07qglz.gif" alt></p>
+<p><strong>可见设置了<code>ClAMP</code>模式后，的确是将colors最后的一个色值覆盖到了未渲染区域</strong></p>
+<h4 id="监听属性动画的数值更新，来触发重绘，OnDraw（）方法实现尤为简单。"><a href="#监听属性动画的数值更新，来触发重绘，OnDraw（）方法实现尤为简单。" class="headerlink" title="监听属性动画的数值更新，来触发重绘，OnDraw（）方法实现尤为简单。"></a>监听属性动画的数值更新，来触发重绘，<code>OnDraw（）</code>方法实现尤为简单。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">        super.onDraw(canvas);</span><br><span class="line">        Log.d(TAG, &quot;onDraw: &quot; + System.currentTimeMillis());</span><br><span class="line">        if (mLinearGradient != null) &#123;</span><br><span class="line">            mLinearGradient.setLocalMatrix(mShadowMatrix);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Matrix</code>，改变位置即可实现<em>光芒</em>滑过效果</li>
+</ul>
+<h2 id="以上就是本次动画的简要原理阐述，项目地址在这里，个中原理已在注释上写的明明白白。FlickerTextView-大家喜欢的话不妨点个赞吧。"><a href="#以上就是本次动画的简要原理阐述，项目地址在这里，个中原理已在注释上写的明明白白。FlickerTextView-大家喜欢的话不妨点个赞吧。" class="headerlink" title="以上就是本次动画的简要原理阐述，项目地址在这里，个中原理已在注释上写的明明白白。FlickerTextView,大家喜欢的话不妨点个赞吧。"></a>以上就是本次动画的简要原理阐述，项目地址在这里，个中原理已在注释上写的明明白白。<a href="https://github.com/JadynAi/LoadingLovely/blob/master/app/src/main/java/com/example/jadynai/loadinglovely/flicker/TextFlickerView.java" target="_blank" rel="noopener">FlickerTextView</a>,大家喜欢的话不妨点个赞吧。</h2><p><strong>基于需求的特殊性，本地动画使用了<code>TextView</code>。其实大可不必拘泥于此，本质上还是对<code>Paint</code>设置<code>Shader</code>的使用而已。</strong></p>
+
     </div>
 </article>
 
@@ -282,7 +279,7 @@
 <script>
 	if(!window.commentConfig) {
       window.commentConfig = {}
-      window.commentConfig.title = '实用性MAX!像普通View一样自由使用的粒子组件'
+      window.commentConfig.title = '仿ios京东启动页“跳过”效果'
     }
 </script>
 
@@ -474,13 +471,13 @@
 
                 
                 <li>
-                    <a href="/2017/06/28/android_partical/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                    <a href="/2018/04/30/flickerView/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
                 </li>
                 
                 
                 
                 <li>
-                    <a href="/2017/06/28/android_partical/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                    <a href="/2018/04/30/flickerView/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
                 </li>
                 
             </ul>
@@ -488,17 +485,17 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/Canvas动画/" style="font-size: 16.054248512449384px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 11.95765286183137px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/Android/" style="font-size: 19.66369889230337px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 15.117610914876888px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/开发经验/" style="font-size: 13.355455725019258px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 15.310335397366282px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/交互体验/" style="font-size: 14.252056292599878px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 12.418598002010814px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/科普向/" style="font-size: 11.054945714673487px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 18.693765816721307px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 14.860403588473778px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 19.495932713042663px;" class="tag-cloud-link">音频</a>
     
 </div>
                 
@@ -592,7 +589,7 @@
 <script src="https://myau.moe/js/comment/gitment.browser.js"></script>
 <script>
     if(window.commentConfig) {
-      window.commentConfig.id = 'Wed Jun 28 2017 00:00:00 GMT+0800'
+      window.commentConfig.id = 'Mon Apr 30 2018 00:00:00 GMT+0800'
       window.commentConfig.owner = 'JadynAi'
       window.commentConfig.repo = 'JadynAi.github.io'
       window.commentConfig.client_id = 'b199888872a9ccadaa16'
@@ -600,7 +597,7 @@
       window.commentConfig.redirect_uri = ''
     } else {
       window.commentConfig = {
-      	id: 'Wed Jun 28 2017 00:00:00 GMT+0800',
+      	id: 'Mon Apr 30 2018 00:00:00 GMT+0800',
         owner: 'JadynAi',
         repo: 'JadynAi.github.io',
         client_id: 'b199888872a9ccadaa16',
