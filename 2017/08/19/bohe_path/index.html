@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="AiLo">
+    
+    <meta name="description" content="Android AI DeepLearning">
+    
+    
+    
+    
+    
+    
+    <title>实现薄荷Loading动画 | Life is Like A Boat</title>
+    <link href="”https://yoursite.com“" rel="”prefetch”">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+</head></html>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://yoursite.com" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse" aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://yoursite.com">
+                
+                <!-- 这里background使用imgs/${logo_image}(路径文件名) -->
+                <style>
+                    #gal-header .navbar-brand {
+                        width: 200px;
+                        height: 50px;
+                        display: block;
+                        background: url('/imgs/favicon.png') no-repeat;
+                    }
+                </style>
+                    
+                <div class="navbar-brand"></div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class>
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class>
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/Canvas动画/">Canvas动画</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Android/">Android</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/交互体验/">交互体验</a>
+                        </li>
+                        
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 gal-right" id="mainstay">
+                    
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://yoursite.com">Life is Like A Boat</a>
+        >
+        <span>实现薄荷Loading动画</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2017/08/19/bohe_path/">实现薄荷Loading动画</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Canvas动画/">Canvas动画</a>, 
+                
+                <a href="/tags/Android/">Android</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2017-08-19
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2017/08/19/bohe_path/">实现薄荷Loading动画</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2017-08-19
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Canvas动画/">Canvas动画</a>, 
+                
+                <a href="/tags/Android/">Android</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <p><em>本文属于Android技术论述文章，阅读完大致需要五分钟</em>   </p>
+<blockquote>
+<p>原创文章，转载请注明出处。 </p>
+</blockquote>
+<p><strong>没时间的小伙伴可以直接跳过文章，<a href="https://github.com/JadynAi/LoadingLovely" target="_blank" rel="noopener">点击项目地址</a>，如果喜欢的话，顺手给个star那是极好的【娇羞……】</strong></p>
+<blockquote>
+<p>好吧。先说一下为什么要做这个项目。<br>前几天使用薄荷的时候，凑巧看到了这个Loading动画，觉得效果还不错。就想尝试着实现一下。<br><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4K2TE-DhDYxAfzBxpt6HFZA18hP4nD6Xc4YQTpgKtCI0MJ8ly" alt><br>先看一下原版的效果，GIF录制的比较快，但应该还可以看清楚。<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/20170819-blog-1.gif" alt>  </p>
+</blockquote>
+<h4 id="先上本次最终实现的效果图吧，颜色当然选择今年最流行的原谅色："><a href="#先上本次最终实现的效果图吧，颜色当然选择今年最流行的原谅色：" class="headerlink" title="先上本次最终实现的效果图吧，颜色当然选择今年最流行的原谅色："></a>先上本次最终实现的效果图吧，颜色当然选择今年最流行的原谅色：</h4><p><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/20170819-blog-3.gif" alt></p>
+<h3 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h3><ul>
+<li>1、整个图形的形状如何绘制</li>
+<li>2、如何让线条动起来</li>
+</ul>
+<h4 id="整个图形的形状分析"><a href="#整个图形的形状分析" class="headerlink" title="整个图形的形状分析"></a>整个图形的形状分析</h4><ul>
+<li>好了，首先我们来分析一下这个图案，如果是静态的，那么如何绘制？<br>很简单，拆分。我们将图形拆开分解，然后再看。分析细节和步骤，这是要点。<br>我这里将这个图分成了三份。<ul>
+<li>第一个，也就是叶柄。也就是下面那一条小小的竖线。原Loading图中不甚明显，但还是有的。叶柄没什么说的，直线就可以了。</li>
+<li>第二个，叶子的左轮廓边缘和右轮廓边缘。这是一段下肥上窄的弧线，椭圆截取感觉不妥，我这里采用的是贝塞尔二阶曲线。有关Android贝塞尔相关的知识大家可以看看<a href="http://blog.csdn.net/u013831257/article/details/51281136" target="_blank" rel="noopener">这篇文章</a>。</li>
+<li>第三个，也就是叶片的脉络，线和线交叉连接，没什么可说的。</li>
+<li>那么重点其实就是叶子左右轮廓的绘制了，我画了一张草图。大家可以看看：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/20170819-blog-4.png" alt>  </li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>其中黑色的框作为View的边界。A点是左轮廓曲线的起点，B点事贝塞尔曲线的控制点，我把它定义到了View的左边框那里。C点事整个贝塞尔曲线的终点，D点则是实际上曲线的最高点。<br>右轮廓则和左轮廓是镜像存在。<br>图有点潦草，不过应该还看得懂。</p>
+</blockquote>
+<ul>
+<li>好了，静态图形拆解完毕。接着看，如何让图动起来。</li>
+</ul>
+<h4 id="如何让线条动起来"><a href="#如何让线条动起来" class="headerlink" title="如何让线条动起来"></a>如何让线条动起来</h4><p>整个项目中，如何让线条真正的动起来才是要点。刚开始在这里的思路，是想使用<code>canvas.drawCircle</code>绘制在一张Bitmap上，以点汇面。后面实现起来发现，这种方式特别不靠谱。<br>为什么不靠谱呢？因为点连接成线，每次移动的速率和距离都得计算，很麻烦。很容易出现断点的情况。<br>最后，我采用的是让<code>canvas</code>去绘制一段<code>Path</code>路径，然后<code>Path</code>路径不停的刷新改变。这样做的好处，是<code>Path</code>更加直观易于控制。而且还不用多绘制一张<code>Bitmap</code>。<br>整个项目中，自定义的View，<code>LeafAnimView</code>做的工作很少，只是在<code>onDraw</code>方法内，调起了绘制而已。具体的绘制都交给<code>LeafAtom</code>了。面向对象嘛。</p>
+<ul>
+<li><p>具体的思路，是我把总时间按比例分成四部分。生成四个属性动画，在属性动画的监听里作<code>Path</code>的x和y的变化。在绘制的时候，只需要将这四个动画依次播放，即可得到每个时间段的具体运动值。而且还是均匀变化的。</p>
+</li>
+<li><p><code>LeafAnimView</code>内部作为动画引擎的是一个<code>ValueAnimator</code>,使用它来触发View的onDraw。同时也使用它来控制整个动画的时间。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mValueAnimator = ValueAnimator.ofFloat(0, 1);</span><br><span class="line">       mValueAnimator.setDuration(5000);</span><br><span class="line">       mValueAnimator.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line">       mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">               invalidate();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>LeafAtom</code>类内部接受到这个总时长，然后将运动总时间分割，根据比例计算出绘制叶柄、左右轮廓、脉络的动画时间。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">-------在LeafAnimView类内部---------</span><br><span class="line"> @Override</span><br><span class="line">    protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">        super.onDraw(canvas);</span><br><span class="line">        if (null == mLeafAtom) &#123;</span><br><span class="line">         //传入总时长</span><br><span class="line">            mLeafAtom = new LeafAtom(getWidth(), getHeight(), mValueAnimator.getDuration());</span><br><span class="line">        &#125;</span><br><span class="line">        if (!mValueAnimator.isStarted()) &#123;</span><br><span class="line">            mValueAnimator.start();</span><br><span class="line">        &#125;</span><br><span class="line">        //开始绘制</span><br><span class="line">        mLeafAtom.drawGraph(canvas, mPaint);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">-------在LeafAtome类---------------</span><br><span class="line">public static final float PETIOLE_RATIO = 0.1f;//叶柄所占比例</span><br><span class="line">public LeafAtom(int width, int height, long duration) &#123;</span><br><span class="line"></span><br><span class="line">        mWidth = width;</span><br><span class="line">        mHeight = height;</span><br><span class="line"></span><br><span class="line">        mPetioleTime = (long) (duration * PETIOLE_RATIO);//绘制叶柄的时间</span><br><span class="line">        mArcTime = (long) (duration * (1 - PETIOLE_RATIO) * 0.4f);//左右轮廓弧线的时间</span><br><span class="line">        mLastLineTime = duration - mPetioleTime - mArcTime * 2;//最后一段叶脉的时间</span><br><span class="line"></span><br><span class="line">        mBezierBottom = new PointF(mWidth * 0.5f, mHeight * (1 - PETIOLE_RATIO));//左侧轮廓底部点</span><br><span class="line">        mBezierControl = new PointF(0, mHeight * (1 - 3 * PETIOLE_RATIO));//左侧轮廓控制点</span><br><span class="line">        mBezierTop = new PointF(mWidth * 0.5f, 0);//左侧轮廓顶部结束点</span><br><span class="line"></span><br><span class="line">        mVeinBottomY = mHeight * (1 - PETIOLE_RATIO) - 10;//右侧轮廓底部点Y轴坐标，稍稍低一点</span><br><span class="line">        mOneNodeY = mVeinBottomY * 4 / 5;//第一个节点的Y轴坐标</span><br><span class="line">        mTwoNodeY = mVeinBottomY * 2 / 5;//第二个节点Y轴坐标</span><br><span class="line">        initEngine();</span><br><span class="line">        setOrginalStatus();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在<code>LeafAtom</code>的构造函数中，得到每一个阶段动画的时间，然后生成四个属性动画，在这个属性动画的监听里去做Path的x和y坐标的值变化。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    * 初始化path引擎</span><br><span class="line">    */</span><br><span class="line">   private void initEngine() &#123;</span><br><span class="line">        //叶柄动画，Y轴变化由底部运动到叶柄高度的地方</span><br><span class="line">       mPetioleAnim = ValueAnimator.ofFloat(mHeight, mHeight * (1 - PETIOLE_RATIO)).setDuration(mPetioleTime);</span><br><span class="line">       //左右轮廓贝塞尔曲线，只需要只奥时间变化是从0~1的。起点、控制点、结束点都知道了</span><br><span class="line">       mArcAnim = ValueAnimator.ofFloat(0, 1.0f).setDuration(mArcTime);</span><br><span class="line">       //绘制叶脉的动画</span><br><span class="line">       mLastAnim = ValueAnimator.ofFloat(mVeinBottomY, 0).setDuration(mLastLineTime);</span><br><span class="line"></span><br><span class="line">       mPetioleAnim.setInterpolator(new LinearInterpolator());</span><br><span class="line">       mArcAnim.setInterpolator(new LinearInterpolator());</span><br><span class="line">       mLastAnim.setInterpolator(new LinearInterpolator());</span><br><span class="line">       mArcRightAnim = mArcAnim.clone();</span><br><span class="line"></span><br><span class="line">       mPetioleAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">               mY = (float) animation.getAnimatedValue();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">       mArcAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">               computeArcPointF(animation, true);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">       mArcRightAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">               computeArcPointF(animation, false);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">       mLastAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">               mY = (float) animation.getAnimatedValue();</span><br><span class="line">               float tan = (float) Math.tan(Math.toRadians(30));</span><br><span class="line">               if (mY &lt;= mOneNodeY &amp;&amp; mY &gt; mTwoNodeY) &#123;</span><br><span class="line">                   mOneLpath.moveTo(mX, mOneNodeY);</span><br><span class="line">                   mOneRpath.moveTo(mX, mOneNodeY);</span><br><span class="line">                   //这里的参数x和y代表相对当前位置偏移量，y轴不加偏移量会空一截出来，这里的15是经验值</span><br><span class="line">                   mMainPath.addPath(mOneLpath, 0, EXPRIENCE_OFFSET);</span><br><span class="line">                   mMainPath.addPath(mOneRpath, 0, EXPRIENCE_OFFSET);</span><br><span class="line">                   //第一个节点和第二个节点之间</span><br><span class="line">                   float gapY = mOneNodeY - mY;</span><br><span class="line">                   mOneLpath.rLineTo(-gapY * tan, -gapY);</span><br><span class="line">                   mOneRpath.lineTo(mX + gapY * tan, mY);</span><br><span class="line">               &#125; else if (mY &lt;= mTwoNodeY) &#123;</span><br><span class="line">                   mTwoLpath.moveTo(mX, mTwoNodeY);</span><br><span class="line">                   mTwoRpath.moveTo(mX, mTwoNodeY);</span><br><span class="line"></span><br><span class="line">                   //第二个节点，为避免线超出叶子，取此时差值的一半作计算</span><br><span class="line">                   float gapY = (mTwoNodeY - mY) * 0.5f;</span><br><span class="line">                   mMainPath.addPath(mTwoLpath, 0, EXPRIENCE_OFFSET);</span><br><span class="line">                   mMainPath.addPath(mTwoRpath, 0, EXPRIENCE_OFFSET);</span><br><span class="line"></span><br><span class="line">                   mTwoLpath.rLineTo(-gapY * tan, -gapY);</span><br><span class="line">                   mTwoRpath.rLineTo(gapY * tan, -gapY);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line"></span><br><span class="line">       mEngine = new AnimatorSet();</span><br><span class="line">       mEngine.playSequentially(mPetioleAnim, mArcAnim, mArcRightAnim, mLastAnim);</span><br><span class="line">       mEngine.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">               super.onAnimationEnd(animation);</span><br><span class="line">               setOrginalStatus();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>计算贝塞尔曲线运动过程中的方法。贝塞尔曲线是有一个函数的，我们知道起点、控制点、终点的话，就可以根据时间计算出此时此刻的x和y的坐标。而这个时间变化是从0~1变化的。谨记。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">private void computeArcPointF(ValueAnimator animation, boolean isLeft) &#123;</span><br><span class="line">        float ratio = (float) animation.getAnimatedValue();</span><br><span class="line">        //ratio从0~1变化，左右轮廓三个点不一样</span><br><span class="line">        PointF bezierStart = isLeft ? mBezierBottom : mBezierTop;</span><br><span class="line">        PointF bezierControl = isLeft ? mBezierControl : new PointF(mWidth, mHeight * (1 - 3 * PETIOLE_RATIO));</span><br><span class="line">        PointF bezierEnd = isLeft ? mBezierTop : new PointF(mWidth * 0.5f, mVeinBottomY);</span><br><span class="line">        PointF pointF = calculateCurPoint(ratio, bezierStart, bezierControl, bezierEnd);</span><br><span class="line">        mX = pointF.x;</span><br><span class="line">        mY = pointF.y;</span><br><span class="line">    &#125;</span><br><span class="line">    private PointF calculateCurPoint(float t, PointF p0, PointF p1, PointF p2) &#123;</span><br><span class="line">        PointF point = new PointF();</span><br><span class="line">        float temp = 1 - t;</span><br><span class="line">        point.x = temp * temp * p0.x + 2 * t * temp * p1.x + t * t * p2.x;</span><br><span class="line">        point.y = temp * temp * p0.y + 2 * t * temp * p1.y + t * t * p2.y;</span><br><span class="line">        return point;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>叶脉的绘制，在节点一和节点二，分别加上两个向左和向右伸展开的Path路径即可。</p>
+<ul>
+<li>需要说明的是，<code>lineTo</code>和<code>rLineTo</code>的区别，<code>lineTo</code>的参数代表的就是目标参数，而<code>rLineTo</code>的参数代表的是，目标参数和起点参数的差值。</li>
+</ul>
+</li>
+<li><p>最后在<code>drawGraph</code>函数中，启动这个动画集合：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public void drawGraph(Canvas canvas, Paint paint) &#123;</span><br><span class="line">        if (mEngine.isStarted()) &#123;</span><br><span class="line">            canvas.drawPath(mMainPath, paint);</span><br><span class="line">            mMainPath.lineTo(mX, mY);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            mEngine.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="以上，就是本次项目的主要思路了。相关注释代码里都写的很清楚了，项目地址在这里。仿薄荷Loading动画，大家走过路过千万别忘了给个Star啊。"><a href="#以上，就是本次项目的主要思路了。相关注释代码里都写的很清楚了，项目地址在这里。仿薄荷Loading动画，大家走过路过千万别忘了给个Star啊。" class="headerlink" title="以上，就是本次项目的主要思路了。相关注释代码里都写的很清楚了，项目地址在这里。仿薄荷Loading动画，大家走过路过千万别忘了给个Star啊。"></a>以上，就是本次项目的主要思路了。相关注释代码里都写的很清楚了，项目地址在这里。<a href="https://github.com/JadynAi/LoadingLovely" target="_blank" rel="noopener">仿薄荷Loading动画</a>，大家走过路过千万别忘了给个Star啊。</h3>
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = '实现薄荷Loading动画'
+    }
+</script>
+
+                </div>
+                <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get" action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            AiLo
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description"></p><p>Android AI DeepLearning</p>
+<p></p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/11/02/anim_text/">文字动次打次，让文字动态绘制出来</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/08/19/bohe_path/">实现薄荷Loading动画</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/10/android-infinite-card/">低消耗、带回滚动画的仿探探交互效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/04/28/android-firefly/">Android萤火虫飞舞粒子效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/04/28/hello-world/">Hello World</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/04/28/android-firefly/">Android萤火虫飞舞粒子效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/11/02/anim_text/">文字动次打次，让文字动态绘制出来</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/04/28/hello-world/">Hello World</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/10/android-infinite-card/">低消耗、带回滚动画的仿探探交互效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/08/19/bohe_path/">实现薄荷Loading动画</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2017/08/19/bohe_path/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="/2017/08/19/bohe_path/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/Canvas动画/" style="font-size: 15.158500151704583px;" class="tag-cloud-link">Canvas动画</a>
+    
+    <a href="/tags/Android/" style="font-size: 16.101870300506416px;" class="tag-cloud-link">Android</a>
+    
+    <a href="/tags/交互体验/" style="font-size: 19.322920124788173px;" class="tag-cloud-link">交互体验</a>
+    
+</div>
+                
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/JadynAi/" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://juejin.im/user/566d95f260b2ed36d9580add" target="_blank">juejin</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 AiLo Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+</body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://myau.moe/js/comment/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Sat Aug 19 2017 00:00:00 GMT+0800'
+      window.commentConfig.owner = 'JadynAi'
+      window.commentConfig.repo = 'JadynAi.github.io'
+      window.commentConfig.client_id = 'b199888872a9ccadaa16'
+      window.commentConfig.client_secret = '6230f262fc987c09b996cbd106c2a2d651c6486a'
+      window.commentConfig.redirect_uri = ''
+    } else {
+      window.commentConfig = {
+      	id: 'Sat Aug 19 2017 00:00:00 GMT+0800',
+        owner: 'JadynAi',
+        repo: 'JadynAi.github.io',
+        client_id: 'b199888872a9ccadaa16',
+        client_secret: '6230f262fc987c09b996cbd106c2a2d651c6486a',
+        redirect_uri: ''
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

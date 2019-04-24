@@ -12,7 +12,7 @@
     
     
     
-    <title>Android萤火虫飞舞粒子效果 | Life is Like A Boat</title>
+    <title>实用性MAX!像普通View一样自由使用的粒子组件 | Life is Like A Boat</title>
     <link href="”https://yoursite.com“" rel="”prefetch”">
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -180,13 +180,13 @@
         <i class="fa fa-home"></i>
         <a href="https://yoursite.com">Life is Like A Boat</a>
         >
-        <span>Android萤火虫飞舞粒子效果</span>
+        <span>实用性MAX!像普通View一样自由使用的粒子组件</span>
     </div>
     <!-- 大型设备详细文章 -->
     <div class="hidden-xs">
         <div class="title-article">
             <h1>
-                <a href="/2017/04/28/android-firefly/">Android萤火虫飞舞粒子效果</a>
+                <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
             </h1>
         </div>
         <div class="tag-article">
@@ -201,7 +201,7 @@
             </span>
             
             <span class="label label-gal">
-                <i class="fa fa-calendar"></i> 2017-04-28
+                <i class="fa fa-calendar"></i> 2017-06-28
             </span>
             
         </div>
@@ -211,11 +211,11 @@
         <center>
             <div class="title-article">
                 <h4>
-                    <a href="/2017/04/28/android-firefly/">Android萤火虫飞舞粒子效果</a>
+                    <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
                 </h4>
             </div>
             <p>
-                <i class="fa fa-calendar"></i> 2017-04-28
+                <i class="fa fa-calendar"></i> 2017-06-28
             </p>
             <p>
                 
@@ -231,52 +231,44 @@
         </center>
     </div>
     <div class="content-article">
-        <p><a href="https://github.com/JadynAi/Particle" target="_blank" rel="noopener">GitHub地址</a></p>
-<blockquote>
-<p>原创文章，转载请注明出处</p>
+        <blockquote>
+<p>原创文章，转载请注明出处。<br>之前作过一篇<a href="http://ailoli.me/2017/05/03/Android%E7%B2%92%E5%AD%90%E7%89%B9%E6%95%88%E4%B9%8B-%E8%90%A4%E7%81%AB%E8%99%AB%E9%A3%9E%E8%88%9E%E6%95%88%E6%9E%9C/" target="_blank" rel="noopener">萤火虫飞舞粒子效果</a>，当时看还不错。无论是性能还是UI都满足了当时的设计效果，但实际应用到项目中，却发现由于<code>SurfaceView</code>其本身是绘制在<code>window</code>层面上的，对<code>View</code>本身的属性有很多的限制，用起来却不是很实在，还存在着很多不足。</p>
+<p>于是便将之前的效果重新写了一下，改用继承View来实现，虽然说和<code>SurfaceView</code>相比，在绘制性能上有那么一丝丝的不足 。但轮子本质的含义还是为了服务于项目，项目中方便的使用才是最重要的。</p>
 </blockquote>
-<h2 id="萤火虫飞舞粒子效果"><a href="#萤火虫飞舞粒子效果" class="headerlink" title="萤火虫飞舞粒子效果"></a>萤火虫飞舞粒子效果</h2><blockquote>
-<p>本项目中我提供了两种方案，最终呈现的效果如下：</p>
-</blockquote>
-<p><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/20170428-blog-particle.gif" alt></p>
-<p><strong>先奉上GitHub地址</strong><a href="https://github.com/JadynAi/Particle" target="_blank" rel="noopener">戳这里</a>，有兴趣的同鞋star一下咯</p>
-<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>Android的粒子效果、粒子动画，已经有很多开源的轮子了。作为一个坚定的轮子主义者，我google了大半天，却没有找到这种类似于萤火虫飞舞的效果。只好自己来实现这种效果。</p>
+<h6 id="阅读本文，大概需要三分半钟。如果需要直观看代码的话请点这里点这里！！"><a href="#阅读本文，大概需要三分半钟。如果需要直观看代码的话请点这里点这里！！" class="headerlink" title="阅读本文，大概需要三分半钟。如果需要直观看代码的话请点这里点这里！！"></a><em>阅读本文，大概需要三分半钟。如果需要直观看代码的话</em><a href="https://github.com/JadynAi/Particle" target="_blank" rel="noopener">请点这里点这里！！</a></h6><h4 id="首先看一下效果图"><a href="#首先看一下效果图" class="headerlink" title="首先看一下效果图"></a>首先看一下效果图</h4><p><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/20170628-blog_particle.gif" alt></p>
+<h4 id="接着分析实现过程中的几个问题"><a href="#接着分析实现过程中的几个问题" class="headerlink" title="接着分析实现过程中的几个问题"></a>接着分析实现过程中的几个问题</h4><ul>
+<li>如何保持不间断的绘制</li>
+<li>粒子的运动轨迹控制（随机方向，碰到边界回弹以及旋转）</li>
+</ul>
 <hr>
-<p>相比较普通的View，SurfaceView更加适合这种不断变化的画面，所以选择SurfaceView来实现。现在把思路再重新梳理一下：</p>
-<ul>
-<li>大小不同的粒子在区域内随机分布</li>
-<li>粒子做无规则运动，然后消失</li>
-</ul>
-<h5 id="粒子区域内随机分布"><a href="#粒子区域内随机分布" class="headerlink" title="粒子区域内随机分布"></a>粒子区域内随机分布</h5><p>这个简单，我们在callBack的方法内直接循环生成一个粒子的数组即可。方位的话使用Random即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">if (mCircles.size() == 0) &#123;</span><br><span class="line">    for (int i = 0; i &lt; MAX_NUM; i++) &#123;</span><br><span class="line">        FloatParticleLine f = new FloatParticleLine(getF() * mMeasuredWidth, getF() * mMeasuredHeight, mMeasuredWidth, mMeasuredHeight);</span><br><span class="line">        f.setRadius(mRandom.nextInt(2) + 1.2f);</span><br><span class="line">        mCircles.add(f);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">private float getF() &#123;</span><br><span class="line">        float v = mRandom.nextFloat();</span><br><span class="line">        if (v &lt; 0.2f) &#123;</span><br><span class="line">            return v + 0.2f;</span><br><span class="line">        &#125; else if (v &gt;= 0.85f) &#123;</span><br><span class="line">            return v - 0.2f;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return v;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="问题1：如何保持不间断的绘制"><a href="#问题1：如何保持不间断的绘制" class="headerlink" title="问题1：如何保持不间断的绘制"></a>问题1：如何保持不间断的绘制</h5><p>​       <code>View</code> 的粒子绘制本身实在<code>onDraw</code>中进行的，所以最开始我的方案是在<code>canvas</code>绘制完一波之后，继续调用</p>
+<p><code>invalidate()</code>方法，这样就形成了一个死循环，就达到了不间断重复绘制的效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">    super.onDraw(canvas);</span><br><span class="line">    canvas.save();</span><br><span class="line">    //粒子的一波绘制</span><br><span class="line">    for (Particle circle : mCircles) &#123;</span><br><span class="line">        circle.drawItem(canvas);</span><br><span class="line">    &#125;</span><br><span class="line">    canvas.restore();</span><br><span class="line">    invalidate();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>getF（）方法是限制在区域内取值，mMeasuredWidth、mMeasuredHeight为SurfaceView的宽和高。</p>
-<p>这里的宽和高在粒子对象FloatParticleLine，内会用到。</p>
+<p>这里需要注意的是，canvas的绘制是一个阻塞的过程，也就是从<code>canvas.save()</code>方法之后，一直到<code>invalidate()</code>之前，是阻塞的。</p>
+<p>重绘是会一直等到所有的粒子绘制完成之后，才会继续调起的。</p>
 </blockquote>
-<p>然后我们在创建一个线程，在run（）方法内做无线循环的绘制即可，为了避免无意义的绘制，可以使用Thread.sleep方法来控制帧数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">while (isRun) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        mCanvas = mHolder.lockCanvas(null);</span><br><span class="line">        if (mCanvas != null) &#123;</span><br><span class="line">            synchronized (mHolder) &#123;</span><br><span class="line">                // 清屏</span><br><span class="line">                mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);</span><br><span class="line"></span><br><span class="line">                for (FloatParticleLine circle : mCircles) &#123;</span><br><span class="line">                    circle.drawItem(mCanvas);</span><br><span class="line">                &#125;</span><br><span class="line">                // 控制帧数</span><br><span class="line">                Thread.sleep(25);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        if (mCanvas != null) &#123;</span><br><span class="line">            mHolder.unlockCanvasAndPost(mCanvas);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>isRun的变量我们会在SurfaceView内callBack的surfaceDestroyed方法中置为false</p>
-<h5 id="粒子做无规则运动"><a href="#粒子做无规则运动" class="headerlink" title="粒子做无规则运动"></a>粒子做无规则运动</h5><ul>
-<li>方案一</li>
+<h6 id="Tips："><a href="#Tips：" class="headerlink" title="Tips："></a>Tips：</h6><ul>
+<li>canvas的save和restore方法是搭配使用的。save存储之前的canvas状态，restore恢复save之前的状态。</li>
+<li>save方法是可以多次使用的，可以搭配使用的是方法restoreToCount(saveCount)。参数saveCount从1开始计数，表示可以恢复到第几次save之前的状态。</li>
 </ul>
-<p>其实看到这种粒子效果，首先应该想到的就是Canvas了。</p>
-<p>在SurfaceView里就是通过不断地循环调用FloatParticleLine类的drawItem（）方法来实现粒子的运动。我第一种方案的实现，就是每一个粒子在被创建出来的时候，就随机选择一个方向开始运动，滑过一定的轨迹之后让其消失就好了。</p>
-<p>至于怎么选择随机方向，我这里的做法是，分别随机生成一个x和y轴上的递增或者递减的数值，然后每次在前一次绘制的基础上，x和y分别递增递减，直到运动到屏幕边缘或者是规定的运动距离满足了再消失即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//随机生成参数</span><br><span class="line">private void setRandomParm() &#123;</span><br><span class="line">    // 2017/5/2-上午10:47 x和y的方向</span><br><span class="line">    mIsAddX = mRandom.nextBoolean();</span><br><span class="line">    mIsAddY = mRandom.nextBoolean();</span><br><span class="line"></span><br><span class="line">    // 2017/5/2-上午10:47 x和y的取值</span><br><span class="line">    mDisX = mRandom.nextInt(2) + 0.2f;</span><br><span class="line">    mDisY = mRandom.nextInt(2) + 0.3f;</span><br><span class="line"></span><br><span class="line">    // 2017/5/2-上午10:47 内部区域的运动最远距离</span><br><span class="line">    mDistance = mRandom.nextInt((int) (0.25f * mWidth)) + (0.125f * mWidth);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>绘制图形：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public void drawItem(Canvas canvas) &#123;</span><br><span class="line">    if (mX == mStartX) &#123;</span><br><span class="line">        mPaint.setAlpha(ALPHA_MAX);</span><br><span class="line">    &#125;</span><br><span class="line">    //绘制</span><br><span class="line">    canvas.drawCircle(mX += getPNValue(mIsAddX, mDisX), mY += getPNValue(mIsAddY, mDisY), mRadius, mPaint);</span><br><span class="line">    //内部区域运动到一定距离消失</span><br><span class="line">    if (judgeInner()) &#123;</span><br><span class="line">        float gapX = Math.abs(mX - mStartX);</span><br><span class="line">        float ratio = 1 - (gapX / mDistance);</span><br><span class="line">        mPaint.setAlpha((int) (255 * ratio));</span><br><span class="line">        mRadius = mStartRadius * ratio;</span><br><span class="line">        if (gapX &gt;= mDistance || mY - mStartY &gt;= mDistance) &#123;</span><br><span class="line">            resetDisXY();</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    //外部区域运动到屏幕边缘消失</span><br><span class="line">    if (judgeOutline()) &#123;</span><br><span class="line">        resetDisXY();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void resetDisXY() &#123;</span><br><span class="line">        setRandomParm();</span><br><span class="line"></span><br><span class="line">        mPaint.setAlpha(0);</span><br><span class="line">        mX = mStartX;</span><br><span class="line">        mY = mStartY;</span><br><span class="line">        mRadius = mStartRadius;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>​      这种方式的缺点在demo完成之后很明显的体现了出来。第一，速度不可控制，譬如有些时候恰恰需要粒子变慢一点呢。使用这种方式就不太好实现了。第二，粒子动画的播放和暂停实现起来不优雅，诚然写一个布尔值来控制也可以，但也难免………………太不优雅了吧。反正我个人是比较不喜欢写这种代码的。</p>
+<p>​      那么，最终我的实现方式，是采用了属性动画来实现的，没错——就是<code>ValueAnimator</code>。来看代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private ValueAnimator mParticleAnim;</span><br><span class="line">-----------------</span><br><span class="line">mParticleAnim = ValueAnimator.ofInt(0).setDuration(30);</span><br><span class="line">mParticleAnim.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line">mParticleAnim.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationRepeat(Animator animation) &#123;</span><br><span class="line">        super.onAnimationRepeat(animation);</span><br><span class="line">        Log.d(TAG, &quot;onAnimationRepeat: &quot; + System.currentTimeMillis());</span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>judgeInner()和judgeOutline()是判断区域的方法，内部区域的点和外部区域的店消失时机不同</p>
+<p>这段代码展示出来，你懂得。</p>
+<p>在一个无限循环的属性动画里，在Repeat监听事件里，调用<code>View</code>的<code>invalidate</code>方法重绘。这样每次触发重绘的时间间隔就是属性动画的持续时间。</p>
+<p>要是想控制粒子的运动速率，那么只需要调整动画的持续时间即可。</p>
+<p>而且如果要对外暴露粒子动画开始或者停止的方法，只需要控制属性动画的<code>start</code>和<code>stop</code>就行了。</p>
 </blockquote>
-<p>在透明度为0也就是粒子消失时，让粒子回到原点，再重新选择一个方向，进行下一步运动轨迹。</p>
-<ul>
-<li>方案二</li>
-</ul>
-<p>方案二粒子做的运动是贝塞尔曲线，函数实在网上找到的一个函数。每当粒子做完一次曲线运动后，再随机生成一段新的贝塞尔曲线即可。</p>
-<p>思路和方案一的思路都是一样的，无非就是运动的轨迹不同而已。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>做完之后回头再看，发现这个项目的原理其实并不难，可以说是简单了。但刚开始起步的时候真的还是比较懵的，原因就是没有思路。</p>
-<p>所以做任何效果，思路最重要。</p>
-
+<h5 id="问题2：粒子的运动轨迹"><a href="#问题2：粒子的运动轨迹" class="headerlink" title="问题2：粒子的运动轨迹"></a>问题2：粒子的运动轨迹</h5><p>​       在构建轮子的时候，思路其实一直都很清晰。<code>View</code>层级主要是调起和控制绘制。具体要绘制什么东西和路线的控制都由粒子对象内部来实现。这样就可以贯彻单一原则，各自负责各自的东西，降低耦合性。</p>
+<p>​       我们来看一下粒子对象<code>Particle</code>内的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public Particle(Bitmap drawBitmap, Matrix matrix, Paint paint, float x, float y, int width, int height) &#123;</span><br><span class="line">	//绘制的bitmap对象和矩阵对象，矩阵用来控制旋转和运动方向</span><br><span class="line">    mDrawBitmap = drawBitmap;</span><br><span class="line">    mBitmapMatrix = matrix;</span><br><span class="line"></span><br><span class="line">    mDrawBitmapWidth = drawBitmap.getWidth();</span><br><span class="line">    mDrawBitmapHeight = drawBitmap.getHeight();</span><br><span class="line"></span><br><span class="line">    mBitmapCenterX = mDrawBitmapWidth / 2f;</span><br><span class="line">    mBitmapCenterY = mDrawBitmapHeight / 2f;</span><br><span class="line"></span><br><span class="line">	//画笔对象</span><br><span class="line">    mPaint = paint;</span><br><span class="line">	//view 的宽和高用来判断边界</span><br><span class="line">    this.mWidth = width;</span><br><span class="line">    this.mHeight = height;</span><br><span class="line">    //粒子运动的坐标</span><br><span class="line">    this.mX = x;</span><br><span class="line">    this.mY = y;</span><br><span class="line">	//粒子的开始坐标</span><br><span class="line">    mStartX = x;</span><br><span class="line">    mStartY = y;</span><br><span class="line">	//x 和y轴的运动方向选择，随机函数</span><br><span class="line">    mIsAddX = mRandom.nextBoolean();</span><br><span class="line">    mIsAddY = mRandom.nextBoolean();</span><br><span class="line"></span><br><span class="line">    setRandomParm();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void setRandomParm() &#123;</span><br><span class="line">	//x 和 y轴每次运动的距离和每次旋转的角度，随机值</span><br><span class="line">     mDisX = mRandom.nextInt(2) + 1.2f;</span><br><span class="line">     mDisY = mRandom.nextInt(2) + 1.2f;</span><br><span class="line">     mAddDegree = mRandom.nextInt(5) + 3f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​         运动轨迹这方面只需要随机出来x和y轴的方向，还有每次递增或者递减的值即可。怎么样是不是丝毫没有技术难度啊。好了，看绘制和到边界的处理代码吧。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public void drawItem(Canvas canvas) &#123;</span><br><span class="line">    //绘制</span><br><span class="line">    mBitmapMatrix.reset();</span><br><span class="line">    mBitmapMatrix.preTranslate(mX += getPNValue(mIsAddX, mDisX), mY += getPNValue(mIsAddY, mDisY));</span><br><span class="line">    mBitmapMatrix.preRotate(mDegrees += mAddDegree, mBitmapCenterX, mBitmapCenterY);</span><br><span class="line">    canvas.drawBitmap(mDrawBitmap, mBitmapMatrix, mPaint);</span><br><span class="line">    Log.d(TAG, &quot;mX : &quot; + mX);</span><br><span class="line">    Log.d(TAG, &quot;mY : &quot; + mY);</span><br><span class="line">    judgeOutline();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void judgeOutline() &#123;</span><br><span class="line">    boolean judgeX = mX &lt;= 0 || mX &gt;= (mWidth - mDrawBitmapWidth);</span><br><span class="line">    boolean judgeY = mY &lt;= 0 || mY &gt;= (mHeight - mDrawBitmapHeight);</span><br><span class="line">    if (judgeX) &#123;</span><br><span class="line">        mIsAddX = !mIsAddX;</span><br><span class="line">        mIsAddY = mRandom.nextBoolean();</span><br><span class="line">        setRandomParm();</span><br><span class="line">        if (mX &lt;= 0) &#123;</span><br><span class="line">            mX = 0;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            mX = mWidth - mDrawBitmapWidth;</span><br><span class="line">        &#125;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (judgeY) &#123;</span><br><span class="line">        mIsAddY = !mIsAddY;</span><br><span class="line">        mIsAddX = mRandom.nextBoolean();</span><br><span class="line">        setRandomParm();</span><br><span class="line">        if (mY &lt;= 0) &#123;</span><br><span class="line">            mY = 0;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            mY = mHeight - mDrawBitmapHeight;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​         以上就是粒子对象内部的运动轨迹和边界判断代码了，怎样，是不是超级简单呢？</p>
+<p>​    <img src="http://ubq.ubiaoqing.com/ubiaoqing98134eb63a4fca7ea739c6e566ca71e7.jpg" alt></p>
+<h3 id="好了，如果你喜欢我的文章的话，那么请不要犹豫，给我一个star吧。GitHub地址：这里这里！！"><a href="#好了，如果你喜欢我的文章的话，那么请不要犹豫，给我一个star吧。GitHub地址：这里这里！！" class="headerlink" title="好了，如果你喜欢我的文章的话，那么请不要犹豫，给我一个star吧。GitHub地址：这里这里！！"></a>好了，如果你喜欢我的文章的话，那么请不要犹豫，给我一个star吧。GitHub地址：<a href="https://github.com/JadynAi/Particle" target="_blank" rel="noopener">这里这里！！</a></h3>
     </div>
 </article>
 
@@ -286,7 +278,7 @@
 <script>
 	if(!window.commentConfig) {
       window.commentConfig = {}
-      window.commentConfig.title = 'Android萤火虫飞舞粒子效果'
+      window.commentConfig.title = '实用性MAX!像普通View一样自由使用的粒子组件'
     }
 </script>
 
@@ -442,13 +434,13 @@
 
                 
                 <li>
-                    <a href="/2017/04/28/android-firefly/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                    <a href="/2017/06/28/android_partical/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
                 </li>
                 
                 
                 
                 <li>
-                    <a href="/2017/04/28/android-firefly/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                    <a href="/2017/06/28/android_partical/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
                 </li>
                 
             </ul>
@@ -456,11 +448,11 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/Canvas动画/" style="font-size: 13.386299589689955px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 8.301230850005789px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/Android/" style="font-size: 12.742771421425589px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 17.358168062665484px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/交互体验/" style="font-size: 13.98560575916124px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 18.382446828563943px;" class="tag-cloud-link">交互体验</a>
     
 </div>
                 
@@ -554,7 +546,7 @@
 <script src="https://myau.moe/js/comment/gitment.browser.js"></script>
 <script>
     if(window.commentConfig) {
-      window.commentConfig.id = 'Fri Apr 28 2017 16:39:32 GMT+0800'
+      window.commentConfig.id = 'Wed Jun 28 2017 00:00:00 GMT+0800'
       window.commentConfig.owner = 'JadynAi'
       window.commentConfig.repo = 'JadynAi.github.io'
       window.commentConfig.client_id = 'b199888872a9ccadaa16'
@@ -562,7 +554,7 @@
       window.commentConfig.redirect_uri = ''
     } else {
       window.commentConfig = {
-      	id: 'Fri Apr 28 2017 16:39:32 GMT+0800',
+      	id: 'Wed Jun 28 2017 00:00:00 GMT+0800',
         owner: 'JadynAi',
         repo: 'JadynAi.github.io',
         client_id: 'b199888872a9ccadaa16',

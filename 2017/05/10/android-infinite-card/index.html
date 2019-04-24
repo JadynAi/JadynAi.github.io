@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="AiLo">
+    
+    <meta name="description" content="Android AI DeepLearning">
+    
+    
+    
+    
+    
+    
+    <title>低消耗、带回滚动画的仿探探交互效果 | Life is Like A Boat</title>
+    <link href="”https://yoursite.com“" rel="”prefetch”">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+</head></html>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://yoursite.com" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse" aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://yoursite.com">
+                
+                <!-- 这里background使用imgs/${logo_image}(路径文件名) -->
+                <style>
+                    #gal-header .navbar-brand {
+                        width: 200px;
+                        height: 50px;
+                        display: block;
+                        background: url('/imgs/favicon.png') no-repeat;
+                    }
+                </style>
+                    
+                <div class="navbar-brand"></div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class>
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class>
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/Canvas动画/">Canvas动画</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Android/">Android</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/交互体验/">交互体验</a>
+                        </li>
+                        
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 gal-right" id="mainstay">
+                    
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://yoursite.com">Life is Like A Boat</a>
+        >
+        <span>低消耗、带回滚动画的仿探探交互效果</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2017/05/10/android-infinite-card/">低消耗、带回滚动画的仿探探交互效果</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Android/">Android</a>, 
+                
+                <a href="/tags/交互体验/">交互体验</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2017-05-10
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2017/05/10/android-infinite-card/">低消耗、带回滚动画的仿探探交互效果</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2017-05-10
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Android/">Android</a>, 
+                
+                <a href="/tags/交互体验/">交互体验</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <blockquote>
+<p>原创文章，转载请注明出处。</p>
+</blockquote>
+<blockquote>
+<p>前段时间项目中有一个仿探探的交互界面，写代码的过程中，觉得效果还不错。就把思路和原理记录了下来，分享一下。</p>
+</blockquote>
+<p><strong>先奉上GitHub地址，大家感兴趣可以来个star</strong><a href="https://github.com/JadynAi/InfinateCard" target="_blank" rel="noopener"><strong>InfinateCard</strong></a></p>
+<h4 id="套路还是要走一下的，先给大家看一下效果图"><a href="#套路还是要走一下的，先给大家看一下效果图" class="headerlink" title="套路还是要走一下的，先给大家看一下效果图:"></a>套路还是要走一下的，先给大家看一下效果图:</h4><p><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/20170510infinite_card.gif" alt></p>
+<blockquote>
+<p>真机上一点都不卡！一点都不卡！不卡！！！</p>
+</blockquote>
+<h3 id="又学习了一些录制GIF的方法，这次来一张真机的效果！！"><a href="#又学习了一些录制GIF的方法，这次来一张真机的效果！！" class="headerlink" title="又学习了一些录制GIF的方法，这次来一张真机的效果！！"></a><em>又学习了一些录制GIF的方法，这次来一张真机的效果！！</em></h3><p><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/20170510infinite_card_real_phone.gif" alt></p>
+<h4 id="会用到的知识点"><a href="#会用到的知识点" class="headerlink" title="会用到的知识点"></a>会用到的知识点</h4><ul>
+<li>Recyclerview的layoutManager实现布局</li>
+<li>使用<a href="https://developer.android.com/reference/android/support/v7/widget/helper/ItemTouchHelper.html" target="_blank" rel="noopener">ItemTouchHelper</a>处理滑动事件</li>
+<li>手指滑动过程中，view的UI渐变（透明度或者其它）</li>
+<li>RecyclerView的ItemAnimator实现回滚动画</li>
+</ul>
+<hr>
+<h5 id="1、LayoutManger"><a href="#1、LayoutManger" class="headerlink" title="1、LayoutManger"></a>1、LayoutManger</h5><pre><code>众所周知，Recyclerview之所以强大，完全在于它百变的适应性。它能实现任何你想要的布局样式，而它的奥秘就在于LayoutManger。
+</code></pre><p>​    本次项目中我们UI效果仿照探探的样式，是卡牌样式的堆叠效果，按照List集合的顺序沿着Z轴纵向深处排列。<strong>这里有一个值得注意的Tip</strong>，子view是按照list集合的顺序去绘制的，也就是在这个我们自定义的LayoutManger里，第二个view会覆盖第一个，第三个会覆盖第二个，以此类推。如果我们想要第一眼就看到List集合的第一个，那么必须将list集合reverse后，再来绘制。</p>
+<p>​    好了，我们来看代码。LayoutManger的精髓其实就在于onLayoutChildren（……）这个方法，通过这个方法来实现自定义的布局。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) &#123;</span><br><span class="line">    int itemCount = getItemCount();</span><br><span class="line">    // 代码的稳健之道，就在于该保护的地方一定要保护</span><br><span class="line">    if (itemCount == 0) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    detachAndScrapAttachedViews(recycler);</span><br><span class="line">    for (int position = 0; position &lt; itemCount; position++) &#123;</span><br><span class="line">        View view = recycler.getViewForPosition(position);</span><br><span class="line">        addView(view);</span><br><span class="line">        measureChildWithMargins(view, 0, 0);</span><br><span class="line">        int widthSpace = getWidth() - getDecoratedMeasuredWidth(view);</span><br><span class="line">        int heightSpace = getHeight() - getDecoratedMeasuredHeight(view);</span><br><span class="line">        // recyclerview 布局</span><br><span class="line">        layoutDecoratedWithMargins(view, widthSpace / 2, heightSpace / 2,</span><br><span class="line">                widthSpace / 2 + getDecoratedMeasuredWidth(view),</span><br><span class="line">                heightSpace / 2 + getDecoratedMeasuredHeight(view));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>​    很多人看到这里，肯定会喷出一句“卧槽！这就完了，就这点代码？”</p>
+<p>​    没错，如果不追求精细的话，这点代码确实可以搞定这个布局样式。现在我们来逐行分析一下代码。</p>
+<ul>
+<li><code>detachAndScrapAttachedViews(recycler)</code>这个方法就是将所有的view缓存在<strong>scrap</strong>里。Recyclerview有二级缓存，<strong>scrap</strong>和<strong>Recycle</strong>。使用Detach方式处理的view缓存在<strong>scrap</strong>里，用的时候不需要重新绑定数据。Remove方式处理的view缓存在<strong>Recycle</strong>里，使用的时候会重新绑定数据。</li>
+<li>接下来的for循环代码就简单的多了，无非就是获得view的宽高信息，将其布局在Recyclerview内</li>
+</ul>
+<blockquote>
+<p>当然，如果只是以上那些简单的代码，未免也太对不起Recyclerview了。毕竟Recyclerview最强大的地方就是对view的回收和利用了，要不然为什么叫Recycler呢。</p>
+</blockquote>
+<h6 id="对子view的回收利用"><a href="#对子view的回收利用" class="headerlink" title="对子view的回收利用"></a>对子view的回收利用</h6><p>​    首先这种卡牌叠层的交互模式，不需要展示那么多的view，也就是我们仅仅需要让前几个view展示出来就可以了。其他的view，放在<strong>scrap</strong>缓存里即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) &#123;</span><br><span class="line">    int itemCount = getItemCount();</span><br><span class="line">    // 代码的稳健之道，就在于该保护的地方一定要保护</span><br><span class="line">    if (itemCount == 0) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    detachAndScrapAttachedViews(recycler);</span><br><span class="line">    // 测量子view的位置信息并储存</span><br><span class="line">    for (int position = 0; position &lt; itemCount; position++) &#123;</span><br><span class="line">        // 根据position获取一个碎片view，可以从回收的view中获取，也可能新构造一个</span><br><span class="line">        View view = recycler.getViewForPosition(position);</span><br><span class="line">        Log.d(TAG, &quot;recycler&quot; + view.getTag().toString());</span><br><span class="line">        addView(view);</span><br><span class="line">        if (mViewInfo == null) &#123;</span><br><span class="line">        	// 计算此碎片view包含边距的尺寸</span><br><span class="line">        	measureChildWithMargins(view, 0, 0);</span><br><span class="line">        	// getDecoratedMeasuredWidth方法是获取此碎片view包含边距和装饰的宽度width</span><br><span class="line">        	int widthSpace = getWidth() - getDecoratedMeasuredWidth(view);</span><br><span class="line">        	int heightSpace = getHeight() - getDecoratedMeasuredHeight(view);</span><br><span class="line">            mViewInfo = new Rect();</span><br><span class="line">            int left = widthSpace / 2;</span><br><span class="line">            int top = heightSpace / 2;</span><br><span class="line">            int right = widthSpace / 2 + getDecoratedMeasuredWidth(view);</span><br><span class="line">            int bottom = heightSpace / 2 + getDecoratedMeasuredHeight(view);</span><br><span class="line">            mViewInfo.set(left, top, right, bottom);</span><br><span class="line">        &#125;</span><br><span class="line">        detachAndScrapView(view, recycler);</span><br><span class="line">    &#125;</span><br><span class="line">    LayoutItems(recycler, state);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>我们将view的位置信息使用一个<code>Rect</code>对象来保存，因为<code>layoutDecorated(View child, int left, int top, int right, int bottom)</code>这个函数的参数是整型。<code>Rect</code>和<code>RecF</code>两个对象最大的区别就是精度区别了。</li>
+<li>然后将每个子view通过方法<code>detachAndScrapView</code>缓存到<strong>scrap</strong>内</li>
+<li>最后通过<code>LayoutItems(recycler, state)</code>方法将需要展示的view展示出来，注释已经很清楚了哈</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 回收不需要的Item，并且将需要显示的Item从缓存中取出</span><br><span class="line"> */</span><br><span class="line">private void LayoutItems(RecyclerView.Recycler recycler, RecyclerView.State state) &#123;</span><br><span class="line">    // 当数量大于临界点才需要回收view</span><br><span class="line">    boolean isMeetNum = getItemCount() &gt; CardConfig.MAX_SHOW_INDEX + 1;</span><br><span class="line">    if (isMeetNum) &#123;</span><br><span class="line">        for (int i = CardConfig.MAX_SHOW_INDEX + 1; i &lt; getItemCount(); i++) &#123;</span><br><span class="line">            View child = recycler.getViewForPosition(i);</span><br><span class="line">            removeAndRecycleView(child, recycler);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    // 展示需要展示的view</span><br><span class="line">    for (int i = isMeetNum ? CardConfig.MAX_SHOW_INDEX : getItemCount() - 1; i &gt;= 0; i--) &#123;</span><br><span class="line">        View scrap = recycler.getViewForPosition(i);</span><br><span class="line">        measureChildWithMargins(scrap, 0, 0);</span><br><span class="line">        addView(scrap);</span><br><span class="line">        //将这个item布局出来</span><br><span class="line">        layoutDecorated(scrap, mViewInfo.left, mViewInfo.top, mViewInfo.right, mViewInfo.bottom);</span><br><span class="line">        int translateY = i * CardConfig.CARD_VERTICAL_GAP;</span><br><span class="line">        ViewCompat.setTranslationY(scrap, -translateY);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个方法中，将不需要展示的view全部remove，然后将需要展示的view布局出来。</p>
+</blockquote>
+<h5 id="2、使用ItemTouchHelper实现滑动"><a href="#2、使用ItemTouchHelper实现滑动" class="headerlink" title="2、使用ItemTouchHelper实现滑动"></a>2、使用ItemTouchHelper实现滑动</h5><p>​    ItemTouchHelper是一个为Recyclerview提供   <code>Swipe、drag、drop</code>事件的工具类。使用方法也很简单，推荐大家看<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0630/3123.html" target="_blank" rel="noopener">泡网</a>的这一片入门文章，思路很清晰。</p>
+<p>​    本次项目中使用的是ItemTouchHelper本身提供的一个帮助类   <code>SimpleCallback</code>，使用方法其实很简单。它的构造参数有两个值，一个是<code>dragDirs</code>长按的方向，另一个是<code>swipeDirs</code>滑动的方向。可以看看SImpleCallBack的源码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public SimpleCallback(int dragDirs, int swipeDirs) &#123;</span><br><span class="line">    mDefaultSwipeDirs = swipeDirs;</span><br><span class="line">    mDefaultDragDirs = dragDirs;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    而我们只需要滑动，所以构造参数中只需要实现 <code>swipe</code> 即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//不支持长按拖拽，支持swipe，而且四个方向皆可以swipe</span><br><span class="line">this(0, ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT）</span><br></pre></td></tr></table></figure>
+<p>​    然后应用此 <code>ItemTouchHelper</code> 即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CardItemTouchHelperCallback cardCallback = new CardItemTouchHelperCallback(mRecyclerView, mRecyclerView.getAdapter(), list);</span><br><span class="line">ItemTouchHelper touchHelper = new ItemTouchHelper(cardCallback);</span><br><span class="line">touchHelper.attachToRecyclerView(mRecyclerView);</span><br></pre></td></tr></table></figure>
+<p>​    到这里 Recyclerview已经实现了四个方向的滑动了，但滑动之后的操作还需要再实现一下。我们在 </p>
+<p><code>onSwiped(RecyclerView.ViewHolder viewHolder, int direction)</code> 方法中实现 swipe之后的操作。这个方法有两个参数，<code>viewHolder</code>代表的就是此时滑动的viewholder，<code>direction</code> 代表的是这个view最终滑动的方向。在这个方法里，我们对数据源进行操作，然后刷新列表。</p>
+<blockquote>
+<p>在Recyclerview的Adapter的数据刷新上，我使用了扩展包提供的 <a href="http://blog.csdn.net/zxt0601/article/details/52562770" target="_blank" rel="noopener">DiffUtils</a>,是google提供的替换 <code>notifyDataSetChanged()无脑刷</code> 的方案。</p>
+</blockquote>
+<p>​    最后在 <code>onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive)</code> 方法中实现滑动时的动画。这个方法有多达七个参数，我来依次解释一下：</p>
+<blockquote>
+<ul>
+<li>c ，Recyclerview用来绘制children的画笔</li>
+<li>recyclerView，额……就是所依赖的Recyclerview</li>
+<li>viewHolder，当下滑动的这个view的viewHolder</li>
+<li>dX、dY，手指在控制滑动的时候，此view水平X轴和垂直Y轴位移的距离，单位像素</li>
+<li>actionState，标明此时是长按拖拽还是单纯的swipe</li>
+<li>isCurrentlyActive，标明此时滑动的view是处于手指控制状态，还是手指松开后的回弹动画状态</li>
+</ul>
+</blockquote>
+<p>​    了解了参数之后，在这个方法中就可以实现滑动时的动画了。<code>SimpleCallBack</code> 默认的对滑动距离判断的条件是，水平方向是Recyclerview宽的一半，垂直方向是Recyclerview高的一半。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//这个方法返回的值就是默认的阙值，想要更灵敏的话只需在自定义CallBack中重写这个方法，将值变小。更迟钝的话则反之</span><br><span class="line">public float getSwipeThreshold(ViewHolder viewHolder) &#123;</span><br><span class="line">    return .5f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    撸出来的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) &#123;</span><br><span class="line">        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);</span><br><span class="line">//        Log.d(TAG, &quot;onChildDraw dX : &quot; + dX);</span><br><span class="line">//        Log.d(TAG, &quot;onChildDraw dY : &quot; + dY);</span><br><span class="line">        Log.d(TAG, &quot;onChildDraw isCurrentlyActive: &quot; + isCurrentlyActive);</span><br><span class="line">        if (mItemW == 0) &#123;</span><br><span class="line">//            Log.d(TAG, &quot;onChildDraw getAdapterPosition : &quot; + viewHolder.getAdapterPosition());</span><br><span class="line">            mItemW = viewHolder.itemView.getWidth();</span><br><span class="line">            mHorJudgeDistance = recyclerView.getWidth() * getSwipeThreshold(viewHolder);</span><br><span class="line">            mVerJudgeDistance = recyclerView.getHeight() * getSwipeThreshold(viewHolder);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        float ratio;</span><br><span class="line">        if (Math.abs(dX) &gt; Math.abs(dY)) &#123;</span><br><span class="line">            //以宽为判定基准</span><br><span class="line">            ratio = Math.abs(dX) / mHorJudgeDistance;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            //以高为判定基准</span><br><span class="line">            ratio = Math.abs(dY) / mVerJudgeDistance;</span><br><span class="line">        &#125;</span><br><span class="line">        float realRatio = ratio &gt;= 1f ? 1f : ratio;</span><br><span class="line">        ViewCompat.setAlpha(viewHolder.itemView, 1 - realRatio);</span><br><span class="line"></span><br><span class="line">        boolean isMeetNum = recyclerView.getLayoutManager().getItemCount() &gt; CardConfig.MAX_SHOW_COUNT + 1;</span><br><span class="line">        int maxJudge = isMeetNum ? CardConfig.MAX_SHOW_COUNT - 1 : (recyclerView.getLayoutManager().getItemCount() - 1);</span><br><span class="line">        for (int i = 1; i &lt;= maxJudge; i++) &#123;</span><br><span class="line">            View itemView = recyclerView.findViewHolderForAdapterPosition(i).itemView;</span><br><span class="line">            float v = i * CardConfig.CARD_VERTICAL_GAP - realRatio * CardConfig.CARD_VERTICAL_GAP;</span><br><span class="line">            ViewCompat.setTranslationY(itemView, -v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3、使用ItenAnimator实现回滚动画"><a href="#3、使用ItenAnimator实现回滚动画" class="headerlink" title="3、使用ItenAnimator实现回滚动画"></a>3、使用ItenAnimator实现回滚动画</h5><p>​    <code>ItemAnimator</code> 我没有选择实现，而是使用了现成的轮子<a href="https://github.com/wasabeef/recyclerview-animators" target="_blank" rel="noopener"><strong>recyclerview-animators</strong></a>，没有选择远程库引入。而是将源代码copy进来，再进行了适当性的修改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mRecyclerView.setItemAnimator(new SlideAnimator());</span><br><span class="line">mRecyclerView.getItemAnimator().setAddDuration(250);</span><br></pre></td></tr></table></figure>
+<p>​    OK，到这里基本上就大功告成了，只剩下一些小细节和bug处理一下即可。在<code>CallBack</code> 类的 <code>onSwipe</code> 方法中将 <code>direction</code> 赋值到一个静态变量中，然后在 <code>SlideAnimator</code> 根据不同的方向实现不同的动画。</p>
+<p>​    在实现过程中，我发现回滚动画的那个view居然不是滑走的view，就使用了一个单例来管理数据。动画开始时将数据设置为滑走的view的数据，动画结束后再将动画view的数据还原。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) &#123;</span><br><span class="line">    Log.d(TAG, &quot;preAnimateAddImpl: &quot; + holder.itemView.getTag().toString());</span><br><span class="line">    DataExchangeMgr.getInstance().saveOrignData((int) holder.itemView.getTag(R.id.view_data));</span><br><span class="line">    //根据不同的方向设置不同的初始值</span><br><span class="line">    if (isHorizDirection()) &#123;</span><br><span class="line">        int width = holder.itemView.getRootView().getWidth();</span><br><span class="line">        ViewCompat.setTranslationX(holder.itemView, CardConfig.sViewholderDirection == ItemTouchHelper.LEFT ? -width : width);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        int height = holder.itemView.getRootView().getHeight();</span><br><span class="line">        ViewCompat.setTranslationY(holder.itemView, CardConfig.sViewholderDirection == ItemTouchHelper.UP ? -height : height);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">protected void animateAddImpl(final RecyclerView.ViewHolder holder) &#123;</span><br><span class="line">    //根据不同的方向选择不同的动画</span><br><span class="line">    ViewPropertyAnimatorCompat viewPropertyAnimatorCompat = ViewCompat.animate(holder.itemView)</span><br><span class="line">            .setDuration(getAddDuration())</span><br><span class="line">            .setInterpolator(mInterpolator)</span><br><span class="line">            .setListener(new DefaultAddVpaListener(holder) &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onAnimationStart(View view) &#123;</span><br><span class="line">                    super.onAnimationStart(view);</span><br><span class="line">                    //将此view数据设置为滑开的数据</span><br><span class="line">                    ((ImageView) mViewHolder.itemView.findViewById(R.id.show_img)).setImageResource(DataExchangeMgr.getInstance().getCurrentData());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                @Override</span><br><span class="line">                public void onAnimationCancel(View view) &#123;</span><br><span class="line">                    super.onAnimationCancel(view);</span><br><span class="line">                    //数据还原</span><br><span class="line">                    ((ImageView) mViewHolder.itemView.findViewById(R.id.show_img)).setImageResource(DataExchangeMgr.getInstance().getOrignalData());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                @Override</span><br><span class="line">                public void onAnimationEnd(View view) &#123;</span><br><span class="line">                    super.onAnimationEnd(view);</span><br><span class="line">                    //数据还原</span><br><span class="line">                    ((ImageView) mViewHolder.itemView.findViewById(R.id.show_img)).setImageResource(DataExchangeMgr.getInstance().getOrignalData());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .setStartDelay(50);</span><br><span class="line">    </span><br><span class="line">    if (isHorizDirection()) &#123;</span><br><span class="line">        viewPropertyAnimatorCompat</span><br><span class="line">                .translationX(0)</span><br><span class="line">                .start();</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        viewPropertyAnimatorCompat</span><br><span class="line">                .translationY(0)</span><br><span class="line">                .start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private boolean isHorizDirection() &#123;</span><br><span class="line">    return CardConfig.sViewholderDirection == ItemTouchHelper.LEFT || CardConfig.sViewholderDirection == ItemTouchHelper.RIGHT;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后感兴趣的可以看看代码，奉上GitHub地址。<a href="https://github.com/JadynAi/InfinateCard" target="_blank" rel="noopener"><strong>InfinateCard</strong></a></p>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = '低消耗、带回滚动画的仿探探交互效果'
+    }
+</script>
+
+                </div>
+                <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get" action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            AiLo
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description"></p><p>Android AI DeepLearning</p>
+<p></p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/11/02/anim_text/">文字动次打次，让文字动态绘制出来</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/08/19/bohe_path/">实现薄荷Loading动画</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/10/android-infinite-card/">低消耗、带回滚动画的仿探探交互效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/04/28/android-firefly/">Android萤火虫飞舞粒子效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/04/28/hello-world/">Hello World</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/04/28/android-firefly/">Android萤火虫飞舞粒子效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/11/02/anim_text/">文字动次打次，让文字动态绘制出来</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/04/28/hello-world/">Hello World</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/10/android-infinite-card/">低消耗、带回滚动画的仿探探交互效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/08/19/bohe_path/">实现薄荷Loading动画</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2017/05/10/android-infinite-card/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="/2017/05/10/android-infinite-card/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/Canvas动画/" style="font-size: 18.047733021010632px;" class="tag-cloud-link">Canvas动画</a>
+    
+    <a href="/tags/Android/" style="font-size: 10.95521459517014px;" class="tag-cloud-link">Android</a>
+    
+    <a href="/tags/交互体验/" style="font-size: 18.717571549579787px;" class="tag-cloud-link">交互体验</a>
+    
+</div>
+                
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/JadynAi/" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://juejin.im/user/566d95f260b2ed36d9580add" target="_blank">juejin</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 AiLo Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+</body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://myau.moe/js/comment/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Wed May 10 2017 16:59:31 GMT+0800'
+      window.commentConfig.owner = 'JadynAi'
+      window.commentConfig.repo = 'JadynAi.github.io'
+      window.commentConfig.client_id = 'b199888872a9ccadaa16'
+      window.commentConfig.client_secret = '6230f262fc987c09b996cbd106c2a2d651c6486a'
+      window.commentConfig.redirect_uri = ''
+    } else {
+      window.commentConfig = {
+      	id: 'Wed May 10 2017 16:59:31 GMT+0800',
+        owner: 'JadynAi',
+        repo: 'JadynAi.github.io',
+        client_id: 'b199888872a9ccadaa16',
+        client_secret: '6230f262fc987c09b996cbd106c2a2d651c6486a',
+        redirect_uri: ''
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>
