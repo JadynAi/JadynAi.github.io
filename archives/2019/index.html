@@ -37,7 +37,7 @@
       if (document.images) {
         var avatar = new Image();
         avatar.src = '/imgs/avatar.jpg'
-        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg,preview5.jpg'.split(',')
         var previewsPreLoad = []
         for(var i = 0; i < length; i++) {
           previewsPreLoad.push(new Image())
@@ -121,10 +121,33 @@
                 
                 
                 
-                <li class>
-                    <a href="/categories">
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
                         <i class="fa fa-list"></i>分类
                     </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/Android/">Android</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Android/音视频/">音视频</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Python/">Python</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/音视频/">音视频</a>
+                        </li>
+                        
+                        
+                        
+                    </ul>
                 </li>
                 
                 
@@ -446,31 +469,13 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2018/07/01/2018-07-01-glide-round/">提供一个Glide灵活加载圆角图片的方法</a>
+                    <a href="/2017/04/28/android-firefly/">Android萤火虫飞舞粒子效果</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2017/11/02/anim_text/">文字动次打次，让文字动态绘制出来</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2018/04/30/flickerView/">仿ios京东启动页“跳过”效果</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2017/04/28/hello-world/">Hello World</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2018/06/10/2018-06-10-flip/">仿FlipBoard直板翻页效果</a>
+                    <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
                 </span>
             </li>
             
@@ -482,7 +487,25 @@
             
             <li class="list-group-item">
                 <span class="post-title">
+                    <a href="/2018/07/05/2018-07-05-kotlin-adapter/">使用DSL模式构建Recyclerview适配器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/25/2019-01-25-MediaCodeC-Decode-1/">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
                     <a href="/2018/03/10/2018_face_book/">吐血整理！17年下半年面试问题以及解析精华整理</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/">MediaCodeC解码视频指定帧，迅捷、精确</a>
                 </span>
             </li>
             
@@ -523,29 +546,29 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 15.961264378244223px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 16.53437266179415px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/Android/" style="font-size: 10.445469842409526px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 17.078970280444935px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/Python/" style="font-size: 10.918076321933267px;" class="tag-cloud-link">Python</a>
+    <a href="/tags/Python/" style="font-size: 13.239435855250635px;" class="tag-cloud-link">Python</a>
     
-    <a href="/tags/算法/" style="font-size: 11.701298581575537px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 13.434403319172418px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/视频/" style="font-size: 19.819098154016785px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 14.789572727858642px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 9.617681824423086px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 13.187273980196313px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 19.98711950647496px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 9.342280021649731px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/交互体验/" style="font-size: 19.93870241083284px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 17.843473328101524px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 18.173939447154332px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 17.124846202465346px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/开发经验/" style="font-size: 13.972555163384207px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 9.288707441294251px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/科普向/" style="font-size: 10.91754448386141px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 13.926338087955594px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 15.881299403646906px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 13.872884571654552px;" class="tag-cloud-link">音频</a>
     
 </div>
                 

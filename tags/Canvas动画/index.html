@@ -37,7 +37,7 @@
       if (document.images) {
         var avatar = new Image();
         avatar.src = '/imgs/avatar.jpg'
-        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg,preview5.jpg'.split(',')
         var previewsPreLoad = []
         for(var i = 0; i < length; i++) {
           previewsPreLoad.push(new Image())
@@ -121,10 +121,33 @@
                 
                 
                 
-                <li class>
-                    <a href="/categories">
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
                         <i class="fa fa-list"></i>分类
                     </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/Android/">Android</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Android/音视频/">音视频</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Python/">Python</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/音视频/">音视频</a>
+                        </li>
+                        
+                        
+                        
+                    </ul>
                 </li>
                 
                 
@@ -374,6 +397,12 @@
             
             <li class="list-group-item">
                 <span class="post-title">
+                    <a href="/2018/06/21/2018-06-21-fragment-v/">提供一种Fragment可见性改变的监测方案</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
                     <a href="/2018/07/29/2018-07-29-AStarmaze/">使用A*算法求解机器人迷宫最短路径</a>
                 </span>
             </li>
@@ -386,13 +415,7 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2017/04/28/android-firefly/">Android萤火虫飞舞粒子效果</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
+                    <a href="/2017/11/02/anim_text/">文字动次打次，让文字动态绘制出来</a>
                 </span>
             </li>
             
@@ -428,7 +451,7 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2018/04/02/audio_start_learn/">【闻弦歌】--初识音频</a>
+                    <a href="/2017/08/19/bohe_path/">实现薄荷Loading动画</a>
                 </span>
             </li>
             
@@ -457,29 +480,29 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 10.35185398713001px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 17.891178635311512px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/Android/" style="font-size: 14.139390295597916px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 14.675362229381026px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/Python/" style="font-size: 18.462143589161016px;" class="tag-cloud-link">Python</a>
+    <a href="/tags/Python/" style="font-size: 16.12272479384904px;" class="tag-cloud-link">Python</a>
     
-    <a href="/tags/算法/" style="font-size: 16.371158461927223px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 14.286786575160974px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/视频/" style="font-size: 16.5641977189195px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 14.808782966859424px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 15.978203976528476px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 15.305153719084311px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 9.644447246963896px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 15.444738831872765px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/交互体验/" style="font-size: 11.548051746024086px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 8.116589519791873px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 15.941787015830608px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 18.758285263025662px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/开发经验/" style="font-size: 17.538618213737134px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 8.620600084798435px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/科普向/" style="font-size: 13.100660764846564px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 15.419033700423778px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 17.797075366946544px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 18.106231636393105px;" class="tag-cloud-link">音频</a>
     
 </div>
                 

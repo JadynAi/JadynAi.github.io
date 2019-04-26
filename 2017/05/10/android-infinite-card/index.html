@@ -37,7 +37,7 @@
       if (document.images) {
         var avatar = new Image();
         avatar.src = '/imgs/avatar.jpg'
-        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg,preview5.jpg'.split(',')
         var previewsPreLoad = []
         for(var i = 0; i < length; i++) {
           previewsPreLoad.push(new Image())
@@ -121,10 +121,33 @@
                 
                 
                 
-                <li class>
-                    <a href="/categories">
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
                         <i class="fa fa-list"></i>分类
                     </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/Android/">Android</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Android/音视频/">音视频</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Python/">Python</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/音视频/">音视频</a>
+                        </li>
+                        
+                        
+                        
+                    </ul>
                 </li>
                 
                 
@@ -210,8 +233,6 @@
             <span class="label label-gal">
                 <i class="fa fa-tags"></i>
                 
-                <a href="/tags/Android/">Android</a>, 
-                
                 <a href="/tags/交互体验/">交互体验</a>
                 
             </span>
@@ -236,8 +257,6 @@
             <p>
                 
                 <i class="fa fa-tags"></i>
-                
-                <a href="/tags/Android/">Android</a>, 
                 
                 <a href="/tags/交互体验/">交互体验</a>
                 
@@ -474,12 +493,6 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2018/07/29/2018-07-29-AStarmaze/">使用A*算法求解机器人迷宫最短路径</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
                     <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/">使用MediaCodeC将图片集编码为视频</a>
                 </span>
             </li>
@@ -492,19 +505,19 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2017/06/28/android_partical/">实用性MAX!像普通View一样自由使用的粒子组件</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
                     <a href="/2018/04/30/flickerView/">仿ios京东启动页“跳过”效果</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2017/04/28/hello-world/">Hello World</a>
+                    <a href="/2018/06/10/2018-06-10-flip/">仿FlipBoard直板翻页效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/05/19/2018-05-19-pen/">基于Java代码实现的喷漆笔刷</a>
                 </span>
             </li>
             
@@ -516,13 +529,19 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2018/04/02/audio_start_learn/">【闻弦歌】--初识音频</a>
+                    <a href="/2019/01/25/2019-01-25-MediaCodeC-Decode-1/">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2017/08/19/bohe_path/">实现薄荷Loading动画</a>
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/">MediaCodeC解码视频指定帧，迅捷、精确</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/02/audio_start_learn/">【闻弦歌】--初识音频</a>
                 </span>
             </li>
             
@@ -551,29 +570,29 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 13.892566101267827px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 14.250862483103296px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/Android/" style="font-size: 19.37010789068558px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 14.873183634408669px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/Python/" style="font-size: 17.611934070488033px;" class="tag-cloud-link">Python</a>
+    <a href="/tags/Python/" style="font-size: 16.273282083889377px;" class="tag-cloud-link">Python</a>
     
-    <a href="/tags/算法/" style="font-size: 10.875564998944736px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 12.278693073675914px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/视频/" style="font-size: 14.407717707485071px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 8.339684075473338px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 15.590043399959761px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 17.254798560201312px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 11.849120464728752px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 13.6993282869241px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/交互体验/" style="font-size: 9.30262740384044px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 18.012553056495385px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 19.153129808302946px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 9.93302305674753px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/开发经验/" style="font-size: 18.83436332928263px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 9.774507536466981px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/科普向/" style="font-size: 17.9398147669251px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 11.431863221781128px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 16.69982566229227px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 16.787151266672467px;" class="tag-cloud-link">音频</a>
     
 </div>
                 
