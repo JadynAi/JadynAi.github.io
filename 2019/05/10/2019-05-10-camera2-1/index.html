@@ -12,7 +12,7 @@
     
     
     
-    <title>tags: 开发经验 | Life is Like A Boat</title>
+    <title>Camera2挖坑日记---如何解决预览画面变形 | Life is Like A Boat</title>
     <link href="”https://yoursite.com“" rel="”prefetch”">
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -209,19 +209,34 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 gal-right" id="mainstay">
-                    <article class="article well article-body" id="article-tag">
+                    
+<article class="article well article-body" id="article">
     <div class="breadcrumb">
         <i class="fa fa-home"></i>
         <a href="https://yoursite.com">Life is Like A Boat</a>
         >
-        <span>标签</span>
+        <span>Camera2挖坑日记---如何解决预览画面变形</span>
     </div>
     <!-- 大型设备详细文章 -->
     <div class="hidden-xs">
         <div class="title-article">
             <h1>
-                <a href="/tags/开发经验/index.html">开发经验</a>
+                <a href="/2019/05/10/2019-05-10-camera2-1/">Camera2挖坑日记---如何解决预览画面变形</a>
             </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Camera2/">Camera2</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2019-05-10
+            </span>
+            
         </div>
     </div>
     <!-- 小型设备详细文章 -->
@@ -229,21 +244,64 @@
         <center>
             <div class="title-article">
                 <h4>
-                    <a href="/tags/开发经验/index.html">开发经验</a>
+                    <a href="/2019/05/10/2019-05-10-camera2-1/">Camera2挖坑日记---如何解决预览画面变形</a>
                 </h4>
             </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2019-05-10
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Camera2/">Camera2</a>
+                
+                
+                
+            </p>
         </center>
     </div>
-    <div class="content-article" style="margin-top: 30px;">
-        <div class="alert alert-info" style="font-size: 14px; line-height: 2; font-weight: bold;">
-            
-            <a href="/2018/03/10/2018_face_book/">吐血整理！17年下半年面试问题以及解析精华整理</a>
-            <br>
-            
-            
-        </div>
+    <div class="content-article">
+        <p><strong>原创文章，转载请联系作者</strong></p>
+<blockquote>
+<p>一梦觉来三十载，休休。空为梅花白了头</p>
+</blockquote>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p><code>Camera2</code>是目前Android相机开发最新的API，旧版本的<code>Camera</code>已经被废弃了。<br>一般情况下，<code>Camera2</code>的使用是将图像发送到<code>SurfaceView</code>或者<code>TextureView【通过SurfaceTexture】</code>来预览。使用JPEG或者Raw sensor格式的ImageReader来捕获JPEG图像或RAW缓冲区。<strong>【注1】</strong><br>今天主要是记录一下， 在使用<code>Camera2</code>API开发Android相机过程中，解决预览画面变形的问题。<br>另，本文所记录的情况，都是竖屏情况的设备。<br>题主参考Google方法给出的Demo，自定义了<code>TextureView</code>，可以自动适配宽高，支持全屏展示。代码地址<a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/camera2/AutoFitTextureView.kt" target="_blank" rel="noopener">AutoFitTextureView</a></p>
+<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>以下的画面基本上处于同一角度拍摄所得</p>
+<ul>
+<li>变形的画面<img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/camera2_pre_bad.png" alt></li>
+<li>正常的小画面，以宽为基准计算高度。<img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/camera2_pre_nor_s.png" alt></li>
+<li>正常全屏画面，高度铺满屏幕，画面被拉近。<img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/camera2_pre_nor_f.png" alt></li>
+</ul>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>++在解决方案上，主要参考了Google官方给出的Demo。<a href="https://github.com/googlesamples/android-Camera2Video/blob/master/kotlinApp/Application/src/main/java/com/example/android/camera2video/Camera2VideoFragment.kt" target="_blank" rel="noopener">Camera2VideoFragment</a>++。<br>在<code>Camera2</code>的使用上，我使用了<code>TextureView</code>作为预览画面的承载。为什么不使用<code>SurfaceView</code>呢？因为<code>SurfaceView</code>是基于Window层面的View，有很多View的属性都用不了，使用起来比较麻烦。<br><br><code>Camera2</code>API会返回一系列可以用于输出到<code>SurfaceTexture</code>的Size集合。–++TextureView显示原理即是使用SurfaceTexture构建的Surface++<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/camera2_1.png" alt></p>
+<blockquote>
+<p>如图：<br>以题主手上的Oppo r15为例，总共会返回13个可以用作输出的size<br>需要注意的是，如果以竖屏为例，这里的宽高是反过来的<br>在得到可用的size集合后，根据实际开发情况选择合适的PreviewSize即可</p>
+</blockquote>
+<h4 id="正常小画面展示"><a href="#正常小画面展示" class="headerlink" title="正常小画面展示"></a>正常小画面展示</h4><p>选定了一个合适的PreviewSize之后，只需要适配<code>TextureView</code>的宽高即可。小画面以宽为基准，需要根据屏幕宽度来计算相应的高度即可。这一部分的代码，在官方Demo里已经相当详细。其实很简单，就是自电影AutoFitTextureView里的<code>onMeasure</code>函数里，重新设定宽高。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">override fun onMeasure(....)&#123;</span><br><span class="line">    if (width &lt; ((height * ratioWidth) / ratioHeight)) &#123;</span><br><span class="line">            // 控件本身的宽小于根据比例计算来得宽，则使用控件本身的宽</span><br><span class="line">        setMeasuredDimension(width, (width * ratioHeight) / ratioWidth)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        setMeasuredDimension((height * ratioWidth) / ratioHeight, height)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>其中ratioWidth、ratioHeight即是PreviewSize</p>
+</blockquote>
+<h4 id="全屏展示"><a href="#全屏展示" class="headerlink" title="全屏展示"></a>全屏展示</h4><p>全屏展示预览画面，则需要使用<code>TextureView</code>的另一个函数——<code>setTransform</code>。这个函数是给<code>Textureview</code>设置一个Transform，用于改变<code>TextureView</code>的画面。By,双指缩放时可以使用这个函数。<br>全屏展示时，<code>TextureView</code>的宽高铺满整个屏幕，相应的我们只需要改变一下<code>Transform</code>即可，此时高度不变，但是要将画面的宽度放大。放大的倍数即为屏幕的高度除以小画面时计算得来的高度比例即可。<br>还是在<code>onMeasure</code>函数内：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">override fun onmeasure(...)&#123;</span><br><span class="line">    val w = resources.displayMetrics.widthPixels</span><br><span class="line">    val h = resources.displayMetrics.heightPixels</span><br><span class="line">    setMeasuredDimension(w, h)</span><br><span class="line">    fullScreenTransform.reset()</span><br><span class="line">    fullScreenTransform.set(defTransform)</span><br><span class="line">    // 宽拉伸，高不变</span><br><span class="line">    fullScreenTransform.postScale(h.toFloat() /ratioHeight,</span><br><span class="line">                    1f, w * 0.5f, h * 0.5f)</span><br><span class="line">    setTransform(fullScreenTransform)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>其中fullScreenTransform即为TextureView最初始的Transform</p>
+</blockquote>
+<h3 id="自定义TextureView"><a href="#自定义TextureView" class="headerlink" title="自定义TextureView"></a>自定义TextureView</h3><p>题主将<code>AutoFitTextureView</code>重新封装了一下，对外提供了全屏展示的开关函数。地址在这里<a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/camera2/AutoFitTextureView.kt" target="_blank" rel="noopener">AutoFitTextureView</a>，感兴趣的童鞋可以去看一下。<br><br><strong>以上</strong></p>
+
     </div>
 </article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'Camera2挖坑日记---如何解决预览画面变形'
+    }
+</script>
+
                 </div>
                 <aside class="col-md-4 gal-left" id="sidebar">
     <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
@@ -369,13 +427,13 @@
 
                 
                 <li>
-                    <a href="/tags/开发经验/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                    <a href="/2019/05/10/2019-05-10-camera2-1/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
                 </li>
                 
                 
                 
                 <li>
-                    <a href="/tags/开发经验/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                    <a href="/2019/05/10/2019-05-10-camera2-1/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
                 </li>
                 
             </ul>
@@ -383,31 +441,31 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 11.478576628951142px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 11.472254674725395px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/算法/" style="font-size: 19.93207592098248px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 8.727332915146402px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 8.665125827220379px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 16.70743635655342px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 16.10316314868806px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 16.501905966799782px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/交互体验/" style="font-size: 8.05519427369206px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 9.271930859996651px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/开发经验/" style="font-size: 18.139819389984456px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 19.282506245195503px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/Android/" style="font-size: 9.091517803841693px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 19.025216667393344px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/视频/" style="font-size: 10.252909893876542px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 18.090947241078588px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 15.405463918733322px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 18.63259265786127px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/OpenGL/" style="font-size: 15.191365823027262px;" class="tag-cloud-link">OpenGL</a>
+    <a href="/tags/OpenGL/" style="font-size: 16.835131519296823px;" class="tag-cloud-link">OpenGL</a>
     
-    <a href="/tags/科普向/" style="font-size: 13.340101250575717px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 19.32920442417326px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 14.885494182555357px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 17.34464102665904px;" class="tag-cloud-link">音频</a>
     
-    <a href="/tags/Camera2/" style="font-size: 9.50681993781793px;" class="tag-cloud-link">Camera2</a>
+    <a href="/tags/Camera2/" style="font-size: 19.4393845183717px;" class="tag-cloud-link">Camera2</a>
     
 </div>
                 
@@ -501,7 +559,7 @@
 <script src="https://myau.moe/js/comment/gitment.browser.js"></script>
 <script>
     if(window.commentConfig) {
-      window.commentConfig.id = ''
+      window.commentConfig.id = 'Fri May 10 2019 00:00:00 GMT+0800'
       window.commentConfig.owner = 'JadynAi'
       window.commentConfig.repo = 'JadynAi.github.io'
       window.commentConfig.client_id = 'b199888872a9ccadaa16'
@@ -509,7 +567,7 @@
       window.commentConfig.redirect_uri = ''
     } else {
       window.commentConfig = {
-      	id: '',
+      	id: 'Fri May 10 2019 00:00:00 GMT+0800',
         owner: 'JadynAi',
         repo: 'JadynAi.github.io',
         client_id: 'b199888872a9ccadaa16',
