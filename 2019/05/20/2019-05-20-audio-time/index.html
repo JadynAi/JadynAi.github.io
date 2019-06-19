@@ -262,7 +262,11 @@
         </center>
     </div>
     <div class="content-article">
-        <h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>音频是流式数据，并不像视频一样有P帧和B帧的概念。就像砌墙一样，咔咔往上摞就行了。一般来说，AAC编码中生成文件这一步，如果使用的是OutputStream流写入文件的话，就完全不需要计算时间。但在音视频同步或者使用Android自带的<code>MediaMuxer</code>来生成音频文件时，就需要计算音频帧的时间戳。</p>
+        <p><strong>原创文章，转载请联系作者</strong></p>
+<blockquote>
+<p>西北望乡何处是，东南见月几回圆。<br><br>昨风一吹无人会，今夜清光似往年。</p>
+</blockquote>
+<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>音频是流式数据，并不像视频一样有P帧和B帧的概念。就像砌墙一样，咔咔往上摞就行了。一般来说，AAC编码中生成文件这一步，如果使用的是OutputStream流写入文件的话，就完全不需要计算时间。但在音视频同步或者使用Android自带的<code>MediaMuxer</code>来生成音频文件时，就需要计算音频帧的时间戳。</p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>本文所涉及到的计算方法和API，为在Android环境下。使用AudioRecord音频录制，MediaCodeC编码AAC格式音频，同时使用MediaMuxer封装AAC格式音频文件。</p>
 <h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>AAC编码有两种计算时间戳的方式。第一种：使用PCM的数据量来计算；第二种：计算出AAC编码相应参数配置下，一帧的持续时间，再配合帧数来计算。</p>
 <h4 id="AAC编码、MediaMuxer生成文件伪代码"><a href="#AAC编码、MediaMuxer生成文件伪代码" class="headerlink" title="AAC编码、MediaMuxer生成文件伪代码"></a>AAC编码、MediaMuxer生成文件伪代码</h4><p>MediaCodeC的AAC编码流程不再赘述，这里用伪代码来代替。主要是为了体现在代码何处设置时间戳：</p>
@@ -445,33 +449,33 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 17.183597890996538px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 15.778704131196223px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/算法/" style="font-size: 15.546943593270397px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 11.813354273987635px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 11.05214414542412px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 8.678918419214027px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 13.896481908632728px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 10.854886770248418px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/交互体验/" style="font-size: 8.404753449628377px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 12.733511364011957px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/开发经验/" style="font-size: 15.10077152088635px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 19.611275551730913px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/Android/" style="font-size: 17.56254826516421px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 19.83736325356666px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/视频/" style="font-size: 18.611373474379054px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 13.55764371521994px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 10.270950072982842px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 18.330861485038497px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/OpenGL/" style="font-size: 15.495036558992705px;" class="tag-cloud-link">OpenGL</a>
+    <a href="/tags/OpenGL/" style="font-size: 12.006083466096126px;" class="tag-cloud-link">OpenGL</a>
     
-    <a href="/tags/科普向/" style="font-size: 11.480073748280184px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 9.327078177795396px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 11.312335623539973px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 19.875795770385665px;" class="tag-cloud-link">音频</a>
     
-    <a href="/tags/Camera2/" style="font-size: 18.2803315677913px;" class="tag-cloud-link">Camera2</a>
+    <a href="/tags/Camera2/" style="font-size: 18.209993114394152px;" class="tag-cloud-link">Camera2</a>
     
-    <a href="/tags/音视频/" style="font-size: 9.809487719472727px;" class="tag-cloud-link">音视频</a>
+    <a href="/tags/音视频/" style="font-size: 16.666094110407307px;" class="tag-cloud-link">音视频</a>
     
 </div>
                 
