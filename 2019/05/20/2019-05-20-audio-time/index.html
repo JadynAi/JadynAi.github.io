@@ -284,14 +284,14 @@
 <p>接下来我们来分析以上公式的计算由来：<br><br>假设有一段PCM文件，采样率为<code>S</code>,采样位数为<code>n</code>–(一般 采样位数的选择有4bit、8bit、16bit、32bit)，声道为单声道。那么在1s内，这段PCM的大小为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">size = S * n * 1,单位为bit</span><br></pre></td></tr></table></figure>
 <p>众所周知，<code>1 Byte = 8bit</code>, <code>1 Short = 16bit</code>。那么单位时间内，PCM的大小为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">以byte为单位 = S * n * 1 / 8</span><br><span class="line">以short为单位  = S * n * 1 / 16</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">以byte为单位 = S * n * 1 / 8</span><br><span class="line">以short为单位  = S * n * 1 / 16</span><br></pre></td></tr></table></figure>
 <p>那么根据以上就可得到，配置参数为采样率sampleRate、16bit、声道为1的PCM文件，当传入编码器的总大小达到totalByte时，时间戳的计算方式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">currents (微妙) = totalByte / (sampleRate * 16 * 1 / 8) = totalByte / 2 / sampleRate * 1000000L</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">currents (微妙) = totalByte / (sampleRate * 16 * 1 / 8)</span><br><span class="line"> = totalByte / 2 / sampleRate * 1000000L</span><br></pre></td></tr></table></figure>
 <p>当然如果选择以ShortArray来承载PCM数据的话，那么公式则变为:<br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">currents (微妙) = totalShort / (sampleRate * 16 * 1 / 16) = totalShort / sampletRate * 1000000L</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">currents (微妙) = totalShort / (sampleRate * 16 * 1 / 16)</span><br><span class="line"> = totalShort / sampletRate * 1000000L</span><br></pre></td></tr></table></figure>
 <h4 id="使用AAC帧时间计算"><a href="#使用AAC帧时间计算" class="headerlink" title="使用AAC帧时间计算"></a>使用AAC帧时间计算</h4><p>当编码器每输出一次数据，即可视作输出一帧AAC数据。一帧AAC原始数据包括<strong>1024</strong>个sample，那么AAC音频文件1s内的帧数为：<code>sampleRate / 1024 帧</code>。从而得到一帧AAC的持续时间为:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">perFrameTime (微妙) = 1000000L / sampleRate / 1024</span><br></pre></td></tr></table></figure>
-<p>已知每一帧的持续时间的话，那么只需要根据当前帧数，即可计算出当前的时间戳。</p>
+<p><br><br>已知每一帧的持续时间的话，那么只需要根据当前帧数，即可计算出当前的时间戳。</p>
 <h3 id="以上"><a href="#以上" class="headerlink" title="以上"></a>以上</h3>
     </div>
 </article>
@@ -445,33 +445,33 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 19.92934091176956px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 17.183597890996538px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/算法/" style="font-size: 13.774064690985817px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 15.546943593270397px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 17.500369510615258px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 11.05214414542412px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 11.32784169084144px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 13.896481908632728px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/交互体验/" style="font-size: 15.409223475706165px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 8.404753449628377px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/开发经验/" style="font-size: 19.97662378542457px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 15.10077152088635px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/Android/" style="font-size: 15.512782716173025px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 17.56254826516421px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/视频/" style="font-size: 12.76663767955808px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 18.611373474379054px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 17.315400567665026px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 10.270950072982842px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/OpenGL/" style="font-size: 16.376397370024875px;" class="tag-cloud-link">OpenGL</a>
+    <a href="/tags/OpenGL/" style="font-size: 15.495036558992705px;" class="tag-cloud-link">OpenGL</a>
     
-    <a href="/tags/科普向/" style="font-size: 9.708965207180352px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 11.480073748280184px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 10.950276520217207px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 11.312335623539973px;" class="tag-cloud-link">音频</a>
     
-    <a href="/tags/Camera2/" style="font-size: 17.01053119614724px;" class="tag-cloud-link">Camera2</a>
+    <a href="/tags/Camera2/" style="font-size: 18.2803315677913px;" class="tag-cloud-link">Camera2</a>
     
-    <a href="/tags/音视频/" style="font-size: 16.42684452190113px;" class="tag-cloud-link">音视频</a>
+    <a href="/tags/音视频/" style="font-size: 9.809487719472727px;" class="tag-cloud-link">音视频</a>
     
 </div>
                 
