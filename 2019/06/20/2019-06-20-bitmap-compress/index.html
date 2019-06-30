@@ -12,7 +12,7 @@
     
     
     
-    <title>tags: 科普向 | Life is Like A Boat</title>
+    <title>Bitmap无损缓存方案大解析 | Life is Like A Boat</title>
     <link href="”https://yoursite.com“" rel="”prefetch”">
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -209,19 +209,36 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 gal-right" id="mainstay">
-                    <article class="article well article-body" id="article-tag">
+                    
+<article class="article well article-body" id="article">
     <div class="breadcrumb">
         <i class="fa fa-home"></i>
         <a href="https://yoursite.com">Life is Like A Boat</a>
         >
-        <span>标签</span>
+        <span>Bitmap无损缓存方案大解析</span>
     </div>
     <!-- 大型设备详细文章 -->
     <div class="hidden-xs">
         <div class="title-article">
             <h1>
-                <a href="/tags/科普向/index.html">科普向</a>
+                <a href="/2019/06/20/2019-06-20-bitmap-compress/">Bitmap无损缓存方案大解析</a>
             </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/技术讨论/">技术讨论</a>, 
+                
+                <a href="/tags/Android/">Android</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2019-06-20
+            </span>
+            
         </div>
     </div>
     <!-- 小型设备详细文章 -->
@@ -229,21 +246,68 @@
         <center>
             <div class="title-article">
                 <h4>
-                    <a href="/tags/科普向/index.html">科普向</a>
+                    <a href="/2019/06/20/2019-06-20-bitmap-compress/">Bitmap无损缓存方案大解析</a>
                 </h4>
             </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2019-06-20
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/技术讨论/">技术讨论</a>, 
+                
+                <a href="/tags/Android/">Android</a>
+                
+                
+                
+            </p>
         </center>
     </div>
-    <div class="content-article" style="margin-top: 30px;">
-        <div class="alert alert-info" style="font-size: 14px; line-height: 2; font-weight: bold;">
-            
-            <a href="/2018/04/02/audio_start_learn/">【闻弦歌】--初识音频</a>
-            <br>
-            
-            
-        </div>
+    <div class="content-article">
+        <p><strong>原创文章，未经作者允许不得转载</strong></p>
+<blockquote>
+<p>眉共春山争秀<br><br>可怜长皱<br><br>莫将清泪湿花枝，恐花也、如人瘦</p>
+</blockquote>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Bitmap是Android图片处理这块绕不过的一个主题，在处理Bitmap缓存这方面，一般会分为两部分:内存缓存和磁盘缓存。<br>磁盘缓存这块呢，常用的就是使用Bitmap的<code>compress</code>函数，根据实际需求压缩为想要的图片文件。对于常规的带有透明度的图片来说，选择无损压缩成PNG或者Webp文件，二次读取展示的Bitmap一般肉眼看不出差别。而对于一些特殊的Bitmap而言，这种存储方式就不再适用。譬如我最近遇到的一种情况，得到的Bitmap数据中，透明部分占了绝大多数。这种Bitmap可以毫无问题地直接展示出来。但存储为PNG或者Webp文件后，二次读取却缺损严重，根本无法还原。<br>没办法，不管是PNG算法还是Webp算法，毕竟还是对数据有所损耗的。想要毫无损耗的储存Bitmap数据，还需另寻方案。</p>
+<h3 id="磁盘缓存"><a href="#磁盘缓存" class="headerlink" title="磁盘缓存"></a>磁盘缓存</h3><h4 id="解决方案一"><a href="#解决方案一" class="headerlink" title="解决方案一"></a>解决方案一</h4><p>将Bitmap毫无损耗的做磁盘缓存。我想的第一种方案，就是将Bitmap的所有数据存储为文件，对此可以利用他的<code>copyPixelsToBuffer</code>函数，对此扩展函数如下所示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fun Bitmap.saveUndamaged(dir:String)&#123;</span><br><span class="line">	// 文件后缀可以是任意格式，只要是文件即可</span><br><span class="line">	val f = File(dir)</span><br><span class="line">	val byteBuffer = ByteBuffer.allocate(byteCount)</span><br><span class="line">   copyPixelsToBuffer(byteBuffer)</span><br><span class="line">   val byteArray = byteBuffer.array()</span><br><span class="line">   file.writeBytes(byteArray)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么读取的时候，这个时候我们有了文件的<code>ByteArray</code>流，是不是只需要利用<code>BitmapFactory.decodeByteArray</code>这个函数就可以拿到原始位图了呢？<br>答案是否定，存储的ByteArray磁盘文件只有原始位图的RGBA信息，缺失了位图的宽高，所以即使使用了<code>BitmapFactory.decodeByteArray</code>函数，也是无法还原位图的。<br>此时，还原位图的真正方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// bitmap的宽高信息必须从外界传入</span><br><span class="line">fun getUndamagedBitmap(dir:String, size:Size):Bitmap&#123;</span><br><span class="line">	val b = Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888)</span><br><span class="line">b.copyPixelsFromBuffer(ByteBuffer.wrap(File(dir).readBytes()))</span><br><span class="line">	return b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>得到了位图的RGBA数据后，需要使用如上方式才能还原位图。首先我们创建一个等宽高的空白位图，然后将RGBA数据填充进去。这样就能远远本版的还原位图。但是<em>务必注意这里的宽高一定要和原始位图相同，否则展示的位图将是错乱不堪</em></p>
+</blockquote>
+<p>目前为止，这种方案实施起来还算可行，文件的读取速度还算可以接受。好一点的手机上，基本都在20ms左右徘徊<em>【这个时间视位图数据量而定】</em>。<em>但这种方式同样有一个缺点，就是文件存储空间过大。相同的Bitmap，储存原始数据的文件比PNG图片要打上十几倍甚至几十倍。所以重点强调！！！如果手机磁盘空间吃紧的话，那么不建议使用这种方式。</em></p>
+<h4 id="解决方案二"><a href="#解决方案二" class="headerlink" title="解决方案二"></a>解决方案二</h4><p>既然原始数据存储占用空间大，那么原始数据能不能再压缩呢？针对我遇到的这种情况，Bitmap大部分数据为<code>0-纯透明</code>，利用一些压缩算法来压缩，读取的时候再对数据还原是否可行呢？<br>对此我进行了尝试，使用的是<code>GZIP</code>压缩，代码展示如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fun Bitmap.saveUndamaged(dir: String) &#123;</span><br><span class="line">    val byteBuffer = ByteBuffer.allocate(byteCount)</span><br><span class="line">    copyPixelsToBuffer(byteBuffer)</span><br><span class="line">    val byteArray = byteBuffer.array()</span><br><span class="line">    // 这里的后缀同样可以是任意格式，存储不针对文件格式，只需要Byte数据</span><br><span class="line">    val fileOut = FileOutputStream(File(dir))</span><br><span class="line">    val zipOutputStream = GZIPOutputStream(fileOut)</span><br><span class="line">    zipOutputStream.write(byteArray)</span><br><span class="line"></span><br><span class="line">    zipOutputStream.close()</span><br><span class="line">    fileOut.close()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么，同理再读取时，需要对文件做解压缩处理，然后生成Bitmap：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">val file = File(dir)</span><br><span class="line">val zip = GZIPInputStream(file)</span><br><span class="line">val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)</span><br><span class="line">bitmap.copyPixelsFromBuffer(ByteBuffer.wrap(zip.readBytes()))        </span><br><span class="line">zip.close()</span><br><span class="line">file.close()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对数据做压缩处理后，空间占用会小很多。但相对图片文件来说，依然还是比较大的。同样的，用空间换时间，空间占用小了。读取时间必然就是长了，这种解压缩读取的话，时间相比上要比读取原始数据文件多了一两倍。孰轻孰重，还需根据需求自行定夺。</p>
+</blockquote>
+<h3 id="内存缓存"><a href="#内存缓存" class="headerlink" title="内存缓存"></a>内存缓存</h3><p>同理。既然可以存储为文件，那么必然可以作内存缓存。只要稍微将上述方法，更换部分代码即可。<br>缓存到内存中:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class BitmapLru(val size: Size, val data: ByteArray)</span><br><span class="line"></span><br><span class="line">fun Bitmap.lruCache(): BitmapLru &#123;</span><br><span class="line">    val array = byteArray()</span><br><span class="line"></span><br><span class="line">    val out = ByteArrayOutputStream()</span><br><span class="line">    val zip = GZIPOutputStream(out)</span><br><span class="line">    zip.write(array)</span><br><span class="line">    zip.close()</span><br><span class="line">    // 在这里zip要及时关闭，否则读取压缩数据时会出现异常</span><br><span class="line">    val data = out.toByteArray()</span><br><span class="line">    out.close()</span><br><span class="line">    return BitmapLru(Size(width, height), data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从内存中解压生成原始位图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">fun BitmapLru?.lruToBitmap(): Bitmap? &#123;</span><br><span class="line">    this?.apply &#123;</span><br><span class="line">        val s = System.currentTimeMillis()</span><br><span class="line">        val inb = ByteArrayInputStream(data)</span><br><span class="line">        val zip = GZIPInputStream(inb)</span><br><span class="line"></span><br><span class="line">        val bitmap = Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888)</span><br><span class="line">        bitmap.copyPixelsFromBuffer(ByteBuffer.wrap(zip.readBytes()))</span><br><span class="line"></span><br><span class="line">        zip.close()</span><br><span class="line">        inb.close()</span><br><span class="line">        Log.d(&quot;lruToBitmap&quot;, &quot;lru to bitmap cost :$&#123;System.currentTimeMillis() - s&#125; &quot;)</span><br><span class="line">        return bitmap</span><br><span class="line">    &#125;</span><br><span class="line">    return null</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在这里需要注意的是，在压缩数据时，一定要及时关闭<code>GZIPOutputStream</code>。否则在解压缩时，会抛出<code>EOFException: Unexpected end of ZLIB input stream</code>异常。</p>
+</blockquote>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>两种无损存储方案，就是空间和时间的选择问题。手机空间支持，就存储原始文件；空间吃紧，但是时间又允许，就选择压缩原始数据方案。<br>好了~~~以上就是这次的分享，如果大家对音视频感兴趣的话，欢迎关注我的Github项目<a href="https://github.com/JadynAi/MediaLearn" target="_blank" rel="noopener">MediaLearn</a></p>
+
     </div>
 </article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'Bitmap无损缓存方案大解析'
+    }
+</script>
+
                 </div>
                 <aside class="col-md-4 gal-left" id="sidebar">
     <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
@@ -369,13 +433,13 @@
 
                 
                 <li>
-                    <a href="/tags/科普向/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                    <a href="/2019/06/20/2019-06-20-bitmap-compress/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
                 </li>
                 
                 
                 
                 <li>
-                    <a href="/tags/科普向/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                    <a href="/2019/06/20/2019-06-20-bitmap-compress/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
                 </li>
                 
             </ul>
@@ -383,33 +447,33 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 9.627748633109558px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 13.382312760217705px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/算法/" style="font-size: 12.967914591026593px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 14.758079787853774px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 11.486103514751854px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 19.140063501558984px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 17.122436557132037px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 17.403477864687638px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/交互体验/" style="font-size: 13.358545828926133px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 19.334646387690768px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/开发经验/" style="font-size: 11.68294569365133px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 16.739548800919003px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/Android/" style="font-size: 12.727394769033307px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 16.205025609713474px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/视频/" style="font-size: 19.633183043952343px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 13.213820219419677px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 14.703466871967892px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 12.543625912541918px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/OpenGL/" style="font-size: 11.037163487146309px;" class="tag-cloud-link">OpenGL</a>
+    <a href="/tags/OpenGL/" style="font-size: 12.490294563969359px;" class="tag-cloud-link">OpenGL</a>
     
-    <a href="/tags/科普向/" style="font-size: 8.210382900381273px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 16.195411042614083px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 12.372686800418322px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 9.145353593788197px;" class="tag-cloud-link">音频</a>
     
-    <a href="/tags/Camera2/" style="font-size: 10.927302956770871px;" class="tag-cloud-link">Camera2</a>
+    <a href="/tags/Camera2/" style="font-size: 13.134424702221931px;" class="tag-cloud-link">Camera2</a>
     
-    <a href="/tags/音视频/" style="font-size: 8.278751394245017px;" class="tag-cloud-link">音视频</a>
+    <a href="/tags/音视频/" style="font-size: 11.211461559242643px;" class="tag-cloud-link">音视频</a>
     
 </div>
                 
@@ -503,7 +567,7 @@
 <script src="https://myau.moe/js/comment/gitment.browser.js"></script>
 <script>
     if(window.commentConfig) {
-      window.commentConfig.id = ''
+      window.commentConfig.id = 'Thu Jun 20 2019 00:00:00 GMT+0800'
       window.commentConfig.owner = 'JadynAi'
       window.commentConfig.repo = 'JadynAi.github.io'
       window.commentConfig.client_id = 'b199888872a9ccadaa16'
@@ -511,7 +575,7 @@
       window.commentConfig.redirect_uri = ''
     } else {
       window.commentConfig = {
-      	id: '',
+      	id: 'Thu Jun 20 2019 00:00:00 GMT+0800',
         owner: 'JadynAi',
         repo: 'JadynAi.github.io',
         client_id: 'b199888872a9ccadaa16',
