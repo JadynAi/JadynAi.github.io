@@ -270,7 +270,7 @@
 <blockquote>
 <p>眉共春山争秀<br><br>可怜长皱<br><br>莫将清泪湿花枝，恐花也、如人瘦</p>
 </blockquote>
-<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Bitmap是Android图片处理这块绕不过的一个主题，在处理Bitmap缓存这方面，一般会分为两部分:内存缓存和磁盘缓存。<br>磁盘缓存这块呢，常用的就是使用Bitmap的<code>compress</code>函数，根据实际需求压缩为想要的图片文件。对于常规的带有透明度的图片来说，选择无损压缩成PNG或者Webp文件，二次读取展示的Bitmap一般肉眼看不出差别。而对于一些特殊的Bitmap而言，这种存储方式就不再适用。譬如我最近遇到的一种情况，得到的Bitmap数据中，透明部分占了绝大多数。这种Bitmap可以毫无问题地直接展示出来。但存储为PNG或者Webp文件后，二次读取却缺损严重，根本无法还原。<br>没办法，不管是PNG算法还是Webp算法，毕竟还是对数据有所损耗的。想要毫无损耗的储存Bitmap数据，还需另寻方案。</p>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Bitmap是Android图片处理这块绕不过的一个主题，在处理Bitmap缓存这方面，一般会分为两部分:内存缓存和磁盘缓存。<br>磁盘缓存这块呢，常用的就是使用Bitmap的<code>compress</code>函数，根据实际需求压缩为想要的图片文件。对于常规的带有透明度的图片来说，选择无损压缩成PNG或者Webp文件，二次读取展示的Bitmap一般肉眼看不出差别。而对于一些特殊的Bitmap而言，这种存储方式就不再适用。譬如我最近遇到的一种情况，得到的Bitmap数据中，透明部分占了绝大多数。这种Bitmap可以毫无问题地直接展示出来。但存储为PNG或者Webp文件后，二次读取却缺损严重，根本无法还原。</p>
 <h3 id="磁盘缓存"><a href="#磁盘缓存" class="headerlink" title="磁盘缓存"></a>磁盘缓存</h3><h4 id="解决方案一"><a href="#解决方案一" class="headerlink" title="解决方案一"></a>解决方案一</h4><p>将Bitmap毫无损耗的做磁盘缓存。我想的第一种方案，就是将Bitmap的所有数据存储为文件，对此可以利用他的<code>copyPixelsToBuffer</code>函数，对此扩展函数如下所示:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fun Bitmap.saveUndamaged(dir:String)&#123;</span><br><span class="line">	// 文件后缀可以是任意格式，只要是文件即可</span><br><span class="line">	val f = File(dir)</span><br><span class="line">	val byteBuffer = ByteBuffer.allocate(byteCount)</span><br><span class="line">   copyPixelsToBuffer(byteBuffer)</span><br><span class="line">   val byteArray = byteBuffer.array()</span><br><span class="line">   file.writeBytes(byteArray)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>那么读取的时候，这个时候我们有了文件的<code>ByteArray</code>流，是不是只需要利用<code>BitmapFactory.decodeByteArray</code>这个函数就可以拿到原始位图了呢？<br>答案是否定，存储的ByteArray磁盘文件只有原始位图的RGBA信息，缺失了位图的宽高，所以即使使用了<code>BitmapFactory.decodeByteArray</code>函数，也是无法还原位图的。<br>此时，还原位图的真正方式如下：</p>
@@ -447,33 +447,33 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 13.382312760217705px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 18.6949317808602px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/算法/" style="font-size: 14.758079787853774px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 15.555284317199675px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 19.140063501558984px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 17.350485355996295px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 17.403477864687638px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 19.00569262246628px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/交互体验/" style="font-size: 19.334646387690768px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 12.246823904250892px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/开发经验/" style="font-size: 16.739548800919003px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 10.669058004167214px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/Android/" style="font-size: 16.205025609713474px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 14.250401971193831px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/视频/" style="font-size: 13.213820219419677px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 19.66466153531469px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 12.543625912541918px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 17.165252429938064px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/OpenGL/" style="font-size: 12.490294563969359px;" class="tag-cloud-link">OpenGL</a>
+    <a href="/tags/OpenGL/" style="font-size: 17.941451004899523px;" class="tag-cloud-link">OpenGL</a>
     
-    <a href="/tags/科普向/" style="font-size: 16.195411042614083px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 9.736943191414504px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 9.145353593788197px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 12.619503379868888px;" class="tag-cloud-link">音频</a>
     
-    <a href="/tags/Camera2/" style="font-size: 13.134424702221931px;" class="tag-cloud-link">Camera2</a>
+    <a href="/tags/Camera2/" style="font-size: 19.85689767418192px;" class="tag-cloud-link">Camera2</a>
     
-    <a href="/tags/音视频/" style="font-size: 11.211461559242643px;" class="tag-cloud-link">音视频</a>
+    <a href="/tags/音视频/" style="font-size: 12.892548364377795px;" class="tag-cloud-link">音视频</a>
     
 </div>
                 
