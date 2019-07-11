@@ -17,23 +17,24 @@
 	
 	// ------- 处理搜索侧边栏结束 --------
 
-	var slideList = []
+	// var slideList = []
 	var prefix = window.slideConfig.prefix
 	var ext = '.' + window.slideConfig.ext
-	var maxCount = window.slideConfig.maxCount
-	for(var k = 0; k < 1; k++) {
-		var n = Math.floor(Math.random() * maxCount) + 1
-		while(slideList.indexOf(n) !== -1) {
-			n = Math.floor(Math.random() * maxCount) + 1
-		}
-		slideList.push(n)
-	}
+	// var maxCount = window.slideConfig.maxCount
+	// for(var k = 0; k < 1; k++) {
+	// 	var n = Math.floor(Math.random() * maxCount) + 1
+	// 	while(slideList.indexOf(n) !== -1) {
+	// 		n = Math.floor(Math.random() * maxCount) + 1
+	// 	}
+	// 	slideList.push(n)
+	// }
 
 	// ------- 处理背景图 --------------
 
 	var cdSlideShow = $('.cb-slideshow')
-	cdSlideShow.find('span').each(function (i, span) {
-		$(this).css('backgroundImage', 'url(\'' + prefix + slideList[i] + ext + '\')')
+	cdSlideShow.find('span').hover(function () {
+		$(this).addClass("span")
+		$(this).css('backgroundImage', 'url(\'' + prefix + 1 + ext + '\')')	
 	})
 
 	// ------- 处理背景图结束 -----------
