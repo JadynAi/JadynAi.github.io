@@ -18,8 +18,8 @@
 	// ------- 处理搜索侧边栏结束 --------
 
 	// var slideList = []
-	var prefix = window.slideConfig.prefix
-	var ext = '.' + window.slideConfig.ext
+	// var prefix = window.slideConfig.prefix
+	// var ext = '.' + window.slideConfig.ext
 	// var maxCount = window.slideConfig.maxCount
 	// for(var k = 0; k < 1; k++) {
 	// 	var n = Math.floor(Math.random() * maxCount) + 1
