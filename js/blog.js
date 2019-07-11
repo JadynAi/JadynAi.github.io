@@ -31,11 +31,11 @@
 
 	// ------- 处理背景图 --------------
 
-	var cdSlideShow = $('.cb-slideshow')
-	cdSlideShow.find('span').hover(function () {
-		$(this).addClass("span")
-		$(this).css('backgroundImage', 'url(\'' + prefix + 1 + ext + '\')')	
-	})
+	// var cdSlideShow = $('.cb-slideshow')
+	// cdSlideShow.find('span').hover(function () {
+	// 	$(this).addClass("span")
+	// 	$(this).css('backgroundImage', 'url(\'' + prefix + 1 + ext + '\')')	
+	// })
 
 	// ------- 处理背景图结束 -----------
 
