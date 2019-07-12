@@ -286,7 +286,7 @@
 <p>这是MediaCodeC处理输出数据的老一套代码了，根据<code>dequeueOutputBuffer</code>返回的ID，确认目前编码器处于何种状态。再分别加以处理，将得到的原始数据对外回调。</p>
 <h3 id="混合器Mux模块"><a href="#混合器Mux模块" class="headerlink" title="混合器Mux模块"></a>混合器Mux模块</h3><p>至此为止，整个视频录制功能中，视频录制编码模块完成、音频录制编码模块完成，只需要一个Mux模块。将其余两个模块提供的数据，串联起来输出Mp4文件即可。<br>在Mux模块中，已经没有什么技术含量了，具体工作就是，维护了两个数据队列。一个是视频帧队列，另一个是音频帧队列。Mux模块无限循环地从两个队列中提取队列首端数据。然后比较视频帧数据和音频帧数据中的时间戳大小，将时间小的先行封装即可。具体代码可参考<a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/mux/Muxer.kt" target="_blank" rel="noopener">Muxer</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">mediaMuxer = MediaMuxer(p, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)</span><br><span class="line">// 添加视频轨</span><br><span class="line">val videoTrackId = mediaMuxer!!.addTrack(videoTrack)</span><br><span class="line">// 添加音频轨</span><br><span class="line">val audioTrackId = mediaMuxer!!.addTrack(audioTrack)</span><br><span class="line">mediaMuxer!!.start()</span><br><span class="line"></span><br><span class="line">while (isRecording.isNotEmpty()) &#123;</span><br><span class="line">    // 从队列中提取首端数据</span><br><span class="line">    val videoFrame = videoQueue.firstSafe</span><br><span class="line">    val audioFrame = audioQueue.firstSafe</span><br><span class="line"></span><br><span class="line">    val videoTime = videoFrame?.bufferInfo?.presentationTimeUs ?: -1L</span><br><span class="line">    val audioTime = audioFrame?.bufferInfo?.presentationTimeUs ?: -1L</span><br><span class="line">    </span><br><span class="line">    // 比较音频帧和视频帧的时间戳</span><br><span class="line">    if (videoTime == -1L &amp;&amp; audioTime != -1L) &#123;</span><br><span class="line">        writeAudio(audioTrackId)</span><br><span class="line">        &#125; else if (audioTime == -1L &amp;&amp; videoTime != -1L) &#123;</span><br><span class="line">            writeVideo(videoTrackId)</span><br><span class="line">        &#125; else if (audioTime != -1L &amp;&amp; videoTime != -1L) &#123;</span><br><span class="line">            // 先写小一点的时间戳的数据</span><br><span class="line">            if (audioTime &lt; videoTime) &#123;</span><br><span class="line">                // 封装音频帧数据</span><br><span class="line">                writeAudio(audioTrackId)</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                // 封装视频帧数据</span><br><span class="line">                writeVideo(videoTrackId)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // do nothing</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Camera2视频尺寸选择"><a href="#Camera2视频尺寸选择" class="headerlink" title="Camera2视频尺寸选择"></a>Camera2视频尺寸选择</h3><p>好了。整个视频录制全部功能已全部整理完毕。接下来我们分析一个视频的尺寸选择问题，以及Camera2中使我迷惑的点————如何选择视频尺寸？<br><br>在Android官方文档中，要想获取Camera2摄像头数据，必须依靠Surface。<code>To capture or stream images from a camera device, the application must first create a camera capture session with a set of output Surfaces for use with the camera device, with createCaptureSession(SessionConfiguration).</code>。Camera2会根据你配置的Surface来匹配相应的尺寸，<code>Each Surface has to be pre-configured with an appropriate size and format (if applicable) to match the sizes and formats available from the camera device</code>，每一个Surface都必须提前配置好相应的尺寸，以便去匹配Camera2合适的Size。<br>Camera2在配置的时候，会返回一个可供选择的尺寸集合，表示当前设备摄像头所支持的所有尺寸。我在测试视频录制时，测试设备返回的尺寸列表如下：<br>sfafasfasfasfafasTODO</p>
+<h3 id="Camera2视频尺寸选择"><a href="#Camera2视频尺寸选择" class="headerlink" title="Camera2视频尺寸选择"></a>Camera2视频尺寸选择</h3><p>好了。整个视频录制全部功能已全部整理完毕。接下来我们分析一个视频的尺寸选择问题，以及Camera2中使我迷惑的点————如何选择视频尺寸？<br><br>在Android官方文档中，要想获取Camera2摄像头数据，必须依靠Surface。<code>To capture or stream images from a camera device, the application must first create a camera capture session with a set of output Surfaces for use with the camera device, with createCaptureSession(SessionConfiguration).</code>。Camera2会根据你配置的Surface来匹配相应的尺寸，<code>Each Surface has to be pre-configured with an appropriate size and format (if applicable) to match the sizes and formats available from the camera device</code>，每一个Surface都必须提前配置好相应的尺寸，以便去匹配Camera2合适的Size。<br>Camera2在配置的时候，会返回一个可供选择的尺寸集合，表示当前设备摄像头所支持的所有尺寸。我在测试视频录制时，测试设备返回的尺寸列表如下：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/camera2_1.png" alt></p>
 <p>那么OK。既然知道了支持的尺寸，那么我在配置MediaCodeC的时候，设置的宽高从这里面选择就ok了，就不用再进一步的图像处理了。可是实际我试验的结果却不理想，在MediaCodeC设置第一个尺寸的时候，录制的视频画面毫无变形。可选择其他尺寸譬如720 X 960、720 X 1280却变形严重。可当我选择1088 X 1088 或者 960 X 960，这种等宽高尺寸时，录制的画面却毫无变形。对此我也是毫无头绪，因为摸不清楚Surface匹配的尺寸机制问题，在OpenGL绘制的时候，就不知道该如何裁剪，这才是大问题。如果有解决这个问题的朋友，希望能给我提一些建议。</p>
 <h3 id="以上"><a href="#以上" class="headerlink" title="以上"></a>以上</h3>
     </div>
@@ -441,33 +441,33 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 16.401973198516067px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 18.484199052545012px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/算法/" style="font-size: 17.309613894452195px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 13.527082582910417px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/音视频/" style="font-size: 14.664357465580267px;" class="tag-cloud-link">音视频</a>
+    <a href="/tags/音视频/" style="font-size: 8.26327375376569px;" class="tag-cloud-link">音视频</a>
     
-    <a href="/tags/Android/" style="font-size: 10.975476006483687px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 9.37601820491989px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/Camera2/" style="font-size: 8.975275019286286px;" class="tag-cloud-link">Camera2</a>
+    <a href="/tags/Camera2/" style="font-size: 18.613320717004083px;" class="tag-cloud-link">Camera2</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 15.482593253501292px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 15.808720288810619px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 17.91362825644404px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 15.120809459496785px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/交互体验/" style="font-size: 9.696482260280177px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 11.95304613119372px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/视频/" style="font-size: 12.007680951893155px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 15.130205405409672px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 18.0383250302219px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 18.284788950762838px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/开发经验/" style="font-size: 15.513462758581664px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 18.835792208176766px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/OpenGL/" style="font-size: 19.222631593570163px;" class="tag-cloud-link">OpenGL</a>
+    <a href="/tags/OpenGL/" style="font-size: 13.582268704408417px;" class="tag-cloud-link">OpenGL</a>
     
-    <a href="/tags/科普向/" style="font-size: 15.045282354342108px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 14.256785339176083px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 14.116458222451634px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 19.368889645633264px;" class="tag-cloud-link">音频</a>
     
 </div>
                 
