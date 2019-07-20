@@ -253,6 +253,9 @@
 <blockquote>
 <p>绿生莺啼春正浓，钗头青杏小，绿成丛。<br>玉船风动酒鳞红。歌声咽，相见几时重？</p>
 </blockquote>
+<h3 id="MediaLearn"><a href="#MediaLearn" class="headerlink" title="MediaLearn"></a>MediaLearn</h3><blockquote>
+<p>欢迎大家关注我的项目<a href="https://github.com/JadynAi/MediaLearn" target="_blank" rel="noopener">MediaLearn</a>，这是一个以学习分享音视频知识为目的建立的项目，目前仅局限于Android平台，后续会逐渐扩展。<br>对音视频领域知识感兴趣的朋友，欢迎一起来学习！！！</p>
+</blockquote>
 <h3 id="提要"><a href="#提要" class="headerlink" title="提要"></a>提要</h3><p>这是<code>MediaCodeC</code>系列的第三章，主题是如何使用MediaCodeC将图片集编码为视频文件。在Android多媒体的处理上，MediaCodeC是一套非常有用的API。此次实验中，所使用的图片集正是<a href="https://ailoli.me/2019/01/25/2019-01-25-MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>文章中，对视频解码出来的图片文件集，总共332张图片帧。<br>若是对<code>MediaCodeC</code>视频解码感兴趣的话，也可以浏览之前的文章：<a href="https://ailoli.me/2019/02/09/2019-02-09-MediaCodeC-frame/" target="_blank" rel="noopener">MediaCodeC解码视频指定帧，迅捷、精确</a></p>
 <h3 id="核心流程"><a href="#核心流程" class="headerlink" title="核心流程"></a>核心流程</h3><p><code>MediaCodeC</code>的常规工作流程是：拿到可用输入队列，填充数据；拿到可用输出队列，取出数据，如此往复直至结束。在一般情况下，填充和取出两个动作并不是即时的，也就是说并不是压入一帧数据，就能拿出一帧数据。当然，除了编码的视频每一帧都是关键帧的情况下。<br><br>一般情况下，输入和输出都使用buffer的代码写法如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for (;;) &#123;</span><br><span class="line">	//拿到可用InputBuffer的id</span><br><span class="line">  int inputBufferId = codec.dequeueInputBuffer(timeoutUs);</span><br><span class="line">  if (inputBufferId &gt;= 0) &#123;</span><br><span class="line">    ByteBuffer inputBuffer = codec.getInputBuffer(…);</span><br><span class="line">    // inputBuffer 填充数据</span><br><span class="line">    codec.queueInputBuffer(inputBufferId, …);</span><br><span class="line">  &#125;</span><br><span class="line">  // 查询是否有可用的OutputBuffer</span><br><span class="line">  int outputBufferId = codec.dequeueOutputBuffer(…);</span><br></pre></td></tr></table></figure>
@@ -446,33 +449,33 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 16.58333599766336px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 11.996756378084461px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/算法/" style="font-size: 14.167017929495687px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 12.552408729477989px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/Camera2/" style="font-size: 16.345153469780307px;" class="tag-cloud-link">Camera2</a>
+    <a href="/tags/Camera2/" style="font-size: 14.403665279181842px;" class="tag-cloud-link">Camera2</a>
     
-    <a href="/tags/音视频/" style="font-size: 11.246608786625842px;" class="tag-cloud-link">音视频</a>
+    <a href="/tags/音视频/" style="font-size: 16.441479742343947px;" class="tag-cloud-link">音视频</a>
     
-    <a href="/tags/Android/" style="font-size: 12.111600037181573px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 10.494544217055992px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 10.22168891397412px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 10.247571987598363px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 10.916699997480716px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 12.938748544984396px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/交互体验/" style="font-size: 12.503301848471335px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 16.569863110996756px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/视频/" style="font-size: 18.47555363068566px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 14.46676047996175px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 18.71780453267187px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 9.20314099090659px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/开发经验/" style="font-size: 12.961433820334964px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 10.037047011893122px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/OpenGL/" style="font-size: 16.316278334260012px;" class="tag-cloud-link">OpenGL</a>
+    <a href="/tags/OpenGL/" style="font-size: 18.313194902339475px;" class="tag-cloud-link">OpenGL</a>
     
-    <a href="/tags/科普向/" style="font-size: 10.16689530170524px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 13.117088679369655px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 15.862295326842982px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 16.79420908034682px;" class="tag-cloud-link">音频</a>
     
 </div>
                 
