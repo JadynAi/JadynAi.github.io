@@ -142,15 +142,15 @@
                         </li>
                         
                         <li>
+                            <a href="/tags/Camera2/">Camera2</a>
+                        </li>
+                        
+                        <li>
                             <a href="/tags/音视频/">音视频</a>
                         </li>
                         
                         <li>
                             <a href="/tags/Android/">Android</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/tags/Camera2/">Camera2</a>
                         </li>
                         
                         <li>
@@ -267,7 +267,7 @@
 </ul>
 <h3 id="架构设计【注1】"><a href="#架构设计【注1】" class="headerlink" title="架构设计【注1】"></a>架构设计【注1】</h3><p>作为一个简单的音视频录制应用，并没有什么花哨的功能（暂时没有，以后会慢慢追加）。整体业务逻辑就是直截了当的<code>录制视频 ——&gt;
  产出视频</code>。业务再细分的话，主要有三个部分：一是画面，即视频部分；二是声音，即音频部分；三是混合器，即将视频和音频混合，并生成视频文件。<br>将业务略作区分后，我们由结果向前反推，既然要生成MP4文件，那么需要提供一些什么数据呢？所以我们根据输出——即混合器部分，梳理各个模块的详细功能。</p>
-<h4 id="视频封装"><a href="#视频封装" class="headerlink" title="视频封装"></a>视频封装</h4><p> 在<code>混合器</code>模块，使用了Android提供的<code>MediaMuxer</code>作为视频封装输出工具。<code>MediaMuxer</code>支持三种输出格式，分别为MP4、Webm和3GP文件，本次项目的混合器输出自然选择的是MP4文件。<br><br>MP4是MPEG-4的官方容器格式定义的广义文件扩展名，可以流媒体化并支持众多多媒体的内容：多音轨、视频流、字幕、图片、可变帧率、码率【注2】。<br>在制作MP4文件时，应该优先选用MPEG-4标准下的视频/音频格式，一般来说，对于MP4容器的封装，相对而言比较常见的有两种编码方式：</p>
+<h4 id="视频封装"><a href="#视频封装" class="headerlink" title="视频封装"></a>视频封装</h4><p>在<code>混合器</code>模块，使用了Android提供的<code>MediaMuxer</code>作为视频封装输出工具。<code>MediaMuxer</code>支持三种输出格式，分别为MP4、Webm和3GP文件，本次项目的混合器输出自然选择的是MP4文件。<br><br>MP4是MPEG-4的官方容器格式定义的广义文件扩展名，可以流媒体化并支持众多多媒体的内容：多音轨、视频流、字幕、图片、可变帧率、码率【注2】。<br>在制作MP4文件时，应该优先选用MPEG-4标准下的视频/音频格式，一般来说，对于MP4容器的封装，相对而言比较常见的有两种编码方式：</p>
 <ul>
 <li>H264视频编码，AAC音频编码</li>
 <li>Xvid视频编码，MP4音频编码</li>
@@ -448,33 +448,33 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 10.874458207039627px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 14.139714206259672px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/算法/" style="font-size: 10.265594227606805px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 15.012192118780025px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/音视频/" style="font-size: 9.86632489017844px;" class="tag-cloud-link">音视频</a>
+    <a href="/tags/Camera2/" style="font-size: 16.69405567386px;" class="tag-cloud-link">Camera2</a>
     
-    <a href="/tags/Android/" style="font-size: 16.808569281447024px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/音视频/" style="font-size: 8.57565653948749px;" class="tag-cloud-link">音视频</a>
     
-    <a href="/tags/Camera2/" style="font-size: 11.03209984660772px;" class="tag-cloud-link">Camera2</a>
+    <a href="/tags/Android/" style="font-size: 8.991406264045196px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 17.136628504475127px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 13.371468549157505px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 10.721006967162026px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 8.94079975766066px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/交互体验/" style="font-size: 14.659062272238726px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 12.211712547563877px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/视频/" style="font-size: 18.07593575542836px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 8.7511913609736px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 17.260745769029455px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 12.077943875348474px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/开发经验/" style="font-size: 8.316524761188152px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 17.70872335006072px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/OpenGL/" style="font-size: 11.952594526403965px;" class="tag-cloud-link">OpenGL</a>
+    <a href="/tags/OpenGL/" style="font-size: 18.925400392088505px;" class="tag-cloud-link">OpenGL</a>
     
-    <a href="/tags/科普向/" style="font-size: 17.39391056888749px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 11.683575348337481px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 18.92641037505406px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 15.299767480476127px;" class="tag-cloud-link">音频</a>
     
 </div>
                 
