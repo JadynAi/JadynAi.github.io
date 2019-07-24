@@ -256,7 +256,7 @@
 <h3 id="MediaLearn"><a href="#MediaLearn" class="headerlink" title="MediaLearn"></a>MediaLearn</h3><blockquote>
 <p>欢迎大家关注我的项目<a href="https://github.com/JadynAi/MediaLearn" target="_blank" rel="noopener">MediaLearn</a>，这是一个以学习分享音视频知识为目的建立的项目，目前仅局限于Android平台，后续会逐渐扩展。<br>对音视频领域知识感兴趣的朋友，欢迎一起来学习！！！</p>
 </blockquote>
-<h3 id="提要"><a href="#提要" class="headerlink" title="提要"></a>提要</h3><p>这是<code>MediaCodeC</code>系列的第三章，主题是如何使用MediaCodeC将图片集编码为视频文件。在Android多媒体的处理上，MediaCodeC是一套非常有用的API。此次实验中，所使用的图片集正是<a href="https://ailoli.me/2019/01/25/2019-01-25-MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>文章中，对视频解码出来的图片文件集，总共332张图片帧。<br>若是对<code>MediaCodeC</code>视频解码感兴趣的话，也可以浏览之前的文章：<a href="https://ailoli.me/2019/02/09/2019-02-09-MediaCodeC-frame/" target="_blank" rel="noopener">MediaCodeC解码视频指定帧，迅捷、精确</a></p>
+<h3 id="提要"><a href="#提要" class="headerlink" title="提要"></a>提要</h3><p>这是<code>MediaCodeC</code>系列的第三章，主题是如何使用MediaCodeC将图片集编码为视频文件。在Android多媒体的处理上，MediaCodeC是一套非常有用的API。此次实验中，所使用的图片集正是<a href="https://jadynai.github.io/2019/01/25/2019-01-25-MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>文章中，对视频解码出来的图片文件集，总共332张图片帧。<br>若是对<code>MediaCodeC</code>视频解码感兴趣的话，也可以浏览之前的文章：<a href="https://jadynai.github.io/2019/02/09/2019-02-09-MediaCodeC-frame/" target="_blank" rel="noopener">MediaCodeC解码视频指定帧，迅捷、精确</a></p>
 <h3 id="核心流程"><a href="#核心流程" class="headerlink" title="核心流程"></a>核心流程</h3><p><code>MediaCodeC</code>的常规工作流程是：拿到可用输入队列，填充数据；拿到可用输出队列，取出数据，如此往复直至结束。在一般情况下，填充和取出两个动作并不是即时的，也就是说并不是压入一帧数据，就能拿出一帧数据。当然，除了编码的视频每一帧都是关键帧的情况下。<br><br>一般情况下，输入和输出都使用buffer的代码写法如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for (;;) &#123;</span><br><span class="line">	//拿到可用InputBuffer的id</span><br><span class="line">  int inputBufferId = codec.dequeueInputBuffer(timeoutUs);</span><br><span class="line">  if (inputBufferId &gt;= 0) &#123;</span><br><span class="line">    ByteBuffer inputBuffer = codec.getInputBuffer(…);</span><br><span class="line">    // inputBuffer 填充数据</span><br><span class="line">    codec.queueInputBuffer(inputBufferId, …);</span><br><span class="line">  &#125;</span><br><span class="line">  // 查询是否有可用的OutputBuffer</span><br><span class="line">  int outputBufferId = codec.dequeueOutputBuffer(…);</span><br></pre></td></tr></table></figure>
 <p>本篇文章的编码核心流程，和以上代码相差不多。只是将输入Buffer替换成了Surface，使用Surface代替InputBuffer来实现数据的填充。</p>
@@ -279,7 +279,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var encodeCore = GLEncodeCore(...)</span><br><span class="line">encodeCore.buildEGLSurface(inputSurface)</span><br><span class="line"></span><br><span class="line">fun buildEGLSurface(surface: Surface) &#123;</span><br><span class="line">        // 构建EGL环境</span><br><span class="line">        eglEnv.setUpEnv().buildWindowSurface(surface)</span><br><span class="line">        // GPU program构建</span><br><span class="line">        encodeProgram.build()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="图片数据传入，并开始编码"><a href="#图片数据传入，并开始编码" class="headerlink" title="图片数据传入，并开始编码"></a>图片数据传入，并开始编码</h4><p>在各种API配置好之后，开启一个循环，将File文件读取的Bitmap传入编码。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">val videoEncoder = VideoEncoder(640, 480, 1800000, 24)</span><br><span class="line">videoEncoder.start(Environment.getExternalStorageDirectory().path</span><br><span class="line">                    + &quot;/encodeyazi640$&#123;videoEncoder.bitRate&#125;.mp4&quot;)</span><br><span class="line">val file = File(图片集文件夹地址)</span><br><span class="line">file.listFiles().forEachIndexed &#123; index, it -&gt;</span><br><span class="line">    BitmapFactory.decodeFile(it.path)?.apply &#123;</span><br><span class="line">            videoEncoder.drainFrame(this, index)</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">videoEncoder.drainEnd()</span><br></pre></td></tr></table></figure>
-<p>在提要里面也提到了，编码项目使用的图片集是之前<a href="https://ailoli.me/2019/01/25/MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>中的视频文件解码出来的，332张图片。<br>循环代码中，我们逐次将图片Bitmap传入<code>drainFrame(...)</code>函数，用于编码。当所有帧编码完成后，使用<code>drainEnd</code>函数通知编码器编码完成。</p>
+<p>在提要里面也提到了，编码项目使用的图片集是之前<a href="https://jadynai.github.io/2019/01/25/MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>中的视频文件解码出来的，332张图片。<br>循环代码中，我们逐次将图片Bitmap传入<code>drainFrame(...)</code>函数，用于编码。当所有帧编码完成后，使用<code>drainEnd</code>函数通知编码器编码完成。</p>
 <h4 id="视频帧编码"><a href="#视频帧编码" class="headerlink" title="视频帧编码"></a>视频帧编码</h4><p>接着我们再来看<code>drameFrame(...)</code>函数中的具体实现。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    *</span><br><span class="line">    * @b : draw bitmap to texture</span><br><span class="line">    *</span><br><span class="line">    * @presentTime: frame current time</span><br><span class="line">    * */</span><br><span class="line">   fun drainFrame(b: Bitmap, presentTime: Long) &#123;</span><br><span class="line">       encodeCore.drainFrame(b, presentTime)</span><br><span class="line">       drainCoder(false)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   fun drainFrame(b: Bitmap, index: Int) &#123;</span><br><span class="line">       drainFrame(b, index * mediaFormat.perFrameTime * 1000)</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   fun drainCoder(...)&#123;</span><br><span class="line">       伪代码：MediaCodeC拿到输出队列数据，使用MediaMuxer编码为</span><br><span class="line">       Mp4文件</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>首先使用OpenGL将Bitmap绘制纹理上，将数据传输到Surface上，并且需要将这个Bitmap所代表的时间戳传入。在传入数据后使用<code>drainCoder</code>函数，从MediaCodeC读取输出数据，使用MediaMuxer编码为Mp4视频文件。<code>drainCoder</code>函数具体实现如下：</p>
@@ -449,33 +449,33 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 14.231218569286339px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 18.681455478133046px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/算法/" style="font-size: 9.80105835069704px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 12.1867129395252px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/Camera2/" style="font-size: 12.83964672421023px;" class="tag-cloud-link">Camera2</a>
+    <a href="/tags/Camera2/" style="font-size: 18.140195487378215px;" class="tag-cloud-link">Camera2</a>
     
-    <a href="/tags/音视频/" style="font-size: 18.24985712114242px;" class="tag-cloud-link">音视频</a>
+    <a href="/tags/音视频/" style="font-size: 10.341086696482751px;" class="tag-cloud-link">音视频</a>
     
-    <a href="/tags/Android/" style="font-size: 15.128390168594986px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 18.78613801580088px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 14.96995022271257px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 13.544008829358383px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 8.926618407548215px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 18.88063961743657px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/交互体验/" style="font-size: 8.087587000604907px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 14.329987580946272px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/视频/" style="font-size: 19.48895258428679px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 14.65916130595074px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 10.756764834252657px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 14.604261676315673px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/开发经验/" style="font-size: 15.533919088683266px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 13.424075640614248px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/OpenGL/" style="font-size: 19.463407179353673px;" class="tag-cloud-link">OpenGL</a>
+    <a href="/tags/OpenGL/" style="font-size: 8.743780458853724px;" class="tag-cloud-link">OpenGL</a>
     
-    <a href="/tags/科普向/" style="font-size: 9.131145238268008px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 19.49685140247357px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 13.627005851418216px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 19.264880219771406px;" class="tag-cloud-link">音频</a>
     
 </div>
                 

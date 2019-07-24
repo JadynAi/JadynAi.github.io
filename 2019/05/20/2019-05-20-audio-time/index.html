@@ -259,7 +259,7 @@
 <p>需要注意的是：使用MediaMuxer生成AAC音频文件时，不需要添加AAC头信息，直接写入即可。<br>MediaMuxer写入文件时，BufferInfo这个参数就包含了这一帧数据的偏移、以及时间戳等信息。</p>
 </blockquote>
 <p><strong>更加完整的音频编码代码，请参考GitHub地址</strong><a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/audio/AudioEncoder.kt" target="_blank" rel="noopener">AudioEncoder</a></p>
-<h4 id="使用PCM的数据量来计算"><a href="#使用PCM的数据量来计算" class="headerlink" title="使用PCM的数据量来计算"></a>使用PCM的数据量来计算</h4><p>PCM是没有经过压缩的纯音频数据，我之前写过一篇音频入门的文章<a href="https://ailoli.me/2018/04/02/audio_start_learn/" target="_blank" rel="noopener">初识音频</a>，记录了一些PCM相关的常识问题，感兴趣的可以去看看。<br>PCM作为最原始的音频数据，可以根据大小来计算出时间，先给出公式：</p>
+<h4 id="使用PCM的数据量来计算"><a href="#使用PCM的数据量来计算" class="headerlink" title="使用PCM的数据量来计算"></a>使用PCM的数据量来计算</h4><p>PCM是没有经过压缩的纯音频数据，我之前写过一篇音频入门的文章<a href="https://jadynai.github.io/2018/04/02/audio_start_learn/" target="_blank" rel="noopener">初识音频</a>，记录了一些PCM相关的常识问题，感兴趣的可以去看看。<br>PCM作为最原始的音频数据，可以根据大小来计算出时间，先给出公式：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">presentationTimeUs = 1000000L * (totalBytes / 2) / sampleRate</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>这是配置为采样率sampletRate、采样位数为16bit、单声道的PCM文件时间戳计算方式</p>
@@ -428,33 +428,33 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 19.96199177525402px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 14.940628582828863px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/算法/" style="font-size: 15.491025681519476px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 19.477388739044898px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/Camera2/" style="font-size: 8.901675019671814px;" class="tag-cloud-link">Camera2</a>
+    <a href="/tags/Camera2/" style="font-size: 18.10641257637904px;" class="tag-cloud-link">Camera2</a>
     
-    <a href="/tags/音视频/" style="font-size: 14.965020378878833px;" class="tag-cloud-link">音视频</a>
+    <a href="/tags/音视频/" style="font-size: 15.256769709746953px;" class="tag-cloud-link">音视频</a>
     
-    <a href="/tags/Android/" style="font-size: 13.584892719162866px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 19.123892980463438px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 17.11398762708301px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 11.162977011332552px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 14.978679752668496px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 16.426757064081567px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/交互体验/" style="font-size: 13.083320602391606px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 16.983050327019882px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/视频/" style="font-size: 18.78392079791033px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 11.792766858174799px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 15.03685067531352px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 17.648494805367214px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/开发经验/" style="font-size: 13.681097618517589px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 10.895110924960976px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/OpenGL/" style="font-size: 10.593625569906177px;" class="tag-cloud-link">OpenGL</a>
+    <a href="/tags/OpenGL/" style="font-size: 16.810981746917513px;" class="tag-cloud-link">OpenGL</a>
     
-    <a href="/tags/科普向/" style="font-size: 13.196512908126202px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 10.457179215250953px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 16.59472251716086px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 16.436491847743447px;" class="tag-cloud-link">音频</a>
     
 </div>
                 

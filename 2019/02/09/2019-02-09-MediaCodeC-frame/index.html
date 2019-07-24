@@ -249,7 +249,7 @@
 <blockquote>
 <p>若待明朝风雨过，人在天涯！春在天涯</p>
 </blockquote>
-<h3 id="提要"><a href="#提要" class="headerlink" title="提要"></a>提要</h3><p>最近在整理硬编码<strong>MediaCodec</strong>相关的学习笔记，以及代码文档，分享出来以供参考。本人水平有限，项目难免有思虑不当之处，若有问题可以提<code>Issues</code>。<a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/video/decode/VideoDecoder2.kt" target="_blank" rel="noopener">项目地址传送门</a><br>此篇文章，主要是分享如何用<code>MediaCodeC</code>解码视频指定时间的一帧，回调Bitmap对象。之前还有一篇<a href="http://ailoli.me/2019/02/01/MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>，主要内容是将视频完整解码，并存储为JPEG文件，大家感兴趣可以去看一看。</p>
+<h3 id="提要"><a href="#提要" class="headerlink" title="提要"></a>提要</h3><p>最近在整理硬编码<strong>MediaCodec</strong>相关的学习笔记，以及代码文档，分享出来以供参考。本人水平有限，项目难免有思虑不当之处，若有问题可以提<code>Issues</code>。<a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/video/decode/VideoDecoder2.kt" target="_blank" rel="noopener">项目地址传送门</a><br>此篇文章，主要是分享如何用<code>MediaCodeC</code>解码视频指定时间的一帧，回调Bitmap对象。之前还有一篇<a href="http://jadynai.github.io/2019/02/01/MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>，主要内容是将视频完整解码，并存储为JPEG文件，大家感兴趣可以去看一看。</p>
 <h3 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h3><p><code>VideoDecoder2</code>上手简单直接，首先需要创建一个解码器对象：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val videoDecoder2 = VideoDecoder2(dataSource)</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -296,7 +296,7 @@
 <p>之前在<code>Oppo R15</code>的测试机型上，进行了一轮解码测试。<br>使用<code>MediaCodeC</code>解码一帧到到的Bitmap，大概需要<strong>100~200ms</strong>的时间。<br>而使用磁盘缓存的话，读取时间大概在<strong>50~60ms</strong>徘徊，效率增加了一倍。</p>
 </blockquote>
 <p>在磁盘缓存使用的过程中，有对<a href="https://github.com/JakeWharton/DiskLruCache/tree/master/src/main/java/com/jakewharton/disklrucache" target="_blank" rel="noopener">DiskLruCache</a>进行二次封装，内部使用单线程队列形式。进行磁盘缓存，对外提供了异步和同步两种方式获取缓存。可以直接搭配<code>DiskLruCache</code>使用——<a href="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/mediakit/src/main/java/com/jadyn/mediakit/video/decode/DiskCacheAssist.kt" target="_blank" rel="noopener">DiskCacheAssist.kt</a></p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>到目前为止，视频解码的部分已经完成。上一篇是对视频完整解码并存储为图片文件，<a href="http://ailoli.me/2019/02/01/MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>，这一篇是解码指定帧。音视频相关的知识体系还很大，会继续学习下去。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>到目前为止，视频解码的部分已经完成。上一篇是对视频完整解码并存储为图片文件，<a href="http://jadynai.github.io/2019/02/01/MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>，这一篇是解码指定帧。音视频相关的知识体系还很大，会继续学习下去。</p>
 <h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p><a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/video/decode/VideoDecoder2.kt" target="_blank" rel="noopener">此处有项目地址，点击传送</a></p>
 
     </div>
@@ -451,33 +451,33 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 11.293339773793388px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 8.172565970453629px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/算法/" style="font-size: 8.40520807743927px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 14.562681475845572px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/Camera2/" style="font-size: 11.438439664964918px;" class="tag-cloud-link">Camera2</a>
+    <a href="/tags/Camera2/" style="font-size: 14.084597640370468px;" class="tag-cloud-link">Camera2</a>
     
-    <a href="/tags/音视频/" style="font-size: 10.616306744862609px;" class="tag-cloud-link">音视频</a>
+    <a href="/tags/音视频/" style="font-size: 8.239745240661655px;" class="tag-cloud-link">音视频</a>
     
-    <a href="/tags/Android/" style="font-size: 17.789065998867116px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 19.01549684429462px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 14.098050787394314px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 11.735754164353818px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 14.564923469003201px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 13.702599726080726px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/交互体验/" style="font-size: 8.44455576534724px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 12.868562393988826px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/视频/" style="font-size: 12.861851051494225px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 8.527627166086283px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 17.96824806922864px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 17.380062436971844px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/开发经验/" style="font-size: 18.63656598497405px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 12.719180704839623px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/OpenGL/" style="font-size: 12.45763069882965px;" class="tag-cloud-link">OpenGL</a>
+    <a href="/tags/OpenGL/" style="font-size: 18.996253468421955px;" class="tag-cloud-link">OpenGL</a>
     
-    <a href="/tags/科普向/" style="font-size: 15.037521239463597px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 18.008380850841505px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 10.529164326854465px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 16.14316333938376px;" class="tag-cloud-link">音频</a>
     
 </div>
                 

@@ -238,7 +238,7 @@
     </div>
     <div class="content-article">
         <blockquote>
-<p>原创文章，转载请注明出处。<br>之前作过一篇<a href="http://ailoli.me/2017/05/03/Android%E7%B2%92%E5%AD%90%E7%89%B9%E6%95%88%E4%B9%8B-%E8%90%A4%E7%81%AB%E8%99%AB%E9%A3%9E%E8%88%9E%E6%95%88%E6%9E%9C/" target="_blank" rel="noopener">萤火虫飞舞粒子效果</a>，当时看还不错。无论是性能还是UI都满足了当时的设计效果，但实际应用到项目中，却发现由于<code>SurfaceView</code>其本身是绘制在<code>window</code>层面上的，对<code>View</code>本身的属性有很多的限制，用起来却不是很实在，还存在着很多不足。</p>
+<p>原创文章，转载请注明出处。<br>之前作过一篇<a href="http://jadynai.github.io/2017/05/03/Android%E7%B2%92%E5%AD%90%E7%89%B9%E6%95%88%E4%B9%8B-%E8%90%A4%E7%81%AB%E8%99%AB%E9%A3%9E%E8%88%9E%E6%95%88%E6%9E%9C/" target="_blank" rel="noopener">萤火虫飞舞粒子效果</a>，当时看还不错。无论是性能还是UI都满足了当时的设计效果，但实际应用到项目中，却发现由于<code>SurfaceView</code>其本身是绘制在<code>window</code>层面上的，对<code>View</code>本身的属性有很多的限制，用起来却不是很实在，还存在着很多不足。</p>
 <p>于是便将之前的效果重新写了一下，改用继承View来实现，虽然说和<code>SurfaceView</code>相比，在绘制性能上有那么一丝丝的不足 。但轮子本质的含义还是为了服务于项目，项目中方便的使用才是最重要的。</p>
 </blockquote>
 <h6 id="阅读本文，大概需要三分半钟。如果需要直观看代码的话请点这里点这里！！"><a href="#阅读本文，大概需要三分半钟。如果需要直观看代码的话请点这里点这里！！" class="headerlink" title="阅读本文，大概需要三分半钟。如果需要直观看代码的话请点这里点这里！！"></a><em>阅读本文，大概需要三分半钟。如果需要直观看代码的话</em><a href="https://github.com/JadynAi/Particle" target="_blank" rel="noopener">请点这里点这里！！</a></h6><h4 id="首先看一下效果图"><a href="#首先看一下效果图" class="headerlink" title="首先看一下效果图"></a>首先看一下效果图</h4><p><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/20170628-blog_particle.gif" alt></p>
@@ -427,33 +427,33 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 15.763080583921985px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 13.492716480206845px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/算法/" style="font-size: 13.923363025247692px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 11.01928492427538px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/Camera2/" style="font-size: 19.202837308512855px;" class="tag-cloud-link">Camera2</a>
+    <a href="/tags/Camera2/" style="font-size: 15.152581327657025px;" class="tag-cloud-link">Camera2</a>
     
-    <a href="/tags/音视频/" style="font-size: 13.289728147800327px;" class="tag-cloud-link">音视频</a>
+    <a href="/tags/音视频/" style="font-size: 8.364651958641765px;" class="tag-cloud-link">音视频</a>
     
-    <a href="/tags/Android/" style="font-size: 19.181011332895615px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 8.206842617562835px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 9.480930015134167px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 18.103124924693727px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 16.280380454350027px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 17.267290986295418px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/交互体验/" style="font-size: 9.6015847774805px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 8.625658329686289px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/视频/" style="font-size: 10.243743996330023px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 8.576679613208404px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 13.806702751261884px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 10.628676045603349px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/开发经验/" style="font-size: 15.991968060835312px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 9.229584747520125px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/OpenGL/" style="font-size: 17.171742462886435px;" class="tag-cloud-link">OpenGL</a>
+    <a href="/tags/OpenGL/" style="font-size: 8.475174907855603px;" class="tag-cloud-link">OpenGL</a>
     
-    <a href="/tags/科普向/" style="font-size: 19.079619224860387px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 12.949169886870097px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 9.847881820304671px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 12.992869588867453px;" class="tag-cloud-link">音频</a>
     
 </div>
                 
