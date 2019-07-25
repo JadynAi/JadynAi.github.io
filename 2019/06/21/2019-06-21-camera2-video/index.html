@@ -13,7 +13,7 @@
     
     
     <title>Camera2录制视频(二)：MediaCodeC+OpenGL视频编码 | Life is Like A Boat</title>
-    <link href="”https://yoursite.com“" rel="”prefetch”">
+    <link href="”https://ailo.fun“" rel="”prefetch”">
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/aos.css">
@@ -59,7 +59,7 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse" aria-expanded="false">
                 <span class="fa fa-lg fa-reorder"></span>
             </button>
-            <a href="https://yoursite.com">
+            <a href="https://ailo.fun">
                 
                 <!-- 这里background使用imgs/${logo_image}(路径文件名) -->
                 <style>
@@ -188,7 +188,7 @@
 <article class="article well article-body" id="article">
     <div class="breadcrumb">
         <i class="fa fa-home"></i>
-        <a href="https://yoursite.com">Life is Like A Boat</a>
+        <a href="https://ailo.fun">Life is Like A Boat</a>
         >
         <span>Camera2录制视频(二)：MediaCodeC+OpenGL视频编码</span>
     </div>
@@ -256,7 +256,7 @@
 <p>项目中使用的摄像头API为<code>Camera2</code></p>
 </blockquote>
 <p>在文章开始之前，依然是老规矩，我们从结果导向，梳理流程。看看在视频录制这个阶段，流程是如何运作的，数据在这其中发生了什么变化。</p>
-<h3 id="流程梳理"><a href="#流程梳理" class="headerlink" title="流程梳理"></a>流程梳理</h3><p>当设备的摄像头在运转时，sensor【传感器】会将光信号转为电信号，再转为数字信号。sensor会输出四种格式的图片格式：YUV、RGB、RAW RGB DATA、JPEG。YUV是最常用的一种格式，YUV输出的数据中亮度信号是无损的，RGB会有一定的损耗会丢掉一些原始信息。而RAW DATA是最原始的信息，但是存储空间会变大，而且需要一些特定软件才能打开。<br>在废弃的摄像头API——<code>Camera</code>中，默认的预览回调数据格式就是NV21。而在<code>Camera2</code>中，函数只提供了<code>Surface</code>作为桥接对象。若是想获取YUV、或者JPEG和RAW_SENSOR的话，可以使用<code>ImageReader</code>提供的Surface，再通过监听获取图像信息。<br>不管是Camera还是Camera2，都是支持设置Surface的。通过Surface，我们可以将Camera拿到的数据直接输送到GPU通过OpenGL来渲染处理。这样可以不用再CPU中处理Camera帧数据，从而节省大量时间。好了，接下来我用一张流程图，来展示<code>MediaCodeC</code>如何编码Camera帧数据的。<br><img src="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/encode_surface.png" alt></p>
+<h3 id="流程梳理"><a href="#流程梳理" class="headerlink" title="流程梳理"></a>流程梳理</h3><p>当设备的摄像头在运转时，sensor【传感器】会将光信号转为电信号，再转为数字信号。sensor会输出四种格式的图片格式：YUV、RGB、RAW RGB DATA(DNG格式)、JPEG。YUV是最常用的一种格式，YUV输出的数据中亮度信号是无损的，RGB会有一定的损耗会丢掉一些原始信息。而RAW DATA是最原始的信息，但是存储空间会变大，而且需要一些特定软件才能打开。<br>在废弃的摄像头API——<code>Camera</code>中，默认的预览回调数据格式就是NV21。而在<code>Camera2</code>中，函数只提供了<code>Surface</code>作为桥接对象。若是想获取YUV、或者JPEG和RAW_SENSOR的话，可以使用<code>ImageReader</code>提供的Surface，再通过监听获取图像信息。<br>不管是Camera还是Camera2，都是支持设置Surface的。通过Surface，我们可以将Camera拿到的数据直接输送到GPU通过OpenGL来渲染处理。这样可以不用再CPU中处理Camera帧数据，从而节省大量时间。好了，接下来我用一张流程图，来展示<code>MediaCodeC</code>如何编码Camera帧数据的。<br><img src="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/encode_surface.png" alt></p>
 <ul>
 <li>1、因为我们需要的是H264数据，所以需要给MediaCodeC配置Mime为<code>video/avc</code></li>
 <li>2、MediaCodeC配置好之后，通过<code>createInputSurface</code>创建出一个作输入的Input—Surface</li>
@@ -426,33 +426,33 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/技术讨论/" style="font-size: 11.791170169878777px;" class="tag-cloud-link">技术讨论</a>
+    <a href="/tags/技术讨论/" style="font-size: 19.088875306153618px;" class="tag-cloud-link">技术讨论</a>
     
-    <a href="/tags/算法/" style="font-size: 8.282588781898816px;" class="tag-cloud-link">算法</a>
+    <a href="/tags/算法/" style="font-size: 15.073201232457905px;" class="tag-cloud-link">算法</a>
     
-    <a href="/tags/Camera2/" style="font-size: 19.98152177087337px;" class="tag-cloud-link">Camera2</a>
+    <a href="/tags/Camera2/" style="font-size: 12.288190141305764px;" class="tag-cloud-link">Camera2</a>
     
-    <a href="/tags/音视频/" style="font-size: 17.225624847033046px;" class="tag-cloud-link">音视频</a>
+    <a href="/tags/音视频/" style="font-size: 9.11547325774845px;" class="tag-cloud-link">音视频</a>
     
-    <a href="/tags/Android/" style="font-size: 15.71244045095316px;" class="tag-cloud-link">Android</a>
+    <a href="/tags/Android/" style="font-size: 10.564766123095698px;" class="tag-cloud-link">Android</a>
     
-    <a href="/tags/Canvas动画/" style="font-size: 18.757901216918533px;" class="tag-cloud-link">Canvas动画</a>
+    <a href="/tags/Canvas动画/" style="font-size: 15.535619006389258px;" class="tag-cloud-link">Canvas动画</a>
     
-    <a href="/tags/视觉设计/" style="font-size: 11.850520544034847px;" class="tag-cloud-link">视觉设计</a>
+    <a href="/tags/视觉设计/" style="font-size: 16.697726390672177px;" class="tag-cloud-link">视觉设计</a>
     
-    <a href="/tags/交互体验/" style="font-size: 10.410923654871052px;" class="tag-cloud-link">交互体验</a>
+    <a href="/tags/交互体验/" style="font-size: 17.284392707980622px;" class="tag-cloud-link">交互体验</a>
     
-    <a href="/tags/视频/" style="font-size: 10.647283581507246px;" class="tag-cloud-link">视频</a>
+    <a href="/tags/视频/" style="font-size: 16.803187104049083px;" class="tag-cloud-link">视频</a>
     
-    <a href="/tags/MediaCodeC/" style="font-size: 14.930093610457487px;" class="tag-cloud-link">MediaCodeC</a>
+    <a href="/tags/MediaCodeC/" style="font-size: 10.631039985278342px;" class="tag-cloud-link">MediaCodeC</a>
     
-    <a href="/tags/开发经验/" style="font-size: 16.656130265680602px;" class="tag-cloud-link">开发经验</a>
+    <a href="/tags/开发经验/" style="font-size: 13.87719918026875px;" class="tag-cloud-link">开发经验</a>
     
-    <a href="/tags/OpenGL/" style="font-size: 9.98793890226948px;" class="tag-cloud-link">OpenGL</a>
+    <a href="/tags/OpenGL/" style="font-size: 14.013578110529815px;" class="tag-cloud-link">OpenGL</a>
     
-    <a href="/tags/科普向/" style="font-size: 11.113060213125678px;" class="tag-cloud-link">科普向</a>
+    <a href="/tags/科普向/" style="font-size: 16.391890018644133px;" class="tag-cloud-link">科普向</a>
     
-    <a href="/tags/音频/" style="font-size: 18.258897615778857px;" class="tag-cloud-link">音频</a>
+    <a href="/tags/音频/" style="font-size: 17.52008198901364px;" class="tag-cloud-link">音频</a>
     
 </div>
                 
