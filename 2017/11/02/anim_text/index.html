@@ -1,143 +1,241 @@
 <!DOCTYPE html>
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta name="keywords" content="hexo, autumn, android, video, audio, 音视频, 动画">
-    <title>
-        Life is Like A Boat
-    </title>
-    <!-- favicon -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="AiLo">
     
-    <link rel="icon" href="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/favicon.ico">
-     <link rel="stylesheet" href="/css/style.css">
+    <meta name="description" content="Android AI DeepLearning">
+    
+    
+    
+    
+    
+    
+    <title>文字动次打次，让文字动态绘制出来 | Life is Like A Boat</title>
+    <link href="”https://ailo.fun“" rel="”prefetch”">
 
-    <!-- highlight -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github-gist.min.css">
-    <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
-    <script>
-        hljs.initHighlightingOnLoad()
-    </script>
-    <script src="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@2.0.0/dist/main.js"></script>
-
-    <script>
-        infiniteScroll()
-
-        window.addEventListener('DOMContentLoaded', function () {
-            const [
-                mainTitle,
-                mobileMenu,
-                mobileMainTitle,
-                mobileMenuBtn,
-                ipadMenuBtn,
-                aside,
-                closeBtn,
-            ] = getEle(
-                '#main-title',
-                '.mobile-menu',
-                '.mobile-menu h3',
-                '.mobile-menu button',
-                '.ipad-menu',
-                'aside',
-                'aside .close',
-            )
-            const io = new IntersectionObserver(entries => {
-                if (entries[0].intersectionRatio <= 0) {
-                    mobileMainTitle.classList.remove('invisibile')
-                } else {
-                    mobileMainTitle.classList.add('invisibile')
-                }
-            })
-            io.observe(mainTitle)
-
-            clickToggleAside(mobileMenuBtn)
-            clickToggleAside(ipadMenuBtn)
-            clickToggleAside(closeBtn, false)
-
-            const isMenuVisible = window.getComputedStyle(mobileMenu).display !== 'none'
-            if (isMenuVisible) document.body.style.background = 'none'
-
-            function getEle(...args) {
-                return args.map(arg => document.querySelector(arg))
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 2200px) {
+            body {
+                background-color: #ffffff;
+                background-attachment: fixed;
             }
-
-            function clickToggleAside(btn, show = true) {
-                btn.addEventListener('click', function () {
-                    if (show) {
-                        aside.style.display = 'block'
-                    } else {
-                        aside.style.display = 'none'
-                    }
-                })
-            }
-        })
-    </script>
-</head>
-
-<body style="background: url(https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/button-bg.png) #f3f3f3">
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg,preview5.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+</head></html>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+   
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <header class="navbar navbar-inverse" id="gal-header">
     <div class="container">
-        <header class="header">
-    <nav class="mobile-menu" style="background: url(https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/button-bg.png) #f3f3f3">
-        <h3 class="invisibile">
-            <a href="/" class="logo">
-                Life is Like A Boat
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse" aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://ailo.fun">
+                
+                <!-- 这里background使用imgs/${logo_image}(路径文件名) -->
+                <style>
+                    #gal-header .navbar-brand {
+                        width: 200px;
+                        height: 50px;
+                        display: block;
+                        background: url('/imgs/favicon.png') no-repeat;
+                    }
+                </style>
+                    
+                <div class="navbar-brand"></div>
+                
             </a>
-        </h3>
-        <button class="menu">menu</button>
-    </nav>
-
-    <button class="ipad-menu menu">menu</button>
-
-    <h1 class="title" id="main-title">
-        <a href="/" class="logo">
-            Life is Like A Boat
-        </a>
-    </h1>
-    <h2 class="desc">
-        Silent
-    </h2>
-
-    <div class="links">
-        <ul>
-            
-            <li>
-                <a href="https://github.com/JadynAi/">
-                    Github
-                </a>
-            </li>
-            
-            <li>
-                <a href="https://juejin.im/user/566d95f260b2ed36d9580add">
-                    掘金
-                </a>
-            </li>
-            
-        </ul>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class>
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class>
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/Android/">Android</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Python/">Python</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/音视频/">音视频</a>
+                        </li>
+                        
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/技术讨论/">技术讨论</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/算法/">算法</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Camera2/">Camera2</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/音视频/">音视频</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Android/">Android</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Canvas动画/">Canvas动画</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
     </div>
 </header>
-        <main class="main">
-            <article class="post">
-    
-    
-    <h4 class="post-cat">
-        <a href="/categories/Android/">
-            Android
-        </a>
-    </h4>
-    
-    
-    <h2 class="post-title">
-        文字动次打次，让文字动态绘制出来
-    </h2>
-    <ul class="post-date">
-        <li>
-            2017-11-02
-        </li>
-        <li>
-            AiLo
-        </li>
-    </ul>
-    <div class="post-content">
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 gal-right" id="mainstay">
+                    
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://ailo.fun">Life is Like A Boat</a>
+        >
+        <span>文字动次打次，让文字动态绘制出来</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2017/11/02/anim_text/">文字动次打次，让文字动态绘制出来</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Canvas动画/">Canvas动画</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2017-11-02
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2017/11/02/anim_text/">文字动次打次，让文字动态绘制出来</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2017-11-02
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Canvas动画/">Canvas动画</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
         <p><em>本文属于Android技术论述文章，阅读完大致需要五分钟</em>   </p>
 <blockquote>
 <p>原创文章，转载请注明出处。 </p>
@@ -183,33 +281,289 @@
 <h3 id="以上。就是本次项目的主要思路解析。大家走过路过不要错过，给添个Star呗😄。"><a href="#以上。就是本次项目的主要思路解析。大家走过路过不要错过，给添个Star呗😄。" class="headerlink" title="以上。就是本次项目的主要思路解析。大家走过路过不要错过，给添个Star呗😄。"></a>以上。就是本次项目的主要思路解析。大家走过路过不要错过，给添个<a href="https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/animtext" target="_blank" rel="noopener">Star</a>呗😄。</h3>
     </div>
 </article>
-        </main>
-        <aside class="aside">
-            <div class="close"></div>
-            <section class="aside-section">
-                
-    <h1>Categories</h1>
-
-    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/音视频/">音视频</a></li></ul>
-
-            </section>
-            <section class="aside-section">
-                
-    <h1>Archives</h1>
-
-    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a></li></ul>
 
 
-            </section>
-            <section class="aside-section tag">
-                
-    <h1>Tags</h1>
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = '文字动次打次，让文字动态绘制出来'
+    }
+</script>
 
-    <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera2/">Camera2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas动画/">Canvas动画</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/">MediaCodeC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/交互体验/">交互体验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术讨论/">技术讨论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普向/">科普向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视觉设计/">视觉设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频/">视频</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音视频/">音视频</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频/">音频</a></li></ul>
-
-            </section>
-        </aside>
+                </div>
+                <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get" action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
     </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            AiLo
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description"></p><p>Android AI DeepLearning</p>
+<p></p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/06/21/2019-06-21-camera2-video/">Camera2录制视频(二)：MediaCodeC+OpenGL视频编码</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/06/01/2019-06-01-camera2-record1/">Camera2录制视频(一)：音频的录制及编码</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/05/20/2019-05-20-audio-time/">解决MediaMuxer编码AAC文件时间戳计算</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/05/10/2019-05-10-camera2-1/">Camera2挖坑日记---如何解决预览画面变形</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/">使用MediaCodeC将图片集编码为视频</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/">MediaCodeC解码视频指定帧，迅捷、精确</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/25/2019-01-25-MediaCodeC-Decode-1/">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/29/2018-07-29-AStarmaze/">使用A*算法求解机器人迷宫最短路径</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/05/2018-07-05-kotlin-adapter/">使用DSL模式构建Recyclerview适配器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/01/2018-07-01-glide-round/">提供一个Glide灵活加载圆角图片的方法</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2017/11/02/anim_text/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="/2017/11/02/anim_text/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/技术讨论/" style="font-size: 10.013856258950096px;" class="tag-cloud-link">技术讨论</a>
+    
+    <a href="/tags/算法/" style="font-size: 14.625257796417802px;" class="tag-cloud-link">算法</a>
+    
+    <a href="/tags/Camera2/" style="font-size: 16.843558312625575px;" class="tag-cloud-link">Camera2</a>
+    
+    <a href="/tags/音视频/" style="font-size: 15.173356326431549px;" class="tag-cloud-link">音视频</a>
+    
+    <a href="/tags/Android/" style="font-size: 8.837652880972001px;" class="tag-cloud-link">Android</a>
+    
+    <a href="/tags/Canvas动画/" style="font-size: 16.289567624477833px;" class="tag-cloud-link">Canvas动画</a>
+    
+    <a href="/tags/交互体验/" style="font-size: 15.263762499397014px;" class="tag-cloud-link">交互体验</a>
+    
+    <a href="/tags/视觉设计/" style="font-size: 16.9797896742323px;" class="tag-cloud-link">视觉设计</a>
+    
+    <a href="/tags/视频/" style="font-size: 14.787042490224962px;" class="tag-cloud-link">视频</a>
+    
+    <a href="/tags/MediaCodeC/" style="font-size: 14.318628064793165px;" class="tag-cloud-link">MediaCodeC</a>
+    
+    <a href="/tags/OpenGL/" style="font-size: 8.692447444529797px;" class="tag-cloud-link">OpenGL</a>
+    
+    <a href="/tags/科普向/" style="font-size: 9.427982764634834px;" class="tag-cloud-link">科普向</a>
+    
+    <a href="/tags/音频/" style="font-size: 16.296049795402233px;" class="tag-cloud-link">音频</a>
+    
+</div>
+                
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/JadynAi/" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://juejin.im/user/566d95f260b2ed36d9580add" target="_blank">掘金</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 AiLo Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
 </body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '1'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+
+
+<script src="https://myau.moe/js/comment/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Thu Nov 02 2017 00:00:00 GMT+0800'
+      window.commentConfig.owner = 'JadynAi'
+      window.commentConfig.repo = 'JadynAi.github.io'
+      window.commentConfig.client_id = 'b199888872a9ccadaa16'
+      window.commentConfig.client_secret = '6230f262fc987c09b996cbd106c2a2d651c6486a'
+      window.commentConfig.redirect_uri = ''
+    } else {
+      window.commentConfig = {
+      	id: 'Thu Nov 02 2017 00:00:00 GMT+0800',
+        owner: 'JadynAi',
+        repo: 'JadynAi.github.io',
+        client_id: 'b199888872a9ccadaa16',
+        client_secret: '6230f262fc987c09b996cbd106c2a2d651c6486a',
+        redirect_uri: ''
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
 
 </html>
