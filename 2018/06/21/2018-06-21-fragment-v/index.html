@@ -1,357 +1,143 @@
 <!DOCTYPE html>
-<html lang=zh>
+<html>
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
-  
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-transform">
-  <meta http-equiv="Cache-Control" content="no-siteapp">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="format-detection" content="telephone=no,email=no,adress=no">
-  <!-- Color theme for statusbar -->
-  <meta name="theme-color" content="#000000">
-  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
-  <meta http-equiv="window-target" content="_top">
-  
-  
-  <title>提供一种Fragment可见性改变的监测方案 | Hexo</title>
-  <meta name="description" content="原创文章，转载请联系作者 前言Fragment，这个让人又爱又恨“碎片”。使用它可以让项目更加轻便–我们可以将功能分割、复用，但其复杂的生命周期和Transaction事务，在极端操作【某些测试人员有一手绝活，三指甚至六指同时触屏乱弹】下会出现一些不可预期的错误–Fragment嵌套Fragment,横竖屏切换等等。但无论怎样，面对解决问题，才是关键。这篇文章就是针对Fragment监测可见状态改">
-<meta name="keywords" content="技术讨论">
-<meta property="og:type" content="article">
-<meta property="og:title" content="提供一种Fragment可见性改变的监测方案">
-<meta property="og:url" content="https://ailo.fun/2018/06/21/2018-06-21-fragment-v/index.html">
-<meta property="og:site_name" content="Life is Like A Boat">
-<meta property="og:description" content="原创文章，转载请联系作者 前言Fragment，这个让人又爱又恨“碎片”。使用它可以让项目更加轻便–我们可以将功能分割、复用，但其复杂的生命周期和Transaction事务，在极端操作【某些测试人员有一手绝活，三指甚至六指同时触屏乱弹】下会出现一些不可预期的错误–Fragment嵌套Fragment,横竖屏切换等等。但无论怎样，面对解决问题，才是关键。这篇文章就是针对Fragment监测可见状态改">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-26T03:11:45.439Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="提供一种Fragment可见性改变的监测方案">
-<meta name="twitter:description" content="原创文章，转载请联系作者 前言Fragment，这个让人又爱又恨“碎片”。使用它可以让项目更加轻便–我们可以将功能分割、复用，但其复杂的生命周期和Transaction事务，在极端操作【某些测试人员有一手绝活，三指甚至六指同时触屏乱弹】下会出现一些不可预期的错误–Fragment嵌套Fragment,横竖屏切换等等。但无论怎样，面对解决问题，才是关键。这篇文章就是针对Fragment监测可见状态改">
-  <!-- Canonical links -->
-  <link rel="canonical" href="https://ailo.fun/2018/06/21/2018-06-21-fragment-v/index.html">
-  
-    <link rel="alternate" href="/atom.xml" title="Life is Like A Boat" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png" type="image/x-icon">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
-  
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitment@0.0.3/style/default.min.css">
-  
-  
-  
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta name="keywords" content="hexo, autumn, android, video, audio, 音视频, 动画">
+    <title>
+        Life is Like A Boat
+    </title>
+    <!-- favicon -->
+    
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/favicon.ico">
+     <link rel="stylesheet" href="/css/style.css">
+
+    <!-- highlight -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github-gist.min.css">
+    <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad()
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@2.0.0/dist/main.js"></script>
+
+    <script>
+        infiniteScroll()
+
+        window.addEventListener('DOMContentLoaded', function () {
+            const [
+                mainTitle,
+                mobileMenu,
+                mobileMainTitle,
+                mobileMenuBtn,
+                ipadMenuBtn,
+                aside,
+                closeBtn,
+            ] = getEle(
+                '#main-title',
+                '.mobile-menu',
+                '.mobile-menu h3',
+                '.mobile-menu button',
+                '.ipad-menu',
+                'aside',
+                'aside .close',
+            )
+            const io = new IntersectionObserver(entries => {
+                if (entries[0].intersectionRatio <= 0) {
+                    mobileMainTitle.classList.remove('invisibile')
+                } else {
+                    mobileMainTitle.classList.add('invisibile')
+                }
+            })
+            io.observe(mainTitle)
+
+            clickToggleAside(mobileMenuBtn)
+            clickToggleAside(ipadMenuBtn)
+            clickToggleAside(closeBtn, false)
+
+            const isMenuVisible = window.getComputedStyle(mobileMenu).display !== 'none'
+            if (isMenuVisible) document.body.style.background = 'none'
+
+            function getEle(...args) {
+                return args.map(arg => document.querySelector(arg))
+            }
+
+            function clickToggleAside(btn, show = true) {
+                btn.addEventListener('click', function () {
+                    if (show) {
+                        aside.style.display = 'block'
+                    } else {
+                        aside.style.display = 'none'
+                    }
+                })
+            }
+        })
+    </script>
 </head>
 
-
-<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
-  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-  <div class="slimContent">
-    <div class="navbar-header">
-      
-      
-      <div class="profile-block text-center">
-        <a id="avatar" href="https://github.com/JadynAi" target="_blank">
-          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
-        </a>
-        <h2 id="name" class="hidden-xs hidden-sm">AiLo</h2>
-        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Android Developer &amp; Designer</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> China</small>
-      </div>
-      
-      <div class="search" id="search-form-wrap">
-
-    <form class="search-form sidebar-form">
-        <div class="input-group">
-            <input type="text" class="search-form-input form-control" placeholder="搜索">
-            <span class="input-group-btn">
-                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
-            </span>
-        </div>
-    </form>
-    <div class="ins-search">
-  <div class="ins-search-mask"></div>
-  <div class="ins-search-container">
-    <div class="ins-input-wrapper">
-      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech>
-      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-    </div>
-    <div class="ins-section-wrapper">
-      <div class="ins-section-container"></div>
-    </div>
-  </div>
-</div>
-
-
-</div>
-      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
-      <ul class="nav navbar-nav main-nav ">
-        
-        
-        <li class="menu-item menu-item-home">
-          <a href="/.">
-            
-            <i class="icon icon-home-fill"></i>
-            
-            <span class="menu-title">首页</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives">
-            
-            <i class="icon icon-archives-fill"></i>
-            
-            <span class="menu-title">归档</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories">
-            
-            <i class="icon icon-folder"></i>
-            
-            <span class="menu-title">分类</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags">
-            
-            <i class="icon icon-tags"></i>
-            
-            <span class="menu-title">标签</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about">
-            
-            <i class="icon icon-cup-fill"></i>
-            
-            <span class="menu-title">关于</span>
-          </a>
-        </li>
-        
-      </ul>
-      
-	
-    <ul class="social-links">
-    	
-        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
-        
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
-        
-    </ul>
-
+<body style="background: url(https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/button-bg.png) #f3f3f3">
+    <div class="container">
+        <header class="header">
+    <nav class="mobile-menu" style="background: url(https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/button-bg.png) #f3f3f3">
+        <h3 class="invisibile">
+            <a href="/" class="logo">
+                Life is Like A Boat
+            </a>
+        </h3>
+        <button class="menu">menu</button>
     </nav>
-  </div>
-</header>
 
-  
-    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
-  <div class="slimContent">
-    
-      <div class="widget">
-    <h3 class="widget-title">公告</h3>
-    <div class="widget-body">
-        <div id="board">
-            <div class="content">
-                <p>我是AiLo，一个Android Developer，热爱开源。<br>近期在研究音视频开发和图像处理。业余时间研究研究深度学习，使用CRNN模型做过OCR图片识别项目。<br>感兴趣的伙伴们欢迎关注我的<a href="https://github.com/JadynAi" target="_blank">GitHub</a><br> 同时欢迎关注我的掘金主页<a href="https://juejin.im/user/566d95f260b2ed36d9580add/posts" target="_blank">掘金社区AiLo</a></p>
-            </div>
-        </div>
-    </div>
-</div>
+    <button class="ipad-menu menu">menu</button>
 
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/音视频/">音视频</a><span class="category-list-count">7</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera2/">Camera2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas动画/">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/交互体验/">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术讨论/">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普向/">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视觉设计/">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频/">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音视频/">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频/">音频</a><span class="tag-list-count">1</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget-body tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Camera2/" style="font-size: 13px;">Camera2</a> <a href="/tags/Canvas动画/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.5px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/交互体验/" style="font-size: 13.25px;">交互体验</a> <a href="/tags/技术讨论/" style="font-size: 13.5px;">技术讨论</a> <a href="/tags/科普向/" style="font-size: 13px;">科普向</a> <a href="/tags/算法/" style="font-size: 13px;">算法</a> <a href="/tags/视觉设计/" style="font-size: 13px;">视觉设计</a> <a href="/tags/视频/" style="font-size: 13.5px;">视频</a> <a href="/tags/音视频/" style="font-size: 13.5px;">音视频</a> <a href="/tags/音频/" style="font-size: 13px;">音频</a>
-    </div>
-  </div>
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget-body">
-      <ul class="recent-post-list list-unstyled no-thumbnail">
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
-              </p>
-              <p class="item-title">
-                <a href="/2019/06/21/2019-06-21-camera2-video/" class="title">Camera2录制视频(二)：MediaCodeC+OpenGL视频编码</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2019-06-20T16:00:00.000Z" itemprop="datePublished">2019-06-21</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
-              </p>
-              <p class="item-title">
-                <a href="/2019/06/01/2019-06-01-camera2-record1/" class="title">Camera2录制视频(一)：音频的录制及编码</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2019-05-31T16:00:00.000Z" itemprop="datePublished">2019-06-01</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
-              </p>
-              <p class="item-title">
-                <a href="/2019/05/20/2019-05-20-audio-time/" class="title">解决MediaMuxer编码AAC文件时间戳计算</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2019-05-19T16:00:00.000Z" itemprop="datePublished">2019-05-20</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/Android/">Android</a>
-              </p>
-              <p class="item-title">
-                <a href="/2019/05/10/2019-05-10-camera2-1/" class="title">Camera2挖坑日记---如何解决预览画面变形</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2019-05-09T16:00:00.000Z" itemprop="datePublished">2019-05-10</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
-              </p>
-              <p class="item-title">
-                <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/" class="title">使用MediaCodeC将图片集编码为视频</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2019-03-31T16:00:00.000Z" itemprop="datePublished">2019-04-01</time>
-              </p>
-            </div>
-          </li>
-          
-      </ul>
-    </div>
-  </div>
-  
-
-    
-  </div>
-</aside>
-
-  
-  
-<main class="main" role="main">
-  <div class="content">
-  <article id="post-2018-06-21-fragment-v" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-    
-    <div class="article-header">
-      
-        
-  
-    <h1 class="article-title" itemprop="name">
-      提供一种Fragment可见性改变的监测方案
+    <h1 class="title" id="main-title">
+        <a href="/" class="logo">
+            Life is Like A Boat
+        </a>
     </h1>
-  
+    <h2 class="desc">
+        Silent
+    </h2>
 
-      
-      <div class="article-meta">
-        <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2018/06/21/2018-06-21-fragment-v/" class="article-date">
-	  <time datetime="2018-06-20T16:00:00.000Z" itemprop="datePublished">2018-06-21</time>
-	</a>
-</span>
-        
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </span>
-
-        
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/技术讨论/">技术讨论</a>
-  </span>
-
-
-        
-
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/06/21/2018-06-21-fragment-v/#comments" class="article-comment-link">评论</a></span>
-        
-      </div>
+    <div class="links">
+        <ul>
+            
+            <li>
+                <a href="https://github.com/JadynAi/">
+                    Github
+                </a>
+            </li>
+            
+            <li>
+                <a href="https://juejin.im/user/566d95f260b2ed36d9580add">
+                    掘金
+                </a>
+            </li>
+            
+        </ul>
     </div>
-    <div class="article-entry marked-body" itemprop="articleBody">
-      
+</header>
+        <main class="main">
+            <article class="post">
+    
+    
+    <h4 class="post-cat">
+        <a href="/categories/Android/">
+            Android
+        </a>
+    </h4>
+    
+    
+    <h2 class="post-title">
+        提供一种Fragment可见性改变的监测方案
+    </h2>
+    <ul class="post-date">
+        <li>
+            2018-06-21
+        </li>
+        <li>
+            AiLo
+        </li>
+    </ul>
+    <div class="post-content">
         <p><strong>原创文章，转载请联系作者</strong></p>
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Fragment，这个让人又爱又恨“碎片”。<br>使用它可以让项目更加轻便–我们可以将功能分割、复用，但其复杂的生命周期和<code>Transaction事务</code>，在极端操作【某些测试人员有一手绝活，三指甚至六指同时触屏乱弹】下会出现一些不可预期的错误–<code>Fragment</code>嵌套<code>Fragment</code>,横竖屏切换等等。<br>但无论怎样，面对解决问题，才是关键。这篇文章就是针对<code>Fragment</code>监测可见状态改变，提供一种解决方案。</p>
 <h3 id="Fragment可见性解析"><a href="#Fragment可见性解析" class="headerlink" title="Fragment可见性解析"></a>Fragment可见性解析</h3><p>首先，要说明一下，这里的可见性就是对用户来说看的见。不仅仅是界面位于顶层那种常规情况，而是即便界面上还存在一层透明界面或是对话框，那么依然判定其对用户可见，为<code>visible</code>。<br><strong>接下来会分析在特定交互环境下，Fragment内部被触发的方法。</strong></p>
@@ -372,164 +158,35 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">abstract class BaseFragment : Fragment()&#123;</span><br><span class="line">    lateinit var mRootView: View</span><br><span class="line">    private var isVisibleToUsers = false</span><br><span class="line">    private var isOnCreateView = false</span><br><span class="line">    private var isSetUserVisibleHint = false</span><br><span class="line">    private var isHiddenChanged = false</span><br><span class="line">    private var isFirstResume = false</span><br><span class="line">    </span><br><span class="line">    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? &#123;</span><br><span class="line">        isOnCreateView = true</span><br><span class="line">        mRootView = LayoutInflater.from(activity).inflate(getResId(), null, false)</span><br><span class="line">        return mRootView</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    abstract fun getResId(): Int</span><br><span class="line"></span><br><span class="line">    override fun onResume() &#123;</span><br><span class="line">        super.onResume()</span><br><span class="line">        if (!isHiddenChanged &amp;&amp; !isSetUserVisibleHint) &#123;</span><br><span class="line">            if (isFirstResume) &#123;</span><br><span class="line">                setVisibleToUser(true)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (isSetUserVisibleHint || (!isFirstResume &amp;&amp; !isHiddenChanged)) &#123;</span><br><span class="line">            isVisibleToUsers = true</span><br><span class="line">        &#125;</span><br><span class="line">        isFirstResume = true</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override fun onPause() &#123;</span><br><span class="line">        super.onPause()</span><br><span class="line">        isHiddenChanged = false</span><br><span class="line">        isSetUserVisibleHint = false</span><br><span class="line">        setVisibleToUser(false)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    override fun setUserVisibleHint(isVisibleToUser: Boolean) &#123;</span><br><span class="line">        super.setUserVisibleHint(isVisibleToUser)</span><br><span class="line">        isSetUserVisibleHint = true</span><br><span class="line">        setVisibleToUser(isVisibleToUser)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override fun onHiddenChanged(hidden: Boolean) &#123;</span><br><span class="line">        super.onHiddenChanged(hidden)</span><br><span class="line">        isHiddenChanged = true</span><br><span class="line">        setVisibleToUser(!hidden)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    private fun setVisibleToUser(isVisibleToUser: Boolean) &#123;</span><br><span class="line">        if (!isOnCreateView) &#123;</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        if (isVisibleToUser == isVisibleToUsers) &#123;</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        isVisibleToUsers = isVisibleToUser</span><br><span class="line">        onVisibleToUserChanged(isVisibleToUsers)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected open fun onVisibleToUserChanged(isVisibleToUser: Boolean) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>以上<br></p>
 
-      
     </div>
-    <div class="article-footer">
-      <blockquote class="mt-2x">
-  <ul class="post-copyright list-unstyled">
-    
-    <li class="post-copyright-link hidden-xs">
-      <strong>本文链接：</strong>
-      <a href="https://ailo.fun/2018/06/21/2018-06-21-fragment-v/" title="提供一种Fragment可见性改变的监测方案" target="_blank" rel="external">https://ailo.fun/2018/06/21/2018-06-21-fragment-v/</a>
-    </li>
-    
-    <li class="post-copyright-license">
-      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
-    </li>
-  </ul>
-</blockquote>
+</article>
+        </main>
+        <aside class="aside">
+            <div class="close"></div>
+            <section class="aside-section">
+                
+    <h1>Categories</h1>
+
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/音视频/">音视频</a></li></ul>
+
+            </section>
+            <section class="aside-section">
+                
+    <h1>Archives</h1>
+
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a></li></ul>
 
 
-<div class="panel panel-default panel-badger">
-  <div class="panel-body">
-    <figure class="media">
-      <div class="media-left">
-        <a href="https://github.com/JadynAi" target="_blank" class="img-burn thumb-sm visible-lg">
-          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
-        </a>
-      </div>
-      <div class="media-body">
-        <h3 class="media-heading"><a href="https://github.com/JadynAi" target="_blank"><span class="text-dark">AiLo</span><small class="ml-1x">Android Developer &amp; Designer</small></a></h3>
-        <div>AD &amp; AI。</div>
-      </div>
-    </figure>
-  </div>
-</div>
+            </section>
+            <section class="aside-section tag">
+                
+    <h1>Tags</h1>
 
+    <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera2/">Camera2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas动画/">Canvas动画</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/">MediaCodeC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/交互体验/">交互体验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术讨论/">技术讨论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普向/">科普向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视觉设计/">视觉设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频/">视频</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音视频/">音视频</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频/">音频</a></li></ul>
 
+            </section>
+        </aside>
     </div>
-  </article>
-  
-    
-  <section id="comments">
-  	
-
-    
-  </section>
-
-
-  
-</div>
-
-  <nav class="bar bar-footer clearfix" data-stick-bottom>
-  <div class="bar-inner">
-  
-  <ul class="pager pull-left">
-    
-    <li class="prev">
-      <a href="/2018/07/01/2018-07-01-glide-round/" title="提供一个Glide灵活加载圆角图片的方法"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
-    
-    <li class="next">
-      <a href="/2018/06/10/2018-06-10-flip/" title="仿FlipBoard直板翻页效果"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
-    </li>
-    
-    
-  </ul>
-  
-  
-  
-  <div class="bar-right">
-    
-    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
-    
-  </div>
-  </div>
-</nav>
-  
-
-
-</main>
-
-  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
-	
-	
-    <ul class="social-links">
-    	
-        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
-        
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
-        
-    </ul>
-
-    <div class="copyright">
-    	
-        <div class="publishby">
-        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
-        </div>
-    </div>
-</footer>
-  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
-<script>
-window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
-</script>
-<script src="/js/plugin.min.js"></script>
-<script src="/js/application.js"></script>
-
-    <script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-
-
-
-
-   
-
-
-
-
-   
-    
-<script src="//cdn.jsdelivr.net/npm/gitment@0.0.3/dist/gitment.browser.min.js"></script>
-<script>
-var gitment = new Gitment({
-  // id默认为当前页面url，如果url后带参数或锚点，gitment要重新初始化
-  // https://github.com/imsun/gitment/issues/55
-  // 解决方案：id:window.location.pathname,或者将id设置为当前页面标题
-  id: '提供一种Fragment可见性改变的监测方案', 
-  owner: 'JadynAi', // 可以是你的GitHub用户名，也可以是github id
-  repo: 'JadynAi.github.io',
-  oauth: {
-    client_id: 'b199888872a9ccadaa16',
-    client_secret: '6230f262fc987c09b996cbd106c2a2d651c6486a',
-  }
-})
-gitment.render('comments')
-</script>
-
-
-
-
-
-
-
-
-
 </body>
+
 </html>
