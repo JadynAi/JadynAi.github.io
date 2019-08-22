@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>使用MediaCodeC将图片集编码为视频 | Hexo</title>
+  <meta name="description" content="原创文章，转载请联系作者  绿生莺啼春正浓，钗头青杏小，绿成丛。玉船风动酒鳞红。歌声咽，相见几时重？  MediaLearn 欢迎大家关注我的项目MediaLearn，这是一个以学习分享音视频知识为目的建立的项目，目前仅局限于Android平台，后续会逐渐扩展。对音视频领域知识感兴趣的朋友，欢迎一起来学习！！！  提要这是MediaCodeC系列的第三章，主题是如何使用MediaCodeC将图片集">
+<meta name="keywords" content="Android,视频,MediaCodeC,OpenGL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用MediaCodeC将图片集编码为视频">
+<meta property="og:url" content="https://ailo.fun/2019/04/01/2019-04-01-MediaCodeC-encoder1/index.html">
+<meta property="og:site_name" content="Life is Like A Boat">
+<meta property="og:description" content="原创文章，转载请联系作者  绿生莺啼春正浓，钗头青杏小，绿成丛。玉船风动酒鳞红。歌声咽，相见几时重？  MediaLearn 欢迎大家关注我的项目MediaLearn，这是一个以学习分享音视频知识为目的建立的项目，目前仅局限于Android平台，后续会逐渐扩展。对音视频领域知识感兴趣的朋友，欢迎一起来学习！！！  提要这是MediaCodeC系列的第三章，主题是如何使用MediaCodeC将图片集">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/mediacodec_encoder.png">
+<meta property="og:updated_time" content="2019-07-24T13:36:17.084Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用MediaCodeC将图片集编码为视频">
+<meta name="twitter:description" content="原创文章，转载请联系作者  绿生莺啼春正浓，钗头青杏小，绿成丛。玉船风动酒鳞红。歌声咽，相见几时重？  MediaLearn 欢迎大家关注我的项目MediaLearn，这是一个以学习分享音视频知识为目的建立的项目，目前仅局限于Android平台，后续会逐渐扩展。对音视频领域知识感兴趣的朋友，欢迎一起来学习！！！  提要这是MediaCodeC系列的第三章，主题是如何使用MediaCodeC将图片集">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/mediacodec_encoder.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ailo.fun/2019/04/01/2019-04-01-MediaCodeC-encoder1/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Life is Like A Boat" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitment@0.0.3/style/default.min.css">
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech>
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>我是AiLo，一个Android Developer，热爱开源。<br>近期在研究音视频开发和图像处理。业余时间研究研究深度学习，使用CRNN模型做过OCR图片识别项目。<br>感兴趣的伙伴们欢迎关注我的<a href="https://github.com/JadynAi" target="_blank">GitHub</a><br> 同时欢迎关注我的掘金主页<a href="https://juejin.im/user/566d95f260b2ed36d9580add/posts" target="_blank">掘金社区AiLo</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/音视频/">音视频</a><span class="category-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera2/">Camera2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas动画/">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/交互体验/">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术讨论/">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普向/">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视觉设计/">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频/">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音视频/">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频/">音频</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Camera2/" style="font-size: 13px;">Camera2</a> <a href="/tags/Canvas动画/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.5px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/交互体验/" style="font-size: 13.25px;">交互体验</a> <a href="/tags/技术讨论/" style="font-size: 13.5px;">技术讨论</a> <a href="/tags/科普向/" style="font-size: 13px;">科普向</a> <a href="/tags/算法/" style="font-size: 13px;">算法</a> <a href="/tags/视觉设计/" style="font-size: 13px;">视觉设计</a> <a href="/tags/视频/" style="font-size: 13.5px;">视频</a> <a href="/tags/音视频/" style="font-size: 13.5px;">音视频</a> <a href="/tags/音频/" style="font-size: 13px;">音频</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/音视频/">音视频</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/06/21/2019-06-21-camera2-video/" class="title">Camera2录制视频(二)：MediaCodeC+OpenGL视频编码</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-06-20T16:00:00.000Z" itemprop="datePublished">2019-06-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/音视频/">音视频</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/06/01/2019-06-01-camera2-record1/" class="title">Camera2录制视频(一)：音频的录制及编码</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-05-31T16:00:00.000Z" itemprop="datePublished">2019-06-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/音视频/">音视频</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/05/20/2019-05-20-audio-time/" class="title">解决MediaMuxer编码AAC文件时间戳计算</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-05-19T16:00:00.000Z" itemprop="datePublished">2019-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/05/10/2019-05-10-camera2-1/" class="title">Camera2挖坑日记---如何解决预览画面变形</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-05-09T16:00:00.000Z" itemprop="datePublished">2019-05-10</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/音视频/">音视频</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/" class="title">使用MediaCodeC将图片集编码为视频</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-03-31T16:00:00.000Z" itemprop="datePublished">2019-04-01</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-2019-04-01-MediaCodeC-encoder1" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用MediaCodeC将图片集编码为视频
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/" class="article-date">
+	  <time datetime="2019-03-31T16:00:00.000Z" itemprop="datePublished">2019-04-01</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/音视频/">音视频</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Android/">Android</a>, <a class="article-tag-link" href="/tags/MediaCodeC/">MediaCodeC</a>, <a class="article-tag-link" href="/tags/OpenGL/">OpenGL</a>, <a class="article-tag-link" href="/tags/视频/">视频</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><strong>原创文章，转载请联系作者</strong></p>
+<blockquote>
+<p>绿生莺啼春正浓，钗头青杏小，绿成丛。<br>玉船风动酒鳞红。歌声咽，相见几时重？</p>
+</blockquote>
+<h3 id="MediaLearn"><a href="#MediaLearn" class="headerlink" title="MediaLearn"></a>MediaLearn</h3><blockquote>
+<p>欢迎大家关注我的项目<a href="https://github.com/JadynAi/MediaLearn" target="_blank" rel="noopener">MediaLearn</a>，这是一个以学习分享音视频知识为目的建立的项目，目前仅局限于Android平台，后续会逐渐扩展。<br>对音视频领域知识感兴趣的朋友，欢迎一起来学习！！！</p>
+</blockquote>
+<h3 id="提要"><a href="#提要" class="headerlink" title="提要"></a>提要</h3><p>这是<code>MediaCodeC</code>系列的第三章，主题是如何使用MediaCodeC将图片集编码为视频文件。在Android多媒体的处理上，MediaCodeC是一套非常有用的API。此次实验中，所使用的图片集正是<a href="https://jadynai.github.io/2019/01/25/2019-01-25-MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>文章中，对视频解码出来的图片文件集，总共332张图片帧。<br>若是对<code>MediaCodeC</code>视频解码感兴趣的话，也可以浏览之前的文章：<a href="https://jadynai.github.io/2019/02/09/2019-02-09-MediaCodeC-frame/" target="_blank" rel="noopener">MediaCodeC解码视频指定帧，迅捷、精确</a></p>
+<h3 id="核心流程"><a href="#核心流程" class="headerlink" title="核心流程"></a>核心流程</h3><p><code>MediaCodeC</code>的常规工作流程是：拿到可用输入队列，填充数据；拿到可用输出队列，取出数据，如此往复直至结束。在一般情况下，填充和取出两个动作并不是即时的，也就是说并不是压入一帧数据，就能拿出一帧数据。当然，除了编码的视频每一帧都是关键帧的情况下。<br><br>一般情况下，输入和输出都使用buffer的代码写法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for (;;) &#123;</span><br><span class="line">	//拿到可用InputBuffer的id</span><br><span class="line">  int inputBufferId = codec.dequeueInputBuffer(timeoutUs);</span><br><span class="line">  if (inputBufferId &gt;= 0) &#123;</span><br><span class="line">    ByteBuffer inputBuffer = codec.getInputBuffer(…);</span><br><span class="line">    // inputBuffer 填充数据</span><br><span class="line">    codec.queueInputBuffer(inputBufferId, …);</span><br><span class="line">  &#125;</span><br><span class="line">  // 查询是否有可用的OutputBuffer</span><br><span class="line">  int outputBufferId = codec.dequeueOutputBuffer(…);</span><br></pre></td></tr></table></figure>
+<p>本篇文章的编码核心流程，和以上代码相差不多。只是将输入Buffer替换成了Surface，使用Surface代替InputBuffer来实现数据的填充。</p>
+<h4 id="为什么使用Surface"><a href="#为什么使用Surface" class="headerlink" title="为什么使用Surface"></a>为什么使用Surface</h4><p>在<a href="https://developer.android.com/reference/android/media/MediaCodec" target="_blank" rel="noopener">MediaCodeC官方文档</a>里有一段关于Data Type的描述：</p>
+<blockquote>
+<p>CodeC接受三种类型的数据，压缩数据（compressed data）、原始音频数据（raw audio data）以及原始视频数据（raw video data）。这三种数据都能被加工为ByteBuffer。但是对于原始视频数据，应该使用Surface去提升CodeC的性能。</p>
+</blockquote>
+<p>在本次项目中，使用的是MediaCodeC<code>createInputSurface</code>函数创造出Surface，搭配OpenGL实现Surface数据输入。<br>这里我画了一张简单的工作流程图：<img src="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/mediacodec_encoder.png" alt><br>整体流程上其实和普通的MediaCodeC工作流程差不多，只不过是将输入源由Buffer换成了Surface。</p>
+<h3 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h3><p>在代码中，MediaCodeC只负责数据的传输，而生成MP4文件主要靠的类是MediaMuxer。整体上，项目涉及到的主要API有：</p>
+<ul>
+<li>MediaCodeC，图片编码为帧数据</li>
+<li>MediaMuxer，帧数据编码为Mp4文件</li>
+<li>OpenGL，负责将图片绘制到Surface</li>
+</ul>
+<p>接下来，我将会按照流程工作顺序，详解各个步骤：</p>
+<h3 id="流程详解"><a href="#流程详解" class="headerlink" title="流程详解"></a>流程详解</h3><p><em>在详解流程前，有一点要注意的是，工作流程中所有环节都必须处在同一线程。</em></p>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>首先，启动子线程。配置MediaCodeC：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var codec = MediaCodec.createEncoderByType(MediaFormat.MIMETYPE_VIDEO_AVC)</span><br><span class="line">// mediaFormat配置颜色格式、比特率、帧率、关键帧间隔</span><br><span class="line">// 颜色格式默认为MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface</span><br><span class="line">var mediaFomat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, size.width, size.height)</span><br><span class="line">            .apply &#123;</span><br><span class="line">                setInteger(MediaFormat.KEY_COLOR_FORMAT, colorFormat)</span><br><span class="line">                setInteger(MediaFormat.KEY_BIT_RATE, bitRate)</span><br><span class="line">                setInteger(MediaFormat.KEY_FRAME_RATE, frameRate)</span><br><span class="line">                setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, iFrameInterval)</span><br><span class="line">            &#125;</span><br><span class="line">codec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)</span><br><span class="line">var inputSurface = codec.createInputSurface()</span><br><span class="line">codec.start()</span><br></pre></td></tr></table></figure>
+<p>将编码器配置好之后，接下来配置OpenGL的EGL环境以及GPU Program。由于OpenGL涉及到比较多的知识，在这里便不再赘述。视频编码项目中，为方便使用，我将OpenGL环境搭建以及GPU program搭建封装在了<a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/video/encode/GLEncodeCore.kt" target="_blank" rel="noopener">GLEncodeCore</a>类中，感兴趣的可以看一下。<br>EGL环境在初始化时，可以选择两种和设备连接的方式，一种是<code>eglCreatePbufferSurface</code>;另一种是<code>eglCreateWindowSurface</code>,创建一个可实际显示的windowSurface，需要传一个Surface参数，毫无疑问选择这个函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var encodeCore = GLEncodeCore(...)</span><br><span class="line">encodeCore.buildEGLSurface(inputSurface)</span><br><span class="line"></span><br><span class="line">fun buildEGLSurface(surface: Surface) &#123;</span><br><span class="line">        // 构建EGL环境</span><br><span class="line">        eglEnv.setUpEnv().buildWindowSurface(surface)</span><br><span class="line">        // GPU program构建</span><br><span class="line">        encodeProgram.build()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="图片数据传入，并开始编码"><a href="#图片数据传入，并开始编码" class="headerlink" title="图片数据传入，并开始编码"></a>图片数据传入，并开始编码</h4><p>在各种API配置好之后，开启一个循环，将File文件读取的Bitmap传入编码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">val videoEncoder = VideoEncoder(640, 480, 1800000, 24)</span><br><span class="line">videoEncoder.start(Environment.getExternalStorageDirectory().path</span><br><span class="line">                    + &quot;/encodeyazi640$&#123;videoEncoder.bitRate&#125;.mp4&quot;)</span><br><span class="line">val file = File(图片集文件夹地址)</span><br><span class="line">file.listFiles().forEachIndexed &#123; index, it -&gt;</span><br><span class="line">    BitmapFactory.decodeFile(it.path)?.apply &#123;</span><br><span class="line">            videoEncoder.drainFrame(this, index)</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">videoEncoder.drainEnd()</span><br></pre></td></tr></table></figure>
+<p>在提要里面也提到了，编码项目使用的图片集是之前<a href="https://jadynai.github.io/2019/01/25/MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>中的视频文件解码出来的，332张图片。<br>循环代码中，我们逐次将图片Bitmap传入<code>drainFrame(...)</code>函数，用于编码。当所有帧编码完成后，使用<code>drainEnd</code>函数通知编码器编码完成。</p>
+<h4 id="视频帧编码"><a href="#视频帧编码" class="headerlink" title="视频帧编码"></a>视频帧编码</h4><p>接着我们再来看<code>drameFrame(...)</code>函数中的具体实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    *</span><br><span class="line">    * @b : draw bitmap to texture</span><br><span class="line">    *</span><br><span class="line">    * @presentTime: frame current time</span><br><span class="line">    * */</span><br><span class="line">   fun drainFrame(b: Bitmap, presentTime: Long) &#123;</span><br><span class="line">       encodeCore.drainFrame(b, presentTime)</span><br><span class="line">       drainCoder(false)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   fun drainFrame(b: Bitmap, index: Int) &#123;</span><br><span class="line">       drainFrame(b, index * mediaFormat.perFrameTime * 1000)</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   fun drainCoder(...)&#123;</span><br><span class="line">       伪代码：MediaCodeC拿到输出队列数据，使用MediaMuxer编码为</span><br><span class="line">       Mp4文件</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>首先使用OpenGL将Bitmap绘制纹理上，将数据传输到Surface上，并且需要将这个Bitmap所代表的时间戳传入。在传入数据后使用<code>drainCoder</code>函数，从MediaCodeC读取输出数据，使用MediaMuxer编码为Mp4视频文件。<code>drainCoder</code>函数具体实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">loopOut@ while (true) &#123;</span><br><span class="line">        //  获取可用的输出缓存队列</span><br><span class="line">        val outputBufferId = dequeueOutputBuffer(bufferInfo, defTimeOut)</span><br><span class="line">        Log.d(&quot;handleOutputBuffer&quot;, &quot;output buffer id : $outputBufferId &quot;)</span><br><span class="line">        if (outputBufferId == MediaCodec.INFO_TRY_AGAIN_LATER) &#123;</span><br><span class="line">            if (needEnd) &#123;</span><br><span class="line">                // 输出无响应</span><br><span class="line">                break@loopOut</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else if (outputBufferId == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) &#123;</span><br><span class="line">            // 输出数据格式改变，在这里启动mediaMuxer</span><br><span class="line">        &#125; else if (outputBufferId &gt;= 0) &#123;</span><br><span class="line">            // 拿到相应的输出数据</span><br><span class="line">            if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) &#123;</span><br><span class="line">                break@loopOut</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就像之前提到过的，并不是压入一帧数据就能即时得到一帧数据。在使用OpenGL将Bitmap绘制到纹理上，并传到Surface之后。要想得到输出数据，必须在一个无限循环的代码中，去拿MediaCodeC输出数据。<br>也就是在这里的代码中，当输出数据格式改变时，为MediaMuxer加上视频轨，并启动。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">trackIndex = mediaMuxer!!.addTrack(codec.outputFormat)</span><br><span class="line">mediaMuxer!!.start()</span><br></pre></td></tr></table></figure>
+<p>整体上的工作流程就是以上这些代码了，传入一帧数据到Surface–&gt;MediaCodeC循环拿输出数据–&gt; MediaMuxer写入Mp4视频文件。<br>当然，后两步的概念已经相对比较清晰，只有第一步的实现是一个难点，也是当时比较困扰我的一点。接下来我们将会详解，如何将一个Bitmap通过OpenGL把数据传输到Surface上。</p>
+<h3 id="Bitmap-–-gt-Surface"><a href="#Bitmap-–-gt-Surface" class="headerlink" title="Bitmap –&gt; Surface"></a>Bitmap –&gt; Surface</h3><p>项目中，将Bitmap数据传输到Surface上，主要靠这一段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fun drainFrame(b: Bitmap, presentTime: Long) &#123;</span><br><span class="line">        encodeProgram.renderBitmap(b)</span><br><span class="line">        // 给渲染的这一帧设置一个时间戳</span><br><span class="line">        eglEnv.setPresentationTime(presentTime)</span><br><span class="line">        eglEnv.swapBuffers()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>其中encodeProgram是显卡绘制程序，它内部会生成一个纹理，然后将Bitmap绘制到纹理上。此时这个纹理就代表了这张图片，再将纹理绘制到窗口上。<br>之后，使用EGL的swapBuffer提交当前渲染结果，在提交之前，使用setPresentationTime提交当前帧代表的时间戳。</p>
+</blockquote>
+<p>更加具体的代码实现，都在我的Github项目中。<a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/video/encode/GLEncodeCore.kt" target="_blank" rel="noopener">GLEncodeCore</a>以及<a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/video/encode/EncodeProgram.kt" target="_blank" rel="noopener">EncodeProgram GPU Program</a>还有<a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/gl/EglEnv.kt" target="_blank" rel="noopener">EGL 环境构建</a></p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p><a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/video/decode/VideoDecoder2.kt" target="_blank" rel="noopener">此处有项目地址，点击传送</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://ailo.fun/2019/04/01/2019-04-01-MediaCodeC-encoder1/" title="使用MediaCodeC将图片集编码为视频" target="_blank" rel="external">https://ailo.fun/2019/04/01/2019-04-01-MediaCodeC-encoder1/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/05/10/2019-05-10-camera2-1/" title="Camera2挖坑日记---如何解决预览画面变形"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/" title="MediaCodeC解码视频指定帧，迅捷、精确"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+<script src="//cdn.jsdelivr.net/npm/gitment@0.0.3/dist/gitment.browser.min.js"></script>
+<script>
+var gitment = new Gitment({
+  // id默认为当前页面url，如果url后带参数或锚点，gitment要重新初始化
+  // https://github.com/imsun/gitment/issues/55
+  // 解决方案：id:window.location.pathname,或者将id设置为当前页面标题
+  id: 'Mon Apr 01 2019 00:00:00 GMT+0800', 
+  owner: 'JadynAi', // 可以是你的GitHub用户名，也可以是github id
+  repo: 'JadynAi.github.io',
+  oauth: {
+    client_id: 'b199888872a9ccadaa16',
+    client_secret: '6230f262fc987c09b996cbd106c2a2d651c6486a',
+  }
+})
+gitment.render('comments')
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

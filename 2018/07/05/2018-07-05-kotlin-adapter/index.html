@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>使用DSL模式构建Recyclerview适配器 | Hexo</title>
+  <meta name="description" content="原创文章，转载请联系作者 前言这是Kotlin实践日记的第一章，使用Kotlin构建一个，使用方便、多功能的Recyclerview适配器——AcrobatAdapter。 AcrobatAdapter让开发者专注于Item的配置，包括Item的UI和数据显示，以及单击、双击、长按事件【且不会影响子View的事件传递】。而且不仅仅是单Item Style列表,还是多Item Style列表，Acr">
+<meta name="keywords" content="技术讨论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用DSL模式构建Recyclerview适配器">
+<meta property="og:url" content="https://ailo.fun/2018/07/05/2018-07-05-kotlin-adapter/index.html">
+<meta property="og:site_name" content="Life is Like A Boat">
+<meta property="og:description" content="原创文章，转载请联系作者 前言这是Kotlin实践日记的第一章，使用Kotlin构建一个，使用方便、多功能的Recyclerview适配器——AcrobatAdapter。 AcrobatAdapter让开发者专注于Item的配置，包括Item的UI和数据显示，以及单击、双击、长按事件【且不会影响子View的事件传递】。而且不仅仅是单Item Style列表,还是多Item Style列表，Acr">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_gif/jqw9LvhdsxJRdy8tPr5s35tNYfwkbEefz7II2pWngbRZmXNPibrFibJewMZbTicO7nlRiaTianeO3n7wfBhOElO8rAg/0?wx_fmt=gif">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_gif/jqw9LvhdsxJRdy8tPr5s35tNYfwkbEefhQdicXhluHW5fhETuP82kfMUBcvHdIPMy3xEPpeibCo5j0wtmtI25B9A/0?wx_fmt=gif">
+<meta property="og:updated_time" content="2019-04-26T03:12:29.140Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用DSL模式构建Recyclerview适配器">
+<meta name="twitter:description" content="原创文章，转载请联系作者 前言这是Kotlin实践日记的第一章，使用Kotlin构建一个，使用方便、多功能的Recyclerview适配器——AcrobatAdapter。 AcrobatAdapter让开发者专注于Item的配置，包括Item的UI和数据显示，以及单击、双击、长按事件【且不会影响子View的事件传递】。而且不仅仅是单Item Style列表,还是多Item Style列表，Acr">
+<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_gif/jqw9LvhdsxJRdy8tPr5s35tNYfwkbEefz7II2pWngbRZmXNPibrFibJewMZbTicO7nlRiaTianeO3n7wfBhOElO8rAg/0?wx_fmt=gif">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ailo.fun/2018/07/05/2018-07-05-kotlin-adapter/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Life is Like A Boat" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitment@0.0.3/style/default.min.css">
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech>
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>我是AiLo，一个Android Developer，热爱开源。<br>近期在研究音视频开发和图像处理。业余时间研究研究深度学习，使用CRNN模型做过OCR图片识别项目。<br>感兴趣的伙伴们欢迎关注我的<a href="https://github.com/JadynAi" target="_blank">GitHub</a><br> 同时欢迎关注我的掘金主页<a href="https://juejin.im/user/566d95f260b2ed36d9580add/posts" target="_blank">掘金社区AiLo</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/音视频/">音视频</a><span class="category-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera2/">Camera2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas动画/">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/交互体验/">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术讨论/">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普向/">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视觉设计/">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频/">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音视频/">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频/">音频</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Camera2/" style="font-size: 13px;">Camera2</a> <a href="/tags/Canvas动画/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.5px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/交互体验/" style="font-size: 13.25px;">交互体验</a> <a href="/tags/技术讨论/" style="font-size: 13.5px;">技术讨论</a> <a href="/tags/科普向/" style="font-size: 13px;">科普向</a> <a href="/tags/算法/" style="font-size: 13px;">算法</a> <a href="/tags/视觉设计/" style="font-size: 13px;">视觉设计</a> <a href="/tags/视频/" style="font-size: 13.5px;">视频</a> <a href="/tags/音视频/" style="font-size: 13.5px;">音视频</a> <a href="/tags/音频/" style="font-size: 13px;">音频</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/音视频/">音视频</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/06/21/2019-06-21-camera2-video/" class="title">Camera2录制视频(二)：MediaCodeC+OpenGL视频编码</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-06-20T16:00:00.000Z" itemprop="datePublished">2019-06-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/音视频/">音视频</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/06/01/2019-06-01-camera2-record1/" class="title">Camera2录制视频(一)：音频的录制及编码</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-05-31T16:00:00.000Z" itemprop="datePublished">2019-06-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/音视频/">音视频</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/05/20/2019-05-20-audio-time/" class="title">解决MediaMuxer编码AAC文件时间戳计算</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-05-19T16:00:00.000Z" itemprop="datePublished">2019-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/05/10/2019-05-10-camera2-1/" class="title">Camera2挖坑日记---如何解决预览画面变形</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-05-09T16:00:00.000Z" itemprop="datePublished">2019-05-10</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/音视频/">音视频</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/" class="title">使用MediaCodeC将图片集编码为视频</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-03-31T16:00:00.000Z" itemprop="datePublished">2019-04-01</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-2018-07-05-kotlin-adapter" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用DSL模式构建Recyclerview适配器
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/07/05/2018-07-05-kotlin-adapter/" class="article-date">
+	  <time datetime="2018-07-04T16:00:00.000Z" itemprop="datePublished">2018-07-05</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/技术讨论/">技术讨论</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/07/05/2018-07-05-kotlin-adapter/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><strong>原创文章，转载请联系作者</strong></p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>这是<strong>Kotlin实践日记</strong>的第一章，使用Kotlin构建一个，使用方便、多功能的Recyclerview适配器——<code>AcrobatAdapter</code>。<br></p>
+<p><code>AcrobatAdapter</code>让开发者专注于Item的配置，包括<code>Item</code>的UI和数据显示，以及单击、双击、长按事件【且不会影响子View的事件传递】。而且不仅仅是<code>单Item Style</code>列表,还是<code>多Item Style</code>列表，<code>AcrobatAdapter</code>的使用都是一样方便简单。</p>
+<p><code>AcrobatAdapter</code>的设计灵感来自于<a href="https://github.com/ssseasonnn/Yaksa" target="_blank" rel="noopener">夜叉</a>，我的函数名称也沿用<strong>夜叉</strong>的函数名，因为<code>itemDSL</code>这个名称是在太贴切了。夜叉这个项目是针对Recyclerview整体来构建，推荐小可爱们去看看。</p>
+<p>下面将展示使用文档。</p>
+<h3 id="使用文档"><a href="#使用文档" class="headerlink" title="使用文档"></a>使用文档</h3><p>####普通列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">val acrobatAdapter = AcrobatAdapter&lt;Int&gt; &#123;</span><br><span class="line">          itemDSL &#123;</span><br><span class="line">              resId(R.layout.item_test)</span><br><span class="line">              showItem &#123; d, pos, view -&gt;</span><br><span class="line">                  view.item_tv.text = &quot;数据Item&quot; + d</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">       &#125;.setData(数据源)</span><br><span class="line">recycler_view.adapter = acrobatAdapter</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>哒哒，以上代码就成功构建了一个列表<br>resId()函数绑定Item的布局ID<br>showItem函数内，渲染数据，d表示此项Item对应数据，会根据适配器泛型自动转换。pos为Item的position，view是Item的布局View。而且Kotlin支持使用Id代表控件，再也不用写findViewById啦！<br>最后，适配器的setData方法内置了DiffUtils，会对比新旧数据，这样在数据刷新时Recyclerview会有默认动画展示。让交互更加平滑。</p>
+</blockquote>
+<h4 id="如果开发者在项目中，有好几个界面的Item完全一样，那岂不是还要写几套代码？完全不用担心，Item也支持复用。"><a href="#如果开发者在项目中，有好几个界面的Item完全一样，那岂不是还要写几套代码？完全不用担心，Item也支持复用。" class="headerlink" title="如果开发者在项目中，有好几个界面的Item完全一样，那岂不是还要写几套代码？完全不用担心，Item也支持复用。"></a>如果开发者在项目中，有好几个界面的Item完全一样，那岂不是还要写几套代码？完全不用担心，Item也支持复用。</h4><p>首先Item相关类，继承<code>AcrobatItem</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Test : AcrobatItem&lt;Int&gt;() &#123;</span><br><span class="line">    override fun showItem(d: Int, pos: Int, view: View) &#123;</span><br><span class="line">        view.item_tv.text = &quot;共用Item&quot; + d</span><br><span class="line">    &#125;</span><br><span class="line">    override fun getResId(): Int = R.layout.item_test</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在适配器中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">val acrobatAdapter = AcrobatAdapter&lt;Int&gt; &#123;</span><br><span class="line">            item &#123; </span><br><span class="line">                Test()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.setData(数据源)</span><br><span class="line">        recycler_view.adapter = acrobatAdapter</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>让你的Item继承<code>AcrobatItem</code>即可。这样再多的界面复用Item也完全可行，但要注意的一点是：Item的数据类型必须一致。</p>
+</blockquote>
+<h4 id="多Item样式可以咩？当然可以啦！"><a href="#多Item样式可以咩？当然可以啦！" class="headerlink" title="多Item样式可以咩？当然可以啦！"></a>多Item样式可以咩？当然可以啦！</h4><p>多item样式的话，写多个ItemDSL即可！每一个<code>ItemDSL</code>就代表一种独有的Item样式。同理，每调用一次<code>item</code>，也就多一种Item样式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">val acrobatAdapter = AcrobatAdapter&lt;Int&gt; &#123;</span><br><span class="line">       itemDSL &#123;</span><br><span class="line">            resId(R.layout.item_test)</span><br><span class="line">            showItem &#123; d, pos, view -&gt;</span><br><span class="line">                 view.item_tv.text = &quot;数据Item: &quot; + d</span><br><span class="line">              &#125;</span><br><span class="line">              isMeetData &#123; d, pos -&gt; pos == 1 &#125;</span><br><span class="line">           &#125;</span><br><span class="line">        itemDSL &#123;</span><br><span class="line">             resId(R.layout.item_test1)</span><br><span class="line">             showItem &#123; d, pos, view -&gt;</span><br><span class="line">                  view.item_tv.text = &quot;cece: &quot; + d</span><br><span class="line">              &#125;</span><br><span class="line">              isMeetData &#123; d, pos -&gt; pos != 1 &#125;</span><br><span class="line">           &#125;</span><br><span class="line">        &#125;.setData(数据源)</span><br><span class="line">  recycler_view.adapter = acrobatAdapter</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>isMeetData函数两个参数为数据和position。用这两个参数来判断此Item在哪个位置、什么条件展示。譬如示例代码，position为1时是一个样式，不为1时是另一种样式。但要注意，所有的Item的isMeetData的条件都是互斥的噢。否则会抛出异常。</p>
+</blockquote>
+<h4 id="嗯……Recyclerview没有默认的Item点击事件怎么办？没问题，AcrobatAdapter替你搞定。每个Item不但有单击click-还附带了双击DoubleTap和长按LongPress事件。而且完全不会影响Item布局View内部childView的事件。"><a href="#嗯……Recyclerview没有默认的Item点击事件怎么办？没问题，AcrobatAdapter替你搞定。每个Item不但有单击click-还附带了双击DoubleTap和长按LongPress事件。而且完全不会影响Item布局View内部childView的事件。" class="headerlink" title="嗯……Recyclerview没有默认的Item点击事件怎么办？没问题，AcrobatAdapter替你搞定。每个Item不但有单击click,还附带了双击DoubleTap和长按LongPress事件。而且完全不会影响Item布局View内部childView的事件。"></a>嗯……Recyclerview没有默认的Item点击事件怎么办？没问题，<code>AcrobatAdapter</code>替你搞定。每个Item不但有单击<code>click</code>,还附带了双击<code>DoubleTap</code>和长按<code>LongPress</code>事件。而且完全不会影响Item布局View内部childView的事件。</h4><ul>
+<li>每种Item都可以绑定自己独有的三个事件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">val acrobatAdapter = AcrobatAdapter&lt;Int&gt; &#123;</span><br><span class="line">         itemDSL &#123;</span><br><span class="line">             resId(R.layout.item_test)</span><br><span class="line">             showItem &#123; d, pos, view -&gt;</span><br><span class="line">                 view.item_tv.text = &quot;数据Item: &quot; + d</span><br><span class="line">             &#125;</span><br><span class="line">             onClick &#123; </span><br><span class="line">                 toastS(&quot;单击&quot;)</span><br><span class="line">             &#125;</span><br><span class="line">             onDoubleTap &#123; </span><br><span class="line">                 toastS(&quot;双击&quot;)</span><br><span class="line">             &#125;</span><br><span class="line">             </span><br><span class="line">             longPress &#123; </span><br><span class="line">                 toastS(&quot;长按&quot;)</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">         </span><br><span class="line">         itemDSL &#123;</span><br><span class="line">             resId(R.layout.item_test1)</span><br><span class="line">             showItem &#123; d, pos, view -&gt;</span><br><span class="line">                 view.item_tv1.text = &quot;另一种样式&quot; + d</span><br><span class="line">             &#125;</span><br><span class="line">             isMeetData &#123; d, pos -&gt; pos == 1 &#125;</span><br><span class="line">             </span><br><span class="line">             onClick &#123; </span><br><span class="line">                 toastS(&quot;单击另一种Item&quot;)</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">             onDoubleTap &#123;</span><br><span class="line">                 toastS(&quot;双击另一种Item&quot;)</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">             longPress &#123;</span><br><span class="line">                 toastS(&quot;长按另一种Item&quot;)</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;         </span><br><span class="line">       &#125;.setData(数据源)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>三个事件都是单独绑定Item的样式的！当使用多Item样式列表时，再也不用在click事件中，写很多的条件判断了！</p>
+</blockquote>
+<h4 id="AcrobatAdapter不但支持Item绑定事件，也支持Adapter外部绑定事件。但这样就需要开发者，在外部事件里区分多Item样式了。"><a href="#AcrobatAdapter不但支持Item绑定事件，也支持Adapter外部绑定事件。但这样就需要开发者，在外部事件里区分多Item样式了。" class="headerlink" title="AcrobatAdapter不但支持Item绑定事件，也支持Adapter外部绑定事件。但这样就需要开发者，在外部事件里区分多Item样式了。"></a><code>AcrobatAdapter</code>不但支持Item绑定事件，也支持Adapter外部绑定事件。但这样就需要开发者，在外部事件里区分多Item样式了。</h4><ul>
+<li>适配器持有Item事件，使用<code>AcrobarAdapter</code>的<code>bindEvent()</code>函数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">val acrobatAdapter = AcrobatAdapter&lt;Int&gt; &#123;</span><br><span class="line">         itemDSL &#123;</span><br><span class="line">             resId(R.layout.item_test)</span><br><span class="line">             showItem &#123; d, pos, view -&gt;</span><br><span class="line">                 view.item_tv.text = &quot;数据Item: &quot; + d</span><br><span class="line">             &#125;</span><br><span class="line">             isMeetData &#123; d, pos -&gt; pos != 1 &#125;</span><br><span class="line">         &#125;</span><br><span class="line">        &#125;.setData(data).bindEvent &#123; </span><br><span class="line">            onClick &#123; </span><br><span class="line">                toastS(&quot;外部单击&quot;)</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            onDoubleTap &#123; </span><br><span class="line">                toastS(&quot;外部双击&quot;)</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            longPress &#123; </span><br><span class="line">                toastS(&quot;外部长按&quot;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="还有几个使用的小Tip"><a href="#还有几个使用的小Tip" class="headerlink" title="还有几个使用的小Tip"></a>还有几个使用的小Tip</h4><ul>
+<li>ItemDSl的<code>onViewCreated(parent,view)</code>函数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">val acrobatAdapter = AcrobatAdapter&lt;Int&gt; &#123;</span><br><span class="line">        itemDSL &#123;</span><br><span class="line">            resId(R.layout.item_test)</span><br><span class="line">            showItem &#123; d, pos, view -&gt;</span><br><span class="line">                view.item_tv.text = &quot;数据Item: &quot; + d</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            onViewCreate &#123; parent, view -&gt; </span><br><span class="line">                作一些和数据无关的UI操作，譬如view设置为圆形</span><br><span class="line">                或者EditText的addTextChangedListener</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>showItem()函数是绑定在适配器的onBingViewHolder函数里的，触发会比较频繁。如果在<code>showItem</code>内做一些UI操作，会比较浪费性能.<br><code>onViewCreated</code>函数是绑定在适配器的<code>onCreateViewHolder</code>函数内</p>
+</blockquote>
+<ul>
+<li>刷新单个Item布局</li>
+</ul>
+<p>Recyclerview如果需要刷新Item的话，不建议使用<code>notifyItemChanged(int position)</code>方法，因为这个方法会刷新整个Item的视图。在视觉上的直观体现就是，Item会闪烁。所以建议使用如下方法刷新Item：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notifyItemChanged(int position, Object payload)</span><br></pre></td></tr></table></figure>
+<p>使用上面这个方法，不会重绘整个View的视图。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">val acrobatAdapter = AcrobatAdapter&lt;Int&gt; &#123;</span><br><span class="line">       itemDSL &#123;</span><br><span class="line">           resId(R.layout.item_test)</span><br><span class="line">           showItem &#123; d, pos, view -&gt;</span><br><span class="line">               view.item_tv.text = &quot;数据Item: &quot; + d</span><br><span class="line">           &#125;</span><br><span class="line">           showItemPayload &#123; d, pos, view, payloads -&gt; </span><br><span class="line">            刷新Item的某个特定的ChildView。</span><br><span class="line">            譬如在某个Item刷新进度条。下面为伪代码</span><br><span class="line">            view.progreess_bar.setProgress(100%)        </span><br><span class="line">           &#125;</span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<p>下面简单做一下效果展示：</p>
+<p>#####使用<code>notifyItemChanged(int position)</code>和<code>showItem</code>刷新布局<br><img src="https://mmbiz.qpic.cn/mmbiz_gif/jqw9LvhdsxJRdy8tPr5s35tNYfwkbEefz7II2pWngbRZmXNPibrFibJewMZbTicO7nlRiaTianeO3n7wfBhOElO8rAg/0?wx_fmt=gif" alt></p>
+<p>#####使用<code>notifyItemChanged(int position, Object payload)</code>和<code>showItemPayload</code>刷新布局<br><img src="https://mmbiz.qpic.cn/mmbiz_gif/jqw9LvhdsxJRdy8tPr5s35tNYfwkbEefhQdicXhluHW5fhETuP82kfMUBcvHdIPMy3xEPpeibCo5j0wtmtI25B9A/0?wx_fmt=gif" alt></p>
+<p>效果对比，一目了然。</p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>Kotlin已成为Android开发的官方语言，不管工作上用得到用不到，大家了解一二还是有必要的。毕竟这个时代变化的太快了。<br><strong>以上</strong><br></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://ailo.fun/2018/07/05/2018-07-05-kotlin-adapter/" title="使用DSL模式构建Recyclerview适配器" target="_blank" rel="external">https://ailo.fun/2018/07/05/2018-07-05-kotlin-adapter/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/07/29/2018-07-29-AStarmaze/" title="使用A*算法求解机器人迷宫最短路径"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/07/01/2018-07-01-glide-round/" title="提供一个Glide灵活加载圆角图片的方法"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+<script src="//cdn.jsdelivr.net/npm/gitment@0.0.3/dist/gitment.browser.min.js"></script>
+<script>
+var gitment = new Gitment({
+  // id默认为当前页面url，如果url后带参数或锚点，gitment要重新初始化
+  // https://github.com/imsun/gitment/issues/55
+  // 解决方案：id:window.location.pathname,或者将id设置为当前页面标题
+  id: 'Thu Jul 05 2018 00:00:00 GMT+0800', 
+  owner: 'JadynAi', // 可以是你的GitHub用户名，也可以是github id
+  repo: 'JadynAi.github.io',
+  oauth: {
+    client_id: 'b199888872a9ccadaa16',
+    client_secret: '6230f262fc987c09b996cbd106c2a2d651c6486a',
+  }
+})
+gitment.render('comments')
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>【闻弦歌】--初识音频 | Hexo</title>
+  <meta name="description" content="学习的目的在于掌握以及更好地使用，学习的第一步就是认知。在音频学习时，我们首先要认知的就是声音。 声音是什么 声音由震动而生，它本质上是一种机械波。既然是波，就拥有波动传播的性质，例如频率、波长等。 对人而言，“声音”于生理学上的体现为大脑接受到的声音，和物理学定义有偏差。人类的耳朵一般只能听到约在20Hz至20,000 Hz（20kHz）范围内的声音，其上限会随年龄增加而降低，蚊音器【注1】就是">
+<meta name="keywords" content="科普向,音频">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【闻弦歌】--初识音频">
+<meta property="og:url" content="https://ailo.fun/2018/04/02/audio_start_learn/index.html">
+<meta property="og:site_name" content="Life is Like A Boat">
+<meta property="og:description" content="学习的目的在于掌握以及更好地使用，学习的第一步就是认知。在音频学习时，我们首先要认知的就是声音。 声音是什么 声音由震动而生，它本质上是一种机械波。既然是波，就拥有波动传播的性质，例如频率、波长等。 对人而言，“声音”于生理学上的体现为大脑接受到的声音，和物理学定义有偏差。人类的耳朵一般只能听到约在20Hz至20,000 Hz（20kHz）范围内的声音，其上限会随年龄增加而降低，蚊音器【注1】就是">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-04-26T06:16:44.417Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【闻弦歌】--初识音频">
+<meta name="twitter:description" content="学习的目的在于掌握以及更好地使用，学习的第一步就是认知。在音频学习时，我们首先要认知的就是声音。 声音是什么 声音由震动而生，它本质上是一种机械波。既然是波，就拥有波动传播的性质，例如频率、波长等。 对人而言，“声音”于生理学上的体现为大脑接受到的声音，和物理学定义有偏差。人类的耳朵一般只能听到约在20Hz至20,000 Hz（20kHz）范围内的声音，其上限会随年龄增加而降低，蚊音器【注1】就是">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ailo.fun/2018/04/02/audio_start_learn/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Life is Like A Boat" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitment@0.0.3/style/default.min.css">
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech>
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>我是AiLo，一个Android Developer，热爱开源。<br>近期在研究音视频开发和图像处理。业余时间研究研究深度学习，使用CRNN模型做过OCR图片识别项目。<br>感兴趣的伙伴们欢迎关注我的<a href="https://github.com/JadynAi" target="_blank">GitHub</a><br> 同时欢迎关注我的掘金主页<a href="https://juejin.im/user/566d95f260b2ed36d9580add/posts" target="_blank">掘金社区AiLo</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/音视频/">音视频</a><span class="category-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera2/">Camera2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas动画/">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/交互体验/">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术讨论/">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普向/">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视觉设计/">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频/">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音视频/">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频/">音频</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Camera2/" style="font-size: 13px;">Camera2</a> <a href="/tags/Canvas动画/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.5px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/交互体验/" style="font-size: 13.25px;">交互体验</a> <a href="/tags/技术讨论/" style="font-size: 13.5px;">技术讨论</a> <a href="/tags/科普向/" style="font-size: 13px;">科普向</a> <a href="/tags/算法/" style="font-size: 13px;">算法</a> <a href="/tags/视觉设计/" style="font-size: 13px;">视觉设计</a> <a href="/tags/视频/" style="font-size: 13.5px;">视频</a> <a href="/tags/音视频/" style="font-size: 13.5px;">音视频</a> <a href="/tags/音频/" style="font-size: 13px;">音频</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/音视频/">音视频</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/06/21/2019-06-21-camera2-video/" class="title">Camera2录制视频(二)：MediaCodeC+OpenGL视频编码</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-06-20T16:00:00.000Z" itemprop="datePublished">2019-06-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/音视频/">音视频</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/06/01/2019-06-01-camera2-record1/" class="title">Camera2录制视频(一)：音频的录制及编码</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-05-31T16:00:00.000Z" itemprop="datePublished">2019-06-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/音视频/">音视频</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/05/20/2019-05-20-audio-time/" class="title">解决MediaMuxer编码AAC文件时间戳计算</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-05-19T16:00:00.000Z" itemprop="datePublished">2019-05-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/05/10/2019-05-10-camera2-1/" class="title">Camera2挖坑日记---如何解决预览画面变形</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-05-09T16:00:00.000Z" itemprop="datePublished">2019-05-10</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/音视频/">音视频</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/" class="title">使用MediaCodeC将图片集编码为视频</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-03-31T16:00:00.000Z" itemprop="datePublished">2019-04-01</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-audio_start_learn" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【闻弦歌】--初识音频
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/04/02/audio_start_learn/" class="article-date">
+	  <time datetime="2018-04-01T16:00:00.000Z" itemprop="datePublished">2018-04-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/音视频/">音视频</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/科普向/">科普向</a>, <a class="article-tag-link" href="/tags/音频/">音频</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/04/02/audio_start_learn/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><strong>学习的目的在于掌握以及更好地使用，学习的第一步就是认知。在音频学习时，我们首先要认知的就是声音</strong>。</p>
+<h2 id="声音是什么"><a href="#声音是什么" class="headerlink" title="声音是什么"></a>声音是什么</h2><ul>
+<li>声音由震动而生，它本质上是一种机械波。既然是波，就拥有波动传播的性质，例如频率、波长等。</li>
+<li>对人而言，“声音”于生理学上的体现为大脑接受到的声音，和物理学定义有偏差。人类的耳朵一般只能听到约在20Hz至20,000 Hz（20kHz）范围内的声音，其上限会随年龄增加而降低，蚊音器【注1】就是利用了这种原理。</li>
+</ul>
+<h2 id="声音的采集与存储"><a href="#声音的采集与存储" class="headerlink" title="声音的采集与存储"></a>声音的采集与存储</h2><p>在了解声音采集以及存储之前，我们首先要认知两个概念。即模拟信号和数字信号。<br>信号数据是可以用来表达任何信息的，例如图像、声音、文字等。对信号数据的了解，有利于我们理解声音采集存储的过程中，到底发生了什么。</p>
+<ul>
+<li><p>模拟信号<code>[ analog signal ]</code>, <strong>[Wiki百科]</strong> 是这样解释的：</p>
+<blockquote>
+<p>模拟信号是在时域上数学形式为连续函数的信号，其主要利用对象的一些物理属性来表达传递信息。<br>理论上来说，它的分辨率是接近无穷大的，信息密度大，不存在量化误差。代表着对自然界物理量的描述表达无限逼近真实。<br>同时它也极其容易受干扰。<br>例子：最开始的大哥大传输的就是模拟信号，所以那时候经常出现噪音，通话质量极差。</p>
+</blockquote>
+</li>
+<li><p>数字信号[Digital signal]，<strong>Wiki百科</strong> 解释如下：</p>
+<blockquote>
+<p>数字信号是离散时间信号（discrete-time signal）的数字化表示。<br> 狭义上来说，数字信号就是从模拟信号获取的。</p>
+</blockquote>
+</li>
+</ul>
+<p>OK，简要的说明了信号数据属性，概念总是苍白无力的，那么接下来我们用一个实际的例子来阐述以上两个属性的含义。<br>就从麦克风录音——&gt;录音文件为例，在这个过程到底发生了什么转换，能让声音变成可播放文件的呢？</p>
+<h3 id="录音解密"><a href="#录音解密" class="headerlink" title="录音解密"></a>录音解密</h3><p>对着麦克风录音时，麦克风【拾音设备】作了一轮声电转换，将机械振动信号转为模拟信号【在这里模拟信号的体现为连续电信号】。手机【或者计算机】是无法直接处理或存储模拟信号的，因为它是电信号。<br>所以手机【或者计算机】内部会对模拟信号进行采样收集，转化为数字信号，这个过程称之为<code>A/D，模数转换</code>。在这个过程中，采样模拟的波形和原始波形的误差就是噪音了。当然，一定程度上设备的好坏也决定了噪音的程度。<br>By the way，麦克风的工作原理：</p>
+<blockquote>
+<p>麦克风里有一层薄且敏感的碳膜，声音经过时，会压缩空气导致碳膜挤压发生振动。碳膜下方有一个电极，碳膜振动时会接触电极，接触的长短和频率与声波的振幅和频率有关【注2】。这样就完成了第一轮声电转换。</p>
+</blockquote>
+<p><em>有了录音，自然接下来就是播放了。接着我们会讲一下手机【或者计算机】是如何播放音频文件的。</em></p>
+<h3 id="音频播放"><a href="#音频播放" class="headerlink" title="音频播放"></a>音频播放</h3><p>  音响设备播放声音，需要连续的电波将音盆的磁圈振动。这个过程，要是向它输入数字信号，那可不好使。<br>音响设备此时需要计算机对它输入模拟信号【有强弱变化的电流】，这个过程叫做<code>D/A,数模转换</code>。<br>模拟信号和数字信号是不相通的，通过<code>模数转换/数模转换</code>来互通。譬如手机播放一个MP3，必须将这个MP3文件解码成模拟信号才能推动扬声器来振动产生声音。</p>
+<p><em>好比是乐谱和演奏一样：<code>A/D，模数转换</code>就是将音乐写成乐谱。而<code>D/A,数模转换</code>，就是乐师将乐谱演奏出来。</em></p>
+<h2 id="音频学习学什么"><a href="#音频学习学什么" class="headerlink" title="音频学习学什么"></a>音频学习学什么</h2><p>实际上对于APP应用层开发而言，<code>A/D，模数转换</code>和<code>D/A,数模转换</code>大多数情况下是不用接触的。<br>对于Android平台而言，系统已经封装了相当完善的录音Api。它会直接提供给我们，经过A/D模数变换后的二进制序列 <em>PCM文件</em> <em>【该文件没有附加的文件头和文件结束标志】</em>。<br>而音频开发都是基于PCM文件的。</p>
+<h3 id="PCM文件"><a href="#PCM文件" class="headerlink" title="PCM文件"></a>PCM文件</h3><p>PCM文件是对声音模拟信号的量化，是没有经过压缩的纯音频数据，只有PCM能直接进行声音处理【譬如变声器】。<br>同理，PCM没有文件描述，所以不会有播放器支持播放PCM文件的音乐，除非已知采样率等信息。PCM作为声音的量化体现，主要有以下几个维度来描述声音：</p>
+<ul>
+<li>采样率<code>sampleRate</code>，单位【khz】：<ul>
+<li>取样频率，每秒钟取得声音样本的次数。此值越高，则声音的还原度越高，同时占用的资源也会更多。</li>
+<li>常见的有8khz【电话等使用】、22.05khz【广播】、44.1khz【CD音质】、48khz【数字电视】；常用采样率不会超过48khz</li>
+<li>44.1khz是Android平台已知唯一兼容大多数固件的采样率</li>
+</ul>
+</li>
+<li>采样位数，单位【bit】：<ul>
+<li>每一个采样点的采样值，用来衡量声音波动变化的一个参数，也可以说是声卡的分辨率。数值越大，声音质量越好。</li>
+<li>大小常为为4bit、8bit、16bit、32bit</li>
+</ul>
+</li>
+<li>声道数<code>channel</code>：<ul>
+<li>单声道 <strong>Mono</strong></li>
+<li>双声道 <strong>Stereo</strong></li>
+<li>用耳机举例，单声道并不是只有一个耳机喇叭发出声音。而是两个喇叭同时发出这个声道的声音。<br>双声道就是两个耳机喇叭分别播出两个声道的声音。</li>
+<li>对Android平台而言，立体声就是双声道。</li>
+</ul>
+</li>
+<li>时间</li>
+</ul>
+<h4 id="PCM文件计算大小"><a href="#PCM文件计算大小" class="headerlink" title="PCM文件计算大小"></a>PCM文件计算大小</h4><p>衡量PCM文件数据单位时间内的容量大小，称之为比特率——即1s时间内的比特（bit）数目。那么，来计算一下一个 <code>44.1khz 16bit 2channel</code>的CD音质的比特率为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">44100*16*2=1411200bps=1411.2kbps</span><br></pre></td></tr></table></figure>
+<h5 id="那么一段60s的CD音质的声音大小为："><a href="#那么一段60s的CD音质的声音大小为：" class="headerlink" title="那么一段60s的CD音质的声音大小为："></a>那么一段60s的CD音质的声音大小为：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1411.2*60/8=10584KB=10.34MB</span><br></pre></td></tr></table></figure>
+<h5 id="ok，接下来我们详细介绍一下，以上各个单位的换算详情。"><a href="#ok，接下来我们详细介绍一下，以上各个单位的换算详情。" class="headerlink" title="ok，接下来我们详细介绍一下，以上各个单位的换算详情。"></a>ok，接下来我们详细介绍一下，以上各个单位的换算详情。</h5><ul>
+<li><p>比特率，数据传送速度单位,用来衡量带宽的，每s传输的二进制位数：</p>
+<blockquote>
+<p>Mbps 即 Milionbit pro second(百万位每秒)<br><br>Kbps 即 Kilobit pro second（千位每秒）<br><br>bps 即 bit pro second（位每秒）<br><br>最小的单位就是bit，也是采样位数，通常缩写为<code>b</code>。<strong>这里要着重注意一下，要和另一个单位<code>B</code>区分开来。</strong><br>另，kbps和bps的换算单位也有争议，有的是<code>1kbps=1024bps</code>，有的则是<code>1kbps=1000bps</code>。我们之前计算的<code>10.34MB</code>，是以1000位基准计算的，参考的是wiki百科。</p>
+</blockquote>
+</li>
+<li><p>传输的<strong>字节数</strong>单位，<code>Byte</code>，通常用<code>B</code>表示：</p>
+<blockquote>
+<p>这个才是通常软件上显示的下载速度，也是存储的硬盘上的字节数体现。<br>MB即百万字节也称兆字节<br> KB即千字节<br>B即字节,其换算单位为1024，公式为：<br><br><code>1MB=1024KB=1024*1024B=1024*1024*8b</code><br>所以，一般1M的网络带宽指的是：1Mbps。它下载的速度上限为：1Mbps=1000kbps=1000000bps。一秒钟走过了<code>10^6</code>个bit，那么换算为Bytes为：</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">10^6/8=125000 byte/s=122 KB/s</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>PS：有关<code>1kbps=1024bps</code>和<code>1kbps=1000bps</code>的用法依然是混乱的。<br>作为万国共通的SI单位系「k」「M」等接头辞有着1000乘方的意义，IEEE和IEC等学会标准化团体等也正式地跟随这些的用法。但出于计算机初期软件和硬件设计上的情况，是把1024比特作为1000比特，结果在数据的容量和通信速率等中适用这个规则的人增多，导致了现在这样的混乱状态。<br>在通讯的世界中，由于数据通讯开始之前就遵从SI单位系而使用1000倍，并且调制解调器的通信速率开始时也是使用75bps，300bps，1200bps等非2乘方的值，所以一般认为1kbps=1000bps是妥当的。大致来说，存储器和硬盘等存储容量一般使用「1024」，通信速率使用「1000」,但因为根据状况会有不同，需要充分注意使用的是哪边的意义</strong></p>
+<hr>
+<h4 id="PCM文件格式可以直接作声音处理"><a href="#PCM文件格式可以直接作声音处理" class="headerlink" title="PCM文件格式可以直接作声音处理"></a>PCM文件格式可以直接作声音处理</h4><p>对一个PCM文件而言，以采样频率作为变量，其余属性不变。则采样频率越小，播放出来的声音越粗，速度越慢。采样频率越高，声音越细，速度越快。<br>怎么样，是不是很熟悉呢？这种效果差不多就是变声器的原理了，不过变声器要比这个复杂的更多。</p>
+<p><strong>以上</strong></p>
+<blockquote>
+<p><strong>注1</strong>：蚊音器，也叫蚊音警报器，是一种通过发出高频声音来制止年轻人集会的一种电器设备。<br>最新的版本于2008年晚些时候上市，其可以设置两种频段。一种是大约17.4kHz[1]，一般只有年轻人可以听到的。另一种为8kHz，能被大多数人听到。其最大的前在输出的声压级为108dB。由于人耳朵的功能会随着年纪变化，因此此种声音只有差不多25岁以下的年轻人才听得到。<br><strong>注2</strong>：参考《音视频开发进阶指南》第一张第二节</p>
+</blockquote>
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a href="http://blog.51cto.com/1676454/1426376" target="_blank" rel="noopener">Mbps、Kbps、bps、kb、mb的区别，带宽换算
+</a></li>
+<li><a href="https://www.douban.com/group/topic/27210767/" target="_blank" rel="noopener">AD/DA转换、模拟、数字的扫盲贴</a></li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://ailo.fun/2018/04/02/audio_start_learn/" title="【闻弦歌】--初识音频" target="_blank" rel="external">https://ailo.fun/2018/04/02/audio_start_learn/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/04/30/flickerView/" title="仿ios京东启动页“跳过”效果"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/11/02/anim_text/" title="文字动次打次，让文字动态绘制出来"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+<script src="//cdn.jsdelivr.net/npm/gitment@0.0.3/dist/gitment.browser.min.js"></script>
+<script>
+var gitment = new Gitment({
+  // id默认为当前页面url，如果url后带参数或锚点，gitment要重新初始化
+  // https://github.com/imsun/gitment/issues/55
+  // 解决方案：id:window.location.pathname,或者将id设置为当前页面标题
+  id: 'Mon Apr 02 2018 00:00:00 GMT+0800', 
+  owner: 'JadynAi', // 可以是你的GitHub用户名，也可以是github id
+  repo: 'JadynAi.github.io',
+  oauth: {
+    client_id: 'b199888872a9ccadaa16',
+    client_secret: '6230f262fc987c09b996cbd106c2a2d651c6486a',
+  }
+})
+gitment.render('comments')
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
