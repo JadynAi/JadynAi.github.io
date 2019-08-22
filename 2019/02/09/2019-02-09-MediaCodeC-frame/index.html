@@ -1,394 +1,249 @@
 <!DOCTYPE html>
-<html lang=zh>
+<html>
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
-  
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-transform">
-  <meta http-equiv="Cache-Control" content="no-siteapp">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="format-detection" content="telephone=no,email=no,adress=no">
-  <!-- Color theme for statusbar -->
-  <meta name="theme-color" content="#000000">
-  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
-  <meta http-equiv="window-target" content="_top">
-  
-  
-  <title>MediaCodeC解码视频指定帧，迅捷、精确 | Hexo</title>
-  <meta name="description" content="原创文章，转载请联系作者  若待明朝风雨过，人在天涯！春在天涯  提要最近在整理硬编码MediaCodec相关的学习笔记，以及代码文档，分享出来以供参考。本人水平有限，项目难免有思虑不当之处，若有问题可以提Issues。项目地址传送门此篇文章，主要是分享如何用MediaCodeC解码视频指定时间的一帧，回调Bitmap对象。之前还有一篇MediaCodeC硬解码视频，并将视频帧存储为图片文件，主要">
-<meta name="keywords" content="Android,视频,MediaCodeC">
-<meta property="og:type" content="article">
-<meta property="og:title" content="MediaCodeC解码视频指定帧，迅捷、精确">
-<meta property="og:url" content="https://ailo.fun/2019/02/09/2019-02-09-MediaCodeC-frame/index.html">
-<meta property="og:site_name" content="Life is Like A Boat">
-<meta property="og:description" content="原创文章，转载请联系作者  若待明朝风雨过，人在天涯！春在天涯  提要最近在整理硬编码MediaCodec相关的学习笔记，以及代码文档，分享出来以供参考。本人水平有限，项目难免有思虑不当之处，若有问题可以提Issues。项目地址传送门此篇文章，主要是分享如何用MediaCodeC解码视频指定时间的一帧，回调Bitmap对象。之前还有一篇MediaCodeC硬解码视频，并将视频帧存储为图片文件，主要">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/code_framework.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/decode_frame_work.png">
-<meta property="og:updated_time" content="2019-07-24T13:37:05.755Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MediaCodeC解码视频指定帧，迅捷、精确">
-<meta name="twitter:description" content="原创文章，转载请联系作者  若待明朝风雨过，人在天涯！春在天涯  提要最近在整理硬编码MediaCodec相关的学习笔记，以及代码文档，分享出来以供参考。本人水平有限，项目难免有思虑不当之处，若有问题可以提Issues。项目地址传送门此篇文章，主要是分享如何用MediaCodeC解码视频指定时间的一帧，回调Bitmap对象。之前还有一篇MediaCodeC硬解码视频，并将视频帧存储为图片文件，主要">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/code_framework.png">
-  <!-- Canonical links -->
-  <link rel="canonical" href="https://ailo.fun/2019/02/09/2019-02-09-MediaCodeC-frame/index.html">
-  
-    <link rel="alternate" href="/atom.xml" title="Life is Like A Boat" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png" type="image/x-icon">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
-  
-  
-  
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="AiLo">
+    
+    <meta name="description" content="Android AI DeepLearning">
+    
+    
+    
+    
+    
+    
+    <title>MediaCodeC解码视频指定帧，迅捷、精确 | Life is Like A Boat</title>
+    <link href="”https://ailo.fun“" rel="”prefetch”">
 
-
-<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
-  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-  <div class="slimContent">
-    <div class="navbar-header">
-      
-      
-      <div class="profile-block text-center">
-        <a id="avatar" href="https://github.com/cofess" target="_blank">
-          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
-        </a>
-        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
-        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
-      </div>
-      
-      <div class="search" id="search-form-wrap">
-
-    <form class="search-form sidebar-form">
-        <div class="input-group">
-            <input type="text" class="search-form-input form-control" placeholder="搜索">
-            <span class="input-group-btn">
-                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
-            </span>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 2200px) {
+            body {
+                background-color: #ffffff;
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg,preview5.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+</head></html>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+   
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse" aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://ailo.fun">
+                
+                <!-- 这里background使用imgs/${logo_image}(路径文件名) -->
+                <style>
+                    #gal-header .navbar-brand {
+                        width: 200px;
+                        height: 50px;
+                        display: block;
+                        background: url('/imgs/favicon.png') no-repeat;
+                    }
+                </style>
+                    
+                <div class="navbar-brand"></div>
+                
+            </a>
         </div>
-    </form>
-    <div class="ins-search">
-  <div class="ins-search-mask"></div>
-  <div class="ins-search-container">
-    <div class="ins-input-wrapper">
-      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech>
-      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class>
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class>
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/Android/">Android</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Python/">Python</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/音视频/">音视频</a>
+                        </li>
+                        
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/技术讨论/">技术讨论</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/算法/">算法</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Camera2/">Camera2</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/音视频/">音视频</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Android/">Android</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Canvas动画/">Canvas动画</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
     </div>
-    <div class="ins-section-wrapper">
-      <div class="ins-section-container"></div>
-    </div>
-  </div>
-</div>
-
-
-</div>
-      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
-      <ul class="nav navbar-nav main-nav ">
-        
-        
-        <li class="menu-item menu-item-home">
-          <a href="/.">
-            
-            <i class="icon icon-home-fill"></i>
-            
-            <span class="menu-title">首页</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives">
-            
-            <i class="icon icon-archives-fill"></i>
-            
-            <span class="menu-title">归档</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories">
-            
-            <i class="icon icon-folder"></i>
-            
-            <span class="menu-title">分类</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags">
-            
-            <i class="icon icon-tags"></i>
-            
-            <span class="menu-title">标签</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-repository">
-          <a href="/repository">
-            
-            <i class="icon icon-project"></i>
-            
-            <span class="menu-title">项目</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-books">
-          <a href="/books">
-            
-            <i class="icon icon-book-fill"></i>
-            
-            <span class="menu-title">书单</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-links">
-          <a href="/links">
-            
-            <i class="icon icon-friendship"></i>
-            
-            <span class="menu-title">友链</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about">
-            
-            <i class="icon icon-cup-fill"></i>
-            
-            <span class="menu-title">关于</span>
-          </a>
-        </li>
-        
-      </ul>
-      
-	
-    <ul class="social-links">
-    	
-        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
-        
-        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
-        
-        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle="tooltip" data-placement="top"><i class="icon icon-twitter"></i></a></li>
-        
-        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle="tooltip" data-placement="top"><i class="icon icon-behance"></i></a></li>
-        
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
-        
-    </ul>
-
-    </nav>
-  </div>
 </header>
-
-  
-    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
-  <div class="slimContent">
-    
-      <div class="widget">
-    <h3 class="widget-title">公告</h3>
-    <div class="widget-body">
-        <div id="board">
-            <div class="content">
-                <p>欢迎交流与分享经验!</p>
-            </div>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 gal-right" id="mainstay">
+                    
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://ailo.fun">Life is Like A Boat</a>
+        >
+        <span>MediaCodeC解码视频指定帧，迅捷、精确</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/">MediaCodeC解码视频指定帧，迅捷、精确</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Android/">Android</a>, 
+                
+                <a href="/tags/视频/">视频</a>, 
+                
+                <a href="/tags/MediaCodeC/">MediaCodeC</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2019-02-09
+            </span>
+            
         </div>
     </div>
-</div>
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/音视频/">音视频</a><span class="category-list-count">7</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera2/">Camera2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas动画/">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/交互体验/">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术讨论/">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普向/">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视觉设计/">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频/">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音视频/">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频/">音频</a><span class="tag-list-count">1</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget-body tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Camera2/" style="font-size: 13px;">Camera2</a> <a href="/tags/Canvas动画/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.5px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/交互体验/" style="font-size: 13.25px;">交互体验</a> <a href="/tags/技术讨论/" style="font-size: 13.5px;">技术讨论</a> <a href="/tags/科普向/" style="font-size: 13px;">科普向</a> <a href="/tags/算法/" style="font-size: 13px;">算法</a> <a href="/tags/视觉设计/" style="font-size: 13px;">视觉设计</a> <a href="/tags/视频/" style="font-size: 13.5px;">视频</a> <a href="/tags/音视频/" style="font-size: 13.5px;">音视频</a> <a href="/tags/音频/" style="font-size: 13px;">音频</a>
-    </div>
-  </div>
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget-body">
-      <ul class="recent-post-list list-unstyled no-thumbnail">
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
-              </p>
-              <p class="item-title">
-                <a href="/2019/06/21/2019-06-21-camera2-video/" class="title">Camera2录制视频(二)：MediaCodeC+OpenGL视频编码</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2019-06-20T16:00:00.000Z" itemprop="datePublished">2019-06-21</time>
-              </p>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/">MediaCodeC解码视频指定帧，迅捷、精确</a>
+                </h4>
             </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
-              </p>
-              <p class="item-title">
-                <a href="/2019/06/01/2019-06-01-camera2-record1/" class="title">Camera2录制视频(一)：音频的录制及编码</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2019-05-31T16:00:00.000Z" itemprop="datePublished">2019-06-01</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
-              </p>
-              <p class="item-title">
-                <a href="/2019/05/20/2019-05-20-audio-time/" class="title">解决MediaMuxer编码AAC文件时间戳计算</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2019-05-19T16:00:00.000Z" itemprop="datePublished">2019-05-20</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/Android/">Android</a>
-              </p>
-              <p class="item-title">
-                <a href="/2019/05/10/2019-05-10-camera2-1/" class="title">Camera2挖坑日记---如何解决预览画面变形</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2019-05-09T16:00:00.000Z" itemprop="datePublished">2019-05-10</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
-              </p>
-              <p class="item-title">
-                <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/" class="title">使用MediaCodeC将图片集编码为视频</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2019-03-31T16:00:00.000Z" itemprop="datePublished">2019-04-01</time>
-              </p>
-            </div>
-          </li>
-          
-      </ul>
+            <p>
+                <i class="fa fa-calendar"></i> 2019-02-09
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/Android/">Android</a>, 
+                
+                <a href="/tags/视频/">视频</a>, 
+                
+                <a href="/tags/MediaCodeC/">MediaCodeC</a>
+                
+                
+                
+            </p>
+        </center>
     </div>
-  </div>
-  
-
-    
-  </div>
-</aside>
-
-  
-  
-<main class="main" role="main">
-  <div class="content">
-  <article id="post-2019-02-09-MediaCodeC-frame" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-    
-    <div class="article-header">
-      
-        
-  
-    <h1 class="article-title" itemprop="name">
-      MediaCodeC解码视频指定帧，迅捷、精确
-    </h1>
-  
-
-      
-      <div class="article-meta">
-        <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2019/02/09/2019-02-09-MediaCodeC-frame/" class="article-date">
-	  <time datetime="2019-02-08T16:00:00.000Z" itemprop="datePublished">2019-02-09</time>
-	</a>
-</span>
-        
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/音视频/">音视频</a>
-  </span>
-
-        
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Android/">Android</a>, <a class="article-tag-link" href="/tags/MediaCodeC/">MediaCodeC</a>, <a class="article-tag-link" href="/tags/视频/">视频</a>
-  </span>
-
-
-        
-
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/#comments" class="article-comment-link">评论</a></span>
-        
-      </div>
-    </div>
-    <div class="article-entry marked-body" itemprop="articleBody">
-      
+    <div class="content-article">
         <p><strong>原创文章，转载请联系作者</strong></p>
 <blockquote>
 <p>若待明朝风雨过，人在天涯！春在天涯</p>
@@ -443,223 +298,291 @@
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>到目前为止，视频解码的部分已经完成。上一篇是对视频完整解码并存储为图片文件，<a href="http://jadynai.github.io/2019/02/01/MediaCodeC-Decode-1/" target="_blank" rel="noopener">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>，这一篇是解码指定帧。音视频相关的知识体系还很大，会继续学习下去。</p>
 <h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p><a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/video/decode/VideoDecoder2.kt" target="_blank" rel="noopener">此处有项目地址，点击传送</a></p>
 
-      
     </div>
-    <div class="article-footer">
-      <blockquote class="mt-2x">
-  <ul class="post-copyright list-unstyled">
-    
-    <li class="post-copyright-link hidden-xs">
-      <strong>本文链接：</strong>
-      <a href="https://ailo.fun/2019/02/09/2019-02-09-MediaCodeC-frame/" title="MediaCodeC解码视频指定帧，迅捷、精确" target="_blank" rel="external">https://ailo.fun/2019/02/09/2019-02-09-MediaCodeC-frame/</a>
-    </li>
-    
-    <li class="post-copyright-license">
-      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
-    </li>
-  </ul>
-</blockquote>
+</article>
 
 
-<div class="panel panel-default panel-badger">
-  <div class="panel-body">
-    <figure class="media">
-      <div class="media-left">
-        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
-          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
-        </a>
-      </div>
-      <div class="media-body">
-        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
-        <div>个人简介。</div>
-      </div>
-    </figure>
-  </div>
-</div>
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'MediaCodeC解码视频指定帧，迅捷、精确'
+    }
+</script>
 
-
+                </div>
+                <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get" action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
     </div>
-  </article>
-  
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            AiLo
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description"></p><p>Android AI DeepLearning</p>
+<p></p>
+        </div>
+    </div>
+</aside>
     
-  <section id="comments">
-  	
-      <div id="vcomments"></div>
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
     
-  </section>
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/06/21/2019-06-21-camera2-video/">Camera2录制视频(二)：MediaCodeC+OpenGL视频编码</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/06/01/2019-06-01-camera2-record1/">Camera2录制视频(一)：音频的录制及编码</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/05/20/2019-05-20-audio-time/">解决MediaMuxer编码AAC文件时间戳计算</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/05/10/2019-05-10-camera2-1/">Camera2挖坑日记---如何解决预览画面变形</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/">使用MediaCodeC将图片集编码为视频</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/">MediaCodeC解码视频指定帧，迅捷、精确</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/25/2019-01-25-MediaCodeC-Decode-1/">MediaCodeC硬解码视频，并将视频帧存储为图片文件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/29/2018-07-29-AStarmaze/">使用A*算法求解机器人迷宫最短路径</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/05/2018-07-05-kotlin-adapter/">使用DSL模式构建Recyclerview适配器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/01/2018-07-01-glide-round/">提供一个Glide灵活加载圆角图片的方法</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
 
-
-  
-</div>
-
-  <nav class="bar bar-footer clearfix" data-stick-bottom>
-  <div class="bar-inner">
-  
-  <ul class="pager pull-left">
-    
-    <li class="prev">
-      <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/" title="使用MediaCodeC将图片集编码为视频"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
-    
-    <li class="next">
-      <a href="/2019/01/25/2019-01-25-MediaCodeC-Decode-1/" title="MediaCodeC硬解码视频，并将视频帧存储为图片文件"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
-    </li>
-    
-    
-  </ul>
-  
-  
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
-  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
-    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
-  </div> -->
-  
-  
-  <div class="bar-right">
-    
-    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
-    
-  </div>
-  </div>
-</nav>
-  
-<!-- Modal -->
-<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content donate">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <div class="modal-body">
-        <div class="donate-box">
-          <div class="donate-head">
-            <p>感谢您的支持，我会继续努力的!</p>
-          </div>
-          <div class="tab-content">
-            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
-              <div class="donate-payimg">
-                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫">
-              </div>
-              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
-              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
-            </div>
-            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
-              <div class="donate-payimg">
-                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫">
-              </div>
-              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
-              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
-            </div>
-          </div>
-          <div class="donate-footer">
-            <ul class="nav nav-tabs nav-justified" role="tablist">
-              <li role="presentation" class="active">
-                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
-              </li>
-              <li role="presentation" class>
-                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
-              </li>
+                
+                <li>
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
             </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/技术讨论/" style="font-size: 17.813892224550564px;" class="tag-cloud-link">技术讨论</a>
+    
+    <a href="/tags/算法/" style="font-size: 18.377923634692753px;" class="tag-cloud-link">算法</a>
+    
+    <a href="/tags/Camera2/" style="font-size: 10.73918929550095px;" class="tag-cloud-link">Camera2</a>
+    
+    <a href="/tags/音视频/" style="font-size: 11.359080051945583px;" class="tag-cloud-link">音视频</a>
+    
+    <a href="/tags/Android/" style="font-size: 17.30111806730472px;" class="tag-cloud-link">Android</a>
+    
+    <a href="/tags/Canvas动画/" style="font-size: 19.69940023920789px;" class="tag-cloud-link">Canvas动画</a>
+    
+    <a href="/tags/交互体验/" style="font-size: 15.032069157135728px;" class="tag-cloud-link">交互体验</a>
+    
+    <a href="/tags/视觉设计/" style="font-size: 8.083286351994424px;" class="tag-cloud-link">视觉设计</a>
+    
+    <a href="/tags/视频/" style="font-size: 10.441112706060458px;" class="tag-cloud-link">视频</a>
+    
+    <a href="/tags/MediaCodeC/" style="font-size: 16.809924599451758px;" class="tag-cloud-link">MediaCodeC</a>
+    
+    <a href="/tags/OpenGL/" style="font-size: 11.928237522346905px;" class="tag-cloud-link">OpenGL</a>
+    
+    <a href="/tags/科普向/" style="font-size: 16.96315585420284px;" class="tag-cloud-link">科普向</a>
+    
+    <a href="/tags/音频/" style="font-size: 12.774044538285178px;" class="tag-cloud-link">音频</a>
+    
 </div>
-
-
-
-</main>
-
-  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
-	
-	
-    <ul class="social-links">
-    	
-        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
-        
-        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
-        
-        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle="tooltip" data-placement="top"><i class="icon icon-twitter"></i></a></li>
-        
-        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle="tooltip" data-placement="top"><i class="icon icon-behance"></i></a></li>
-        
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
-        
-    </ul>
-
-    <div class="copyright">
-    	
-        <div class="publishby">
-        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+                
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/JadynAi/" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://juejin.im/user/566d95f260b2ed36d9580add" target="_blank">掘金</a>
+    </li>
+    
+</div>
+                
+            </div>
         </div>
+    </aside>
+    
+</aside>
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 AiLo Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
     </div>
 </footer>
-  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
-<script>
-window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
-</script>
-<script src="/js/plugin.min.js"></script>
-<script src="/js/application.js"></script>
 
-    <script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-
-
-
-
-   
-
-
-
-
-   
-    
-  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/valine"></script>
-  <script type="text/javascript">
-  var GUEST = ['nick', 'mail', 'link'];
-  var meta = 'nick,mail,link';
-  meta = meta.split(',').filter(function(item) {
-    return GUEST.indexOf(item) > -1;
-  });
-  new Valine({
-    el: '#vcomments',
-    verify: false,
-    notify: false,
-    appId: '',
-    appKey: '',
-    placeholder: 'Just go go',
-    avatar: 'mm',
-    meta: meta,
-    pageSize: '10' || 10,
-    visitor: false
-  });
-  </script>
-
-     
-
-
-
-
-
-
-
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
 </body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '1'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+
+
+<script src="https://myau.moe/js/comment/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Sat Feb 09 2019 00:00:00 GMT+0800'
+      window.commentConfig.owner = 'JadynAi'
+      window.commentConfig.repo = 'JadynAi.github.io'
+      window.commentConfig.client_id = 'b199888872a9ccadaa16'
+      window.commentConfig.client_secret = '6230f262fc987c09b996cbd106c2a2d651c6486a'
+      window.commentConfig.redirect_uri = ''
+    } else {
+      window.commentConfig = {
+      	id: 'Sat Feb 09 2019 00:00:00 GMT+0800',
+        owner: 'JadynAi',
+        repo: 'JadynAi.github.io',
+        client_id: 'b199888872a9ccadaa16',
+        client_secret: '6230f262fc987c09b996cbd106c2a2d651c6486a',
+        redirect_uri: ''
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
 </html>
