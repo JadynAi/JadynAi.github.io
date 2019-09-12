@@ -18,18 +18,18 @@
   
   
   <title>解决MediaMuxer编码AAC文件时间戳计算 | E = MC^2</title>
-  <meta name="description" content="原创文章，转载请联系作者  西北望乡何处是，东南见月几回圆。昨风一吹无人会，今夜清光似往年。  主题音频是流式数据，并不像视频一样有P帧和B帧的概念。就像砌墙一样，咔咔往上摞就行了。一般来说，AAC编码中生成文件这一步，如果使用的是OutputStream流写入文件的话，就完全不需要计算时间。但在音视频同步或者使用Android自带的MediaMuxer来生成音频文件时，就需要计算音频帧的时间戳。">
+  <meta name="description" content="原创文章，转载请联系作者  西北望乡何处是，东南见月几回圆。https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit昨风一吹无人会，今夜清光似往年。  主题音频是流式数据，并不像视频一样有P帧和B帧的概念。就像砌墙一样，咔咔往上摞就行了。一般来说，AAC编码中生成文件这一步，如果使用的是OutputStream流写入文件的话，就">
 <meta name="keywords" content="音视频,Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决MediaMuxer编码AAC文件时间戳计算">
 <meta property="og:url" content="https://ailo.fun/2019/05/20/2019-05-20-audio-time/index.html">
 <meta property="og:site_name" content="Life is Like A Boat">
-<meta property="og:description" content="原创文章，转载请联系作者  西北望乡何处是，东南见月几回圆。昨风一吹无人会，今夜清光似往年。  主题音频是流式数据，并不像视频一样有P帧和B帧的概念。就像砌墙一样，咔咔往上摞就行了。一般来说，AAC编码中生成文件这一步，如果使用的是OutputStream流写入文件的话，就完全不需要计算时间。但在音视频同步或者使用Android自带的MediaMuxer来生成音频文件时，就需要计算音频帧的时间戳。">
+<meta property="og:description" content="原创文章，转载请联系作者  西北望乡何处是，东南见月几回圆。https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit昨风一吹无人会，今夜清光似往年。  主题音频是流式数据，并不像视频一样有P帧和B帧的概念。就像砌墙一样，咔咔往上摞就行了。一般来说，AAC编码中生成文件这一步，如果使用的是OutputStream流写入文件的话，就">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-24T13:35:23.487Z">
+<meta property="og:updated_time" content="2019-09-12T13:59:08.438Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决MediaMuxer编码AAC文件时间戳计算">
-<meta name="twitter:description" content="原创文章，转载请联系作者  西北望乡何处是，东南见月几回圆。昨风一吹无人会，今夜清光似往年。  主题音频是流式数据，并不像视频一样有P帧和B帧的概念。就像砌墙一样，咔咔往上摞就行了。一般来说，AAC编码中生成文件这一步，如果使用的是OutputStream流写入文件的话，就完全不需要计算时间。但在音视频同步或者使用Android自带的MediaMuxer来生成音频文件时，就需要计算音频帧的时间戳。">
+<meta name="twitter:description" content="原创文章，转载请联系作者  西北望乡何处是，东南见月几回圆。https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit昨风一吹无人会，今夜清光似往年。  主题音频是流式数据，并不像视频一样有P帧和B帧的概念。就像砌墙一样，咔咔往上摞就行了。一般来说，AAC编码中生成文件这一步，如果使用的是OutputStream流写入文件的话，就">
   <!-- Canonical links -->
   <link rel="canonical" href="https://ailo.fun/2019/05/20/2019-05-20-audio-time/index.html">
   
@@ -193,7 +193,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera2/">Camera2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas动画/">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/交互体验/">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术讨论/">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普向/">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视觉设计/">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频/">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音视频/">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频/">音频</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera2/">Camera2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas动画/">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/">MediaCodeC</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeChttps-github-com-JadynAi-MediaLearn-blob-feature-0-9-mediakit/">MediaCodeChttps://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/交互体验/">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术讨论/">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普向/">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视觉设计/">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频/">视频</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频https-github-com-JadynAi-MediaLearn-blob-feature-0-9-mediakit/">视频https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音视频/">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频/">音频</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -203,7 +203,7 @@
   <div class="widget">
     <h3 class="widget-title">标签云</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Camera2/" style="font-size: 13px;">Camera2</a> <a href="/tags/Canvas动画/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.5px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/交互体验/" style="font-size: 13.25px;">交互体验</a> <a href="/tags/技术讨论/" style="font-size: 13.5px;">技术讨论</a> <a href="/tags/科普向/" style="font-size: 13px;">科普向</a> <a href="/tags/算法/" style="font-size: 13px;">算法</a> <a href="/tags/视觉设计/" style="font-size: 13px;">视觉设计</a> <a href="/tags/视频/" style="font-size: 13.5px;">视频</a> <a href="/tags/音视频/" style="font-size: 13.5px;">音视频</a> <a href="/tags/音频/" style="font-size: 13px;">音频</a>
+      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Camera2/" style="font-size: 13px;">Camera2</a> <a href="/tags/Canvas动画/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.25px;">MediaCodeC</a> <a href="/tags/MediaCodeChttps-github-com-JadynAi-MediaLearn-blob-feature-0-9-mediakit/" style="font-size: 13px;">MediaCodeChttps://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/交互体验/" style="font-size: 13.25px;">交互体验</a> <a href="/tags/技术讨论/" style="font-size: 13.5px;">技术讨论</a> <a href="/tags/科普向/" style="font-size: 13px;">科普向</a> <a href="/tags/算法/" style="font-size: 13px;">算法</a> <a href="/tags/视觉设计/" style="font-size: 13px;">视觉设计</a> <a href="/tags/视频/" style="font-size: 13.25px;">视频</a> <a href="/tags/视频https-github-com-JadynAi-MediaLearn-blob-feature-0-9-mediakit/" style="font-size: 13px;">视频https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit</a> <a href="/tags/音视频/" style="font-size: 13.5px;">音视频</a> <a href="/tags/音频/" style="font-size: 13px;">音频</a>
     </div>
   </div>
 
@@ -354,7 +354,7 @@
       
         <p><strong>原创文章，转载请联系作者</strong></p>
 <blockquote>
-<p>西北望乡何处是，东南见月几回圆。<br><br>昨风一吹无人会，今夜清光似往年。</p>
+<p>西北望乡何处是，东南见月几回圆。<br><a href="https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit" target="_blank" rel="noopener">https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit</a><br>昨风一吹无人会，今夜清光似往年。</p>
 </blockquote>
 <h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>音频是流式数据，并不像视频一样有P帧和B帧的概念。就像砌墙一样，咔咔往上摞就行了。一般来说，AAC编码中生成文件这一步，如果使用的是OutputStream流写入文件的话，就完全不需要计算时间。但在音视频同步或者使用Android自带的<code>MediaMuxer</code>来生成音频文件时，就需要计算音频帧的时间戳。</p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>本文所涉及到的计算方法和API，为在Android环境下。使用AudioRecord音频录制，MediaCodeC编码AAC格式音频，同时使用MediaMuxer封装AAC格式音频文件。</p>
@@ -369,7 +369,7 @@
 <blockquote>
 <p>需要注意的是：使用MediaMuxer生成AAC音频文件时，不需要添加AAC头信息，直接写入即可。<br>MediaMuxer写入文件时，BufferInfo这个参数就包含了这一帧数据的偏移、以及时间戳等信息。</p>
 </blockquote>
-<p><strong>更加完整的音频编码代码，请参考GitHub地址</strong><a href="https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/audio/AudioEncoder.kt" target="_blank" rel="noopener">AudioEncoder</a></p>
+<p><strong>更加完整的音频编码代码，请参考GitHub地址</strong><a href="https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit/src/main/java/com/jadyn/mediakit/audio/AudioEncoder.kt" target="_blank" rel="noopener">AudioEncoder</a></p>
 <h4 id="使用PCM的数据量来计算"><a href="#使用PCM的数据量来计算" class="headerlink" title="使用PCM的数据量来计算"></a>使用PCM的数据量来计算</h4><p>PCM是没有经过压缩的纯音频数据，我之前写过一篇音频入门的文章<a href="https://jadynai.github.io/2018/04/02/audio_start_learn/" target="_blank" rel="noopener">初识音频</a>，记录了一些PCM相关的常识问题，感兴趣的可以去看看。<br>PCM作为最原始的音频数据，可以根据大小来计算出时间，先给出公式：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">presentationTimeUs = 1000000L * (totalBytes / 2) / sampleRate</span><br></pre></td></tr></table></figure>
 <blockquote>
