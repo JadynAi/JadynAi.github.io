@@ -1,31 +1,30 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
   <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-transform">
-  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="format-detection" content="telephone=no,email=no,adress=no">
   <!-- Color theme for statusbar -->
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#000000" />
   <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
-  <meta http-equiv="window-target" content="_top">
+  <meta http-equiv="window-target" content="_top" />
   
   
   <title>基于Java代码实现的喷漆笔刷 | E = MC^2</title>
   <meta name="description" content="原创文章，转载请联系作者  软草平莎过雨新，轻沙走马路无尘。何时收拾耦耕身？  先上效果图： 笔刷项目地址在此，大家要是喜欢的话，不妨来点个赞吧 效果解析因为最终要实现的是windwos下的画板喷漆笔刷，所以首先要对它做一个较为详细的效果解析。考虑到笔一般情况下笔刷的使用点，故此会分析一下点和线的效果细节。  画点   从左至右依次是对同一坐标点击2次，点击8次，点击16次的效果展示；当数量趋向更">
-<meta name="keywords" content="Canvas动画,视觉设计">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于Java代码实现的喷漆笔刷">
 <meta property="og:url" content="https://ailo.fun/2018/05/19/2018-05-19-pen/index.html">
 <meta property="og:site_name" content="Life is Like A Boat">
 <meta property="og:description" content="原创文章，转载请联系作者  软草平莎过雨新，轻沙走马路无尘。何时收拾耦耕身？  先上效果图： 笔刷项目地址在此，大家要是喜欢的话，不妨来点个赞吧 效果解析因为最终要实现的是windwos下的画板喷漆笔刷，所以首先要对它做一个较为详细的效果解析。考虑到笔一般情况下笔刷的使用点，故此会分析一下点和线的效果细节。  画点   从左至右依次是对同一坐标点击2次，点击8次，点击16次的效果展示；当数量趋向更">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_1.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_0.jpg">
@@ -34,10 +33,12 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_3.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_4.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_5.jpg">
-<meta property="og:updated_time" content="2019-07-12T07:23:00.309Z">
+<meta property="article:published_time" content="2018-05-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-07-12T07:23:00.309Z">
+<meta property="article:author" content="AiLo">
+<meta property="article:tag" content="Canvas动画">
+<meta property="article:tag" content="视觉设计">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于Java代码实现的喷漆笔刷">
-<meta name="twitter:description" content="原创文章，转载请联系作者  软草平莎过雨新，轻沙走马路无尘。何时收拾耦耕身？  先上效果图： 笔刷项目地址在此，大家要是喜欢的话，不妨来点个赞吧 效果解析因为最终要实现的是windwos下的画板喷漆笔刷，所以首先要对它做一个较为详细的效果解析。考虑到笔一般情况下笔刷的使用点，故此会分析一下点和线的效果细节。  画点   从左至右依次是对同一坐标点击2次，点击8次，点击16次的效果展示；当数量趋向更">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen.gif">
   <!-- Canonical links -->
   <link rel="canonical" href="https://ailo.fun/2018/05/19/2018-05-19-pen/index.html">
@@ -47,14 +48,16 @@
   
     <link rel="icon" href="/favicon.png" type="image/x-icon">
   
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
   
   
     <link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
   
   
   
-</head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
 <body class="main-center" itemscope itemtype="http://schema.org/WebPage">
@@ -76,7 +79,7 @@
 
     <form class="search-form sidebar-form">
         <div class="input-group">
-            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
             <span class="input-group-btn">
                 <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
             </span>
@@ -86,7 +89,7 @@
   <div class="ins-search-mask"></div>
   <div class="ins-search-container">
     <div class="ins-input-wrapper">
-      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech>
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
       <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
     </div>
     <div class="ins-section-wrapper">
@@ -162,9 +165,9 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
     </ul>
 
@@ -181,7 +184,7 @@
     <div class="widget-body">
         <div id="board">
             <div class="content">
-                <p>AiLo，Android工程师，热爱开源。<br>近期在研究音视频开发和图像处理。业余时间研究研究深度学习，使用CRNN模型做过OCR图片识别项目。<br>感兴趣的伙伴们欢迎关注我的<a href="https://github.com/JadynAi" target="_blank"><font color="#00f">GitHub</font></a><br> 同时欢迎关注我的掘金主页<a href="https://juejin.im/user/566d95f260b2ed36d9580add/posts" target="_blank"><font color="#00f">掘金社区AiLo</font></a></p>
+                <p>AiLo，Android开发者<br>感兴趣的伙伴们欢迎关注我的<a href="https://github.com/JadynAi" target="_blank"><font color='#00f'>GitHub</font></a><br> 同时欢迎关注我的掘金主页<a href="https://juejin.im/user/566d95f260b2ed36d9580add/posts" target="_blank"><font color='#00f'>掘金社区AiLo</font></a></p>
             </div>
         </div>
     </div>
@@ -192,7 +195,7 @@
   <div class="widget">
     <h3 class="widget-title">分类</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Camera2/">Camera2</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/音视频/">音视频</a><span class="category-list-count">7</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Camera2/">Camera2</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a><span class="category-list-count">7</span></li></ul>
     </div>
   </div>
 
@@ -202,7 +205,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas动画/">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/交互体验/">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术讨论/">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普向/">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视觉设计/">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频/">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音视频/">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频/">音频</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas%E5%8A%A8%E7%94%BB/" rel="tag">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/" rel="tag">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/" rel="tag">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%A4%E4%BA%92%E4%BD%93%E9%AA%8C/" rel="tag">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E8%AE%A8%E8%AE%BA/" rel="tag">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE%E5%90%91/" rel="tag">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E8%A7%89%E8%AE%BE%E8%AE%A1/" rel="tag">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91/" rel="tag">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" rel="tag">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9F%B3%E9%A2%91/" rel="tag">音频</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -212,7 +215,7 @@
   <div class="widget">
     <h3 class="widget-title">标签云</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Canvas动画/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.5px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/交互体验/" style="font-size: 13.25px;">交互体验</a> <a href="/tags/技术讨论/" style="font-size: 13.5px;">技术讨论</a> <a href="/tags/科普向/" style="font-size: 13px;">科普向</a> <a href="/tags/算法/" style="font-size: 13px;">算法</a> <a href="/tags/视觉设计/" style="font-size: 13px;">视觉设计</a> <a href="/tags/视频/" style="font-size: 13.5px;">视频</a> <a href="/tags/音视频/" style="font-size: 13.5px;">音视频</a> <a href="/tags/音频/" style="font-size: 13px;">音频</a>
+      <a href="/tags/Android/" style="font-size: 14px;">Android</a> <a href="/tags/Canvas%E5%8A%A8%E7%94%BB/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.67px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/%E4%BA%A4%E4%BA%92%E4%BD%93%E9%AA%8C/" style="font-size: 13.33px;">交互体验</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E8%AE%A8%E8%AE%BA/" style="font-size: 13.67px;">技术讨论</a> <a href="/tags/%E7%A7%91%E6%99%AE%E5%90%91/" style="font-size: 13px;">科普向</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E8%A7%86%E8%A7%89%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">视觉设计</a> <a href="/tags/%E8%A7%86%E9%A2%91/" style="font-size: 13.67px;">视频</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 13.67px;">音视频</a> <a href="/tags/%E9%9F%B3%E9%A2%91/" style="font-size: 13px;">音频</a>
     </div>
   </div>
 
@@ -221,7 +224,7 @@
   <div class="widget">
     <h3 class="widget-title">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -237,7 +240,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/06/21/2019-06-21-camera2-video/" class="title">Camera2录制视频(二)：MediaCodeC+OpenGL视频编码</a>
@@ -252,7 +255,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/06/01/2019-06-01-camera2-record1/" class="title">Camera2录制视频(一)：音频的录制及编码</a>
@@ -267,7 +270,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/05/20/2019-05-20-audio-time/" class="title">解决MediaMuxer编码AAC文件时间戳计算</a>
@@ -297,7 +300,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/" class="title">使用MediaCodeC将图片集编码为视频</a>
@@ -349,7 +352,7 @@
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Canvas动画/">Canvas动画</a>, <a class="article-tag-link" href="/tags/视觉设计/">视觉设计</a>
+	<a class="article-tag-link-link" href="/tags/Canvas%E5%8A%A8%E7%94%BB/" rel="tag">Canvas动画</a>, <a class="article-tag-link-link" href="/tags/%E8%A7%86%E8%A7%89%E8%AE%BE%E8%AE%A1/" rel="tag">视觉设计</a>
   </span>
 
 
@@ -365,66 +368,61 @@
 <blockquote>
 <p>软草平莎过雨新，轻沙走马路无尘。<br>何时收拾耦耕身？</p>
 </blockquote>
-<p>先上效果图：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen.gif" alt></p>
-<p><a href="https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/pen" target="_blank" rel="noopener">笔刷项目地址</a>在此，大家要是喜欢的话，不妨来点个赞吧</p>
+<p>先上效果图：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen.gif" alt=""></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/pen">笔刷项目地址</a>在此，大家要是喜欢的话，不妨来点个赞吧</p>
 <h3 id="效果解析"><a href="#效果解析" class="headerlink" title="效果解析"></a>效果解析</h3><p>因为最终要实现的是<code>windwos</code>下的画板喷漆笔刷，所以首先要对它做一个较为详细的效果解析。考虑到笔一般情况下笔刷的使用点，故此会分析一下<strong>点</strong>和<strong>线</strong>的效果细节。</p>
 <ul>
-<li>画点<br><br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_1.jpg" alt></li>
+<li>画点<br><br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_1.jpg" alt=""></li>
 </ul>
 <blockquote>
 <p>从左至右依次是对同一坐标点击2次，点击8次，点击16次的效果展示；<br>当数量趋向更大时，点的密集程度并没有很明显的偏向，基本可以确定要在圆内均匀分布</p>
 </blockquote>
 <ul>
-<li>画线<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_0.jpg" alt></li>
+<li>画线<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_0.jpg" alt=""></li>
 </ul>
 <blockquote>
 <p>如图为匀速且缓慢滑过时，由点构成线</p>
 </blockquote>
 <h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><p>项目的大致框架由<code>View</code>、<code>BasePen</code>，两个大的模块构成。其中<code>View</code>属于UI层面，<code>BasePen</code>属于业务逻辑层面。接下来，将一一介绍这两个模块的具体功用和细节。</p>
 <h4 id="View"><a href="#View" class="headerlink" title="View"></a>View</h4><p>此项目的承载View为<code>PenView</code>，不承担业务逻辑，就是起到一个容器的作用。在<code>PenView</code>中唯一的作用就是触发<code>invalidate（）</code>方法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">private BasePen mBasePen;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">    protected void onSizeChanged(int w, int h, int oldw, int oldh) &#123;</span><br><span class="line">        super.onSizeChanged(w, h, oldw, oldh);</span><br><span class="line">        if (w != 0 &amp;&amp; h != 0) &#123;</span><br><span class="line">            if (mBasePen == null) &#123;</span><br><span class="line">                mBasePen = new SprayPen(w, h);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">        MotionEvent event1 = MotionEvent.obtain(event);</span><br><span class="line">        mBasePen.onTouchEvent(event1);</span><br><span class="line">        switch (event.getActionMasked()) &#123;</span><br><span class="line">            case MotionEvent.ACTION_DOWN:</span><br><span class="line">            case MotionEvent.ACTION_MOVE:</span><br><span class="line">                invalidate();</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_UP:</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">        super.onDraw(canvas);</span><br><span class="line">        mBasePen.onDraw(canvas);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">private BasePen mBasePen;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">    protected void onSizeChanged(int w, int h, int oldw, int oldh) &#123;</span><br><span class="line">        super.onSizeChanged(w, h, oldw, oldh);</span><br><span class="line">        if (w !&#x3D; 0 &amp;&amp; h !&#x3D; 0) &#123;</span><br><span class="line">            if (mBasePen &#x3D;&#x3D; null) &#123;</span><br><span class="line">                mBasePen &#x3D; new SprayPen(w, h);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">        MotionEvent event1 &#x3D; MotionEvent.obtain(event);</span><br><span class="line">        mBasePen.onTouchEvent(event1);</span><br><span class="line">        switch (event.getActionMasked()) &#123;</span><br><span class="line">            case MotionEvent.ACTION_DOWN:</span><br><span class="line">            case MotionEvent.ACTION_MOVE:</span><br><span class="line">                invalidate();</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_UP:</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">        super.onDraw(canvas);</span><br><span class="line">        mBasePen.onDraw(canvas);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>具体的业务逻辑，绘制、数据计算、触摸点移动Move等，全都由<code>BasePen</code>以及它的子类来实现了。<br>低耦合性，代表着更多的自由度，对现有项目代码（如果应用到项目中）的冲击更小。在性能方面，如果<code>View</code>满足不了要求，可以用更小的代价将其移植到性能更好的<code>SurfaceView</code>里去。</p>
 <h4 id="业务逻辑"><a href="#业务逻辑" class="headerlink" title="业务逻辑"></a>业务逻辑</h4><p>业务方面，<code>BasePen</code>作为基类，承担了一些基础的数据计算、绘制等功能，而具体的画笔效果则交由子类实现。<br>先看看<code>BasePen</code>里做了什么：</p>
 <ul>
-<li>绘制<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private List&lt;Point&gt; mPoints;</span><br><span class="line">public void onDraw(Canvas canvas) &#123;</span><br><span class="line">        if (mPoints != null &amp;&amp; !mPoints.isEmpty()) &#123;</span><br><span class="line">            canvas.drawBitmap(mBitmap, 0, 0, null);</span><br><span class="line">            drawDetail(canvas);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+<li><p>绘制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private List&lt;Point&gt; mPoints;</span><br><span class="line">public void onDraw(Canvas canvas) &#123;</span><br><span class="line">        if (mPoints !&#x3D; null &amp;&amp; !mPoints.isEmpty()) &#123;</span><br><span class="line">            canvas.drawBitmap(mBitmap, 0, 0, null);</span><br><span class="line">            drawDetail(canvas);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;	</span><br></pre></td></tr></table></figure>
 <p>先将笔刷绘制到一张<code>Bitmap</code>之上，再将这张<code>Bitmap</code>交给<code>PenView</code>来绘制出来。<code>Point</code>是一个只记录了x和y坐标的类。<br><code>drawDetail(Canvas canvas)</code>是一个抽象类，由子类实现具体的绘制。</p>
-<ul>
-<li><p>滑动轨迹<br>在<code>BasePen</code>的<code>onTouchEvent(MotionEvent event1)</code>方法里。以每次<code>DOWN</code>事件为开始，记录<code>MOVE</code>内的所有坐标信息。考虑到喷漆效果基本不用处理<strong>笔锋效果</strong>，暂不考虑记录<code>UP</code>信息（后续如果实现其他笔刷效果会优化这里）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public void onTouchEvent(MotionEvent event1) &#123;</span><br><span class="line">        switch (event1.getActionMasked()) &#123;</span><br><span class="line">            case MotionEvent.ACTION_DOWN:</span><br><span class="line">                clearPoints();</span><br><span class="line">                handlePoints(event1);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_MOVE:</span><br><span class="line">                handlePoints(event1);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_UP:</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void handlePoints(MotionEvent event1) &#123;</span><br><span class="line">        float x = event1.getX();</span><br><span class="line">        float y = event1.getY();</span><br><span class="line">        if (x &gt; 0 &amp;&amp; y &gt; 0) &#123;</span><br><span class="line">            mPoints.add(new Point(x, y));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    private void clearPoints() &#123;</span><br><span class="line">        if (mPoints == null) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        mPoints.clear();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>喷漆实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">protected void drawDetail(Canvas canvas) &#123;</span><br><span class="line">        if (getPoints().isEmpty()) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        mTotalNum = 由自定义粒子密度以及画笔宽度计算而来</span><br><span class="line">        drawSpray(当前最新坐标点.x, 当前最新坐标点.y, mTotalNum);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void drawSpray(float x, float y, int totalNum) &#123;</span><br><span class="line">        for (int i = 0; i &lt; totalNum; i++) &#123;</span><br><span class="line">        	//算法计算出圆内随机点</span><br><span class="line">            float[] randomPoint = getRandomPoint(x, y, mPenW, true);</span><br><span class="line">            mCanvas.drawCircle(randomPoint[0], randomPoint[1], mCricleR, mPaint);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<li><p>滑动轨迹<br>在<code>BasePen</code>的<code>onTouchEvent(MotionEvent event1)</code>方法里。以每次<code>DOWN</code>事件为开始，记录<code>MOVE</code>内的所有坐标信息。考虑到喷漆效果基本不用处理<strong>笔锋效果</strong>，暂不考虑记录<code>UP</code>信息（后续如果实现其他笔刷效果会优化这里）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public void onTouchEvent(MotionEvent event1) &#123;</span><br><span class="line">        switch (event1.getActionMasked()) &#123;</span><br><span class="line">            case MotionEvent.ACTION_DOWN:</span><br><span class="line">                clearPoints();</span><br><span class="line">                handlePoints(event1);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_MOVE:</span><br><span class="line">                handlePoints(event1);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_UP:</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void handlePoints(MotionEvent event1) &#123;</span><br><span class="line">        float x &#x3D; event1.getX();</span><br><span class="line">        float y &#x3D; event1.getY();</span><br><span class="line">        if (x &gt; 0 &amp;&amp; y &gt; 0) &#123;</span><br><span class="line">            mPoints.add(new Point(x, y));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    private void clearPoints() &#123;</span><br><span class="line">        if (mPoints &#x3D;&#x3D; null) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        mPoints.clear();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+<li>喷漆实现<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">protected void drawDetail(Canvas canvas) &#123;</span><br><span class="line">        if (getPoints().isEmpty()) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        mTotalNum &#x3D; 由自定义粒子密度以及画笔宽度计算而来</span><br><span class="line">        drawSpray(当前最新坐标点.x, 当前最新坐标点.y, mTotalNum);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void drawSpray(float x, float y, int totalNum) &#123;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; totalNum; i++) &#123;</span><br><span class="line">        	&#x2F;&#x2F;算法计算出圆内随机点</span><br><span class="line">            float[] randomPoint &#x3D; getRandomPoint(x, y, mPenW, true);</span><br><span class="line">            mCanvas.drawCircle(randomPoint[0], randomPoint[1], mCricleR, mPaint);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上是一部分伪代码，<code>SprayPen</code>内部定义了一个喷漆粒子密度，会根据画笔的宽度来实时改变粒子数量。每个粒子的半径则由外部依赖的组件提供的<code>width</code>计算而来。<br>在<code>drawDetail(...)</code>方法内，每一次<code>MOVE</code>和<code>DOWN</code>事件都会在相应坐标处，绘制一定数目的圆内随机点。<br>当其串联起来时，就形成了喷漆效果。当然这只是初步完成，还有一些算法需要完善。伪代码表述不全，可参考<a target="_blank" rel="noopener" href="https://github.com/JadynAi/LoadingLovely/blob/master/app/src/main/java/com/example/jadynai/loadinglovely/pen/SprayPen.java">SprayPen</a>，在代码中有比较完善的注释。</p>
+</blockquote>
 </li>
 </ul>
-<blockquote>
-<p>以上是一部分伪代码，<code>SprayPen</code>内部定义了一个喷漆粒子密度，会根据画笔的宽度来实时改变粒子数量。每个粒子的半径则由外部依赖的组件提供的<code>width</code>计算而来。<br>在<code>drawDetail(...)</code>方法内，每一次<code>MOVE</code>和<code>DOWN</code>事件都会在相应坐标处，绘制一定数目的圆内随机点。<br>当其串联起来时，就形成了喷漆效果。当然这只是初步完成，还有一些算法需要完善。伪代码表述不全，可参考<a href="https://github.com/JadynAi/LoadingLovely/blob/master/app/src/main/java/com/example/jadynai/loadinglovely/pen/SprayPen.java" target="_blank" rel="noopener">SprayPen</a>，在代码中有比较完善的注释。</p>
-</blockquote>
 <p>接下来会说一些有关喷漆算法方面的问题。</p>
 <h3 id="喷漆算法的几个问题"><a href="#喷漆算法的几个问题" class="headerlink" title="喷漆算法的几个问题"></a>喷漆算法的几个问题</h3><p>在实现功能的过程中，有两个问题是值得记录的。<br>一是圆内均匀随机点的分布问题；二是滑动速度快时，笔画的连接处理问题。</p>
 <h4 id="如何均匀的在圆内生成随机点"><a href="#如何均匀的在圆内生成随机点" class="headerlink" title="如何均匀的在圆内生成随机点"></a>如何均匀的在圆内生成随机点</h4><p>为了解决这个问题，主要尝试了三种方法：</p>
-<h5 id="x在-R-R-范围内随机取值，由圆解析式求解得y。然后对y在-y-y-内随机取值，得到的点即为圆内点。同理，也可由y计算出x。"><a href="#x在-R-R-范围内随机取值，由圆解析式求解得y。然后对y在-y-y-内随机取值，得到的点即为圆内点。同理，也可由y计算出x。" class="headerlink" title="x在(-R,R)范围内随机取值，由圆解析式求解得y。然后对y在(-y,y)内随机取值，得到的点即为圆内点。同理，也可由y计算出x。"></a>x在(-R,R)范围内随机取值，由圆解析式<img src="https://images0.cnblogs.com/blog/517264/201410/142127248732998.png" alt>求解得y。然后对y在(-y,y)内随机取值，得到的点即为圆内点。同理，也可由y计算出x。</h5><p>java代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">float x = mRandom.nextInt(r);</span><br><span class="line">float y = (float) Math.sqrt(Math.pow(r, 2) - Math.pow(x, 2));</span><br><span class="line">y = mRandom.nextInt((int) y);</span><br><span class="line">x = 对值随机取正负(x);</span><br><span class="line">y = 对值随机取正负(y);</span><br></pre></td></tr></table></figure>
-<p>最终呈现效果如下：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_2.jpg" alt></p>
+<h5 id="x在-R-R-范围内随机取值，由圆解析式求解得y。然后对y在-y-y-内随机取值，得到的点即为圆内点。同理，也可由y计算出x。"><a href="#x在-R-R-范围内随机取值，由圆解析式求解得y。然后对y在-y-y-内随机取值，得到的点即为圆内点。同理，也可由y计算出x。" class="headerlink" title="x在(-R,R)范围内随机取值，由圆解析式求解得y。然后对y在(-y,y)内随机取值，得到的点即为圆内点。同理，也可由y计算出x。"></a>x在(-R,R)范围内随机取值，由圆解析式<img src="https://images0.cnblogs.com/blog/517264/201410/142127248732998.png" alt="">求解得y。然后对y在(-y,y)内随机取值，得到的点即为圆内点。同理，也可由y计算出x。</h5><p>java代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">float x &#x3D; mRandom.nextInt(r);</span><br><span class="line">float y &#x3D; (float) Math.sqrt(Math.pow(r, 2) - Math.pow(x, 2));</span><br><span class="line">y &#x3D; mRandom.nextInt((int) y);</span><br><span class="line">x &#x3D; 对值随机取正负(x);</span><br><span class="line">y &#x3D; 对值随机取正负(y);</span><br></pre></td></tr></table></figure>
+<p>最终呈现效果如下：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_2.jpg" alt=""></p>
 <blockquote>
 <p>当样本数量达到2000时，形状如上所示<br>可以很明显的看到，在x轴方向，左右两端的密集程度明显高于圆心<br>随机值在大量数据下会具有规律性，可以理解为当数据很多时，x的取值在(-r,r)大致为均匀分布的，y的取值亦是。当处于左右两端时，y的取值范围变小，视觉效果就显得紧凑了些。<br>当然如果用概率论数理统计公式来验证会更有说服力，但可惜不会。。。（耸肩）</p>
 </blockquote>
-<h5 id="随机角度，在-0-360-内随机取得角度，然后在-0-r-范围内随机取值，然后使用sin和cos来求解x和y。"><a href="#随机角度，在-0-360-内随机取得角度，然后在-0-r-范围内随机取值，然后使用sin和cos来求解x和y。" class="headerlink" title="随机角度，在[0,360)内随机取得角度，然后在[0,r]范围内随机取值，然后使用sin和cos来求解x和y。"></a>随机角度，在[0,360)内随机取得角度，然后在[0,r]范围内随机取值，然后使用<code>sin</code>和<code>cos</code>来求解x和y。</h5><p>java代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">float[] ints = new float[2];</span><br><span class="line">int degree = mRandom.nextInt(360);</span><br><span class="line">double curR = mRandom.nextInt(r)+1;</span><br><span class="line">float x = (float) (curR * Math.cos(Math.toRadians(degree)));</span><br><span class="line">float y = (float) (curR * Math.sin(Math.toRadians(degree)));</span><br><span class="line">x = 对值随机取正负(x);</span><br><span class="line">y = 对值随机取正负(y);</span><br></pre></td></tr></table></figure></p>
-<p>最终呈现效果如下：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_3.jpg" alt></p>
+<h5 id="随机角度，在-0-360-内随机取得角度，然后在-0-r-范围内随机取值，然后使用sin和cos来求解x和y。"><a href="#随机角度，在-0-360-内随机取得角度，然后在-0-r-范围内随机取值，然后使用sin和cos来求解x和y。" class="headerlink" title="随机角度，在[0,360)内随机取得角度，然后在[0,r]范围内随机取值，然后使用sin和cos来求解x和y。"></a>随机角度，在[0,360)内随机取得角度，然后在[0,r]范围内随机取值，然后使用<code>sin</code>和<code>cos</code>来求解x和y。</h5><p>java代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">float[] ints &#x3D; new float[2];</span><br><span class="line">int degree &#x3D; mRandom.nextInt(360);</span><br><span class="line">double curR &#x3D; mRandom.nextInt(r)+1;</span><br><span class="line">float x &#x3D; (float) (curR * Math.cos(Math.toRadians(degree)));</span><br><span class="line">float y &#x3D; (float) (curR * Math.sin(Math.toRadians(degree)));</span><br><span class="line">x &#x3D; 对值随机取正负(x);</span><br><span class="line">y &#x3D; 对值随机取正负(y);</span><br></pre></td></tr></table></figure><br>最终呈现效果如下：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_3.jpg" alt=""></p>
 <blockquote>
 <p>明显看到中心处的密集程度高于边缘地带，事实上当角度固定时，r在[0,R)范围内随机取值。当数量更大时，坐标点是均匀分布的。<br>当r越小时，所占用的面积越小，就会显得粒子很密集。</p>
 </blockquote>
-<h4 id="随机角度，在-0-360-内随机取得角度，取-0-1-内的随机平方根再和R相乘，然后使用sin和cos来求解x和y。"><a href="#随机角度，在-0-360-内随机取得角度，取-0-1-内的随机平方根再和R相乘，然后使用sin和cos来求解x和y。" class="headerlink" title="随机角度，在[0,360)内随机取得角度，取[0,1]内的随机平方根再和R相乘，然后使用sin和cos来求解x和y。"></a>随机角度，在[0,360)内随机取得角度，取[0,1]内的随机平方根再和R相乘，然后使用<code>sin</code>和<code>cos</code>来求解x和y。</h4><p>java代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int degree = mRandom.nextInt(360);</span><br><span class="line">double curR = Math.sqrt(mRandom.nextDouble()) * r;</span><br><span class="line">float x = (float) (curR * Math.cos(Math.toRadians(degree)));</span><br><span class="line">float y = (float) (curR * Math.sin(Math.toRadians(degree)));</span><br><span class="line">x = 对值随机取正负(x);</span><br><span class="line">y = 对值随机取正负(y);</span><br></pre></td></tr></table></figure></p>
-<p>最终呈现效果如下：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_4.jpg" alt></p>
+<h4 id="随机角度，在-0-360-内随机取得角度，取-0-1-内的随机平方根再和R相乘，然后使用sin和cos来求解x和y。"><a href="#随机角度，在-0-360-内随机取得角度，取-0-1-内的随机平方根再和R相乘，然后使用sin和cos来求解x和y。" class="headerlink" title="随机角度，在[0,360)内随机取得角度，取[0,1]内的随机平方根再和R相乘，然后使用sin和cos来求解x和y。"></a>随机角度，在[0,360)内随机取得角度，取[0,1]内的随机平方根再和R相乘，然后使用<code>sin</code>和<code>cos</code>来求解x和y。</h4><p>java代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int degree &#x3D; mRandom.nextInt(360);</span><br><span class="line">double curR &#x3D; Math.sqrt(mRandom.nextDouble()) * r;</span><br><span class="line">float x &#x3D; (float) (curR * Math.cos(Math.toRadians(degree)));</span><br><span class="line">float y &#x3D; (float) (curR * Math.sin(Math.toRadians(degree)));</span><br><span class="line">x &#x3D; 对值随机取正负(x);</span><br><span class="line">y &#x3D; 对值随机取正负(y);</span><br></pre></td></tr></table></figure><br>最终呈现效果如下：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_4.jpg" alt=""></p>
 <blockquote>
-<p>这次的视觉效果总算是达到了<strong>均匀</strong>的效果，这个算法是利用了一个根函数的特性，如下图:<img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_5.jpg" alt>红色是根函数，蓝色是线性函数。两者相比下来，根函数的取值会更大些，相应的，接近边缘的点就会更多一点，让粒子的分布效果更加均衡。</p>
+<p>这次的视觉效果总算是达到了<strong>均匀</strong>的效果，这个算法是利用了一个根函数的特性，如下图:<img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/pen_5.jpg" alt="">红色是根函数，蓝色是线性函数。两者相比下来，根函数的取值会更大些，相应的，接近边缘的点就会更多一点，让粒子的分布效果更加均衡。</p>
 </blockquote>
-<h3 id="处理“奋笔疾书”情况"><a href="#处理“奋笔疾书”情况" class="headerlink" title="处理“奋笔疾书”情况"></a>处理“奋笔疾书”情况</h3><p>当以比较慢的速度滑动时，笔画尚显流畅无明显断层。当速度过快时，<code>MOVE</code>留下的点更少，且间距大。会出现画笔断层现象，这时候就需要一些特殊的处理方法。<br><br>代码中设定了一个标准值<code>D</code>，这个值是由<code>BasePen</code>所持有的<strong>w</strong>和<strong>h</strong>两个值计算而来的，一般来说，这两个值期望为依附的<code>View</code>的宽高。<code>最初也考虑使用画笔的直径计算，但考虑到画笔直径是可以外部动态改变的。标准值最好保持一定的独立性，其所依赖的数据越稳定越好，要不然会影响平衡</code>。然后当<code>MOVE</code>时，当前点距离上一个点的相对距离大于这个标准值<code>D</code>时，就会判定此时处于快移速状态，间距越大移速越快，那么喷漆效果相应地就要减弱【直观而言就是粒子浓度要低】。<br>快移速状态时，代码会在当前点和上一个点之间，模拟出一些<strong>笔迹点</strong>。相应地，这些笔迹点的粒子密集度会低一些，其计算函数且是一个反驼峰的变化状态。即<strong>连续笔迹点</strong>的中间点粒子最稀疏，两边则最密集。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"> //手速过快时</span><br><span class="line">float stepDis = mPenR * 1.6f;</span><br><span class="line">//笔迹点的数量</span><br><span class="line">int v = (int) (getLastDis() / stepDis);</span><br><span class="line">float gapX = getPoints().get(getPoints().size() - 1).x - getPoints().get(getPoints().size() - 2).x;</span><br><span class="line">float gapY = getPoints().get(getPoints().size() - 1).y - getPoints().get(getPoints().size() - 2).y;</span><br><span class="line">//描绘笔迹点</span><br><span class="line">for (int i = 1; i &lt;= v; i++) &#123;</span><br><span class="line"> 	float x = (float) (getPoints().get(getPoints().size() - 2).x + (gapX * i * stepDis / getLastDis()));</span><br><span class="line">    float y = (float) (getPoints().get(getPoints().size() - 2).y + (gapY * i * stepDis / getLastDis()));</span><br><span class="line">    drawSpray(x, y, (int) (mTotalNum * calculate(i, 1, v)), mRandom.nextBoolean());</span><br><span class="line">            &#125;</span><br><span class="line">/**</span><br><span class="line">     * 使用（x-（min+max）/2)^2/（min-（min+max）/2）^2作为粒子密度比函数</span><br><span class="line">     */</span><br><span class="line">    private static float calculate(int index, int min, int max) &#123;</span><br><span class="line">        float maxProbability = 0.6f;</span><br><span class="line">        float minProbability = 0.15f;</span><br><span class="line">        if (max - min + 1 &lt;= 4) &#123;</span><br><span class="line">            return maxProbability;</span><br><span class="line">        &#125;</span><br><span class="line">        int mid = (max + min) / 2;</span><br><span class="line">        int maxValue = (int) Math.pow(mid - min, 2);</span><br><span class="line">        float ratio = (float) (Math.pow(index - mid, 2) / maxValue);</span><br><span class="line">        if (ratio &gt;= maxProbability) &#123;</span><br><span class="line">            return maxProbability;</span><br><span class="line">        &#125; else if (ratio &lt;= minProbability) &#123;</span><br><span class="line">            return minProbability;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return ratio;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="Kotlin"><a href="#Kotlin" class="headerlink" title="Kotlin"></a>Kotlin</h3><p>本项目在写的时候，顺便也写了一个<code>Kotlin</code>版本的。注意，并不是用AS自带的代码转换的。所以<code>Kotlin</code>版本会有很多不必要的测试体验代码，不要在意这些细节。<br><a href="https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/pen/kotlin" target="_blank" rel="noopener">Kotlin版本</a>这里这里，喜欢的不妨点个赞吧</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>以上就是本次<code>Demo</code>的思路、以及一些算法的解析。数学之美，令人沉醉<em>（数学学渣留下了悔恨的泪水。。。）</em><br><strong>数学才是本体啊</strong><br><a href="https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/pen" target="_blank" rel="noopener">笔刷项目地址</a>在此，代码中的注释会更加清晰些，大家要是喜欢的话，不妨来点个赞吧</p>
+<h3 id="处理“奋笔疾书”情况"><a href="#处理“奋笔疾书”情况" class="headerlink" title="处理“奋笔疾书”情况"></a>处理“奋笔疾书”情况</h3><p>当以比较慢的速度滑动时，笔画尚显流畅无明显断层。当速度过快时，<code>MOVE</code>留下的点更少，且间距大。会出现画笔断层现象，这时候就需要一些特殊的处理方法。<br><br>代码中设定了一个标准值<code>D</code>，这个值是由<code>BasePen</code>所持有的<strong>w</strong>和<strong>h</strong>两个值计算而来的，一般来说，这两个值期望为依附的<code>View</code>的宽高。<code>最初也考虑使用画笔的直径计算，但考虑到画笔直径是可以外部动态改变的。标准值最好保持一定的独立性，其所依赖的数据越稳定越好，要不然会影响平衡</code>。然后当<code>MOVE</code>时，当前点距离上一个点的相对距离大于这个标准值<code>D</code>时，就会判定此时处于快移速状态，间距越大移速越快，那么喷漆效果相应地就要减弱【直观而言就是粒子浓度要低】。<br>快移速状态时，代码会在当前点和上一个点之间，模拟出一些<strong>笔迹点</strong>。相应地，这些笔迹点的粒子密集度会低一些，其计算函数且是一个反驼峰的变化状态。即<strong>连续笔迹点</strong>的中间点粒子最稀疏，两边则最密集。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"> &#x2F;&#x2F;手速过快时</span><br><span class="line">float stepDis &#x3D; mPenR * 1.6f;</span><br><span class="line">&#x2F;&#x2F;笔迹点的数量</span><br><span class="line">int v &#x3D; (int) (getLastDis() &#x2F; stepDis);</span><br><span class="line">float gapX &#x3D; getPoints().get(getPoints().size() - 1).x - getPoints().get(getPoints().size() - 2).x;</span><br><span class="line">float gapY &#x3D; getPoints().get(getPoints().size() - 1).y - getPoints().get(getPoints().size() - 2).y;</span><br><span class="line">&#x2F;&#x2F;描绘笔迹点</span><br><span class="line">for (int i &#x3D; 1; i &lt;&#x3D; v; i++) &#123;</span><br><span class="line"> 	float x &#x3D; (float) (getPoints().get(getPoints().size() - 2).x + (gapX * i * stepDis &#x2F; getLastDis()));</span><br><span class="line">    float y &#x3D; (float) (getPoints().get(getPoints().size() - 2).y + (gapY * i * stepDis &#x2F; getLastDis()));</span><br><span class="line">    drawSpray(x, y, (int) (mTotalNum * calculate(i, 1, v)), mRandom.nextBoolean());</span><br><span class="line">            &#125;</span><br><span class="line">&#x2F;**</span><br><span class="line">     * 使用（x-（min+max）&#x2F;2)^2&#x2F;（min-（min+max）&#x2F;2）^2作为粒子密度比函数</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private static float calculate(int index, int min, int max) &#123;</span><br><span class="line">        float maxProbability &#x3D; 0.6f;</span><br><span class="line">        float minProbability &#x3D; 0.15f;</span><br><span class="line">        if (max - min + 1 &lt;&#x3D; 4) &#123;</span><br><span class="line">            return maxProbability;</span><br><span class="line">        &#125;</span><br><span class="line">        int mid &#x3D; (max + min) &#x2F; 2;</span><br><span class="line">        int maxValue &#x3D; (int) Math.pow(mid - min, 2);</span><br><span class="line">        float ratio &#x3D; (float) (Math.pow(index - mid, 2) &#x2F; maxValue);</span><br><span class="line">        if (ratio &gt;&#x3D; maxProbability) &#123;</span><br><span class="line">            return maxProbability;</span><br><span class="line">        &#125; else if (ratio &lt;&#x3D; minProbability) &#123;</span><br><span class="line">            return minProbability;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return ratio;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Kotlin"><a href="#Kotlin" class="headerlink" title="Kotlin"></a>Kotlin</h3><p>本项目在写的时候，顺便也写了一个<code>Kotlin</code>版本的。注意，并不是用AS自带的代码转换的。所以<code>Kotlin</code>版本会有很多不必要的测试体验代码，不要在意这些细节。<br><a target="_blank" rel="noopener" href="https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/pen/kotlin">Kotlin版本</a>这里这里，喜欢的不妨点个赞吧</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>以上就是本次<code>Demo</code>的思路、以及一些算法的解析。数学之美，令人沉醉<em>（数学学渣留下了悔恨的泪水。。。）</em><br><strong>数学才是本体啊</strong><br><a target="_blank" rel="noopener" href="https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/pen">笔刷项目地址</a>在此，代码中的注释会更加清晰些，大家要是喜欢的话，不妨来点个赞吧</p>
 <h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
-<li><a href="http://www.cnblogs.com/TenosDoIt/p/4025221.html" target="_blank" rel="noopener">均匀的生成圆和三角形内的随机点</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/TenosDoIt/p/4025221.html">均匀的生成圆和三角形内的随机点</a></li>
 </ul>
 
       
@@ -450,7 +448,7 @@
     <figure class="media">
       <div class="media-left">
         <a href="https://github.com/JadynAi" target="_blank" class="img-burn thumb-sm visible-lg">
-          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
         </a>
       </div>
       <div class="media-body">
@@ -522,14 +520,14 @@
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade active in" id="alipay">
               <div class="donate-payimg">
-                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
               </div>
               <p class="text-muted mv">扫码打赏，你说多少就多少</p>
               <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="wechatpay">
               <div class="donate-payimg">
-                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
               </div>
               <p class="text-muted mv">扫码打赏，你说多少就多少</p>
               <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
@@ -540,7 +538,7 @@
               <li role="presentation" class="active">
                 <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
               </li>
-              <li role="presentation" class>
+              <li role="presentation" class="">
                 <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
               </li>
             </ul>
@@ -560,9 +558,9 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
     </ul>
 
@@ -577,8 +575,12 @@
 <script>
 window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 </script>
+
 <script src="/js/plugin.min.js"></script>
+
+
 <script src="/js/application.js"></script>
+
 
     <script>
 (function (window) {
@@ -596,7 +598,9 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 
 

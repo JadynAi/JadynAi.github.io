@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
   <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-transform">
-  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="format-detection" content="telephone=no,email=no,adress=no">
   <!-- Color theme for statusbar -->
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#000000" />
   <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
-  <meta http-equiv="window-target" content="_top">
+  <meta http-equiv="window-target" content="_top" />
   
   
   <title>MediaCodeC硬解码视频，并将视频帧存储为图片文件 | E = MC^2</title>
   <meta name="description" content="原创文章，转载请联系作者  醉拍春衫惜旧香，天将离恨恼疏狂。年年陌上生秋草，日日楼中到夕阳。  目的 MediaCodeC搭配MediaExtractor将视频完整解码 视频帧存储为JPEG文件 使用两种方式达成 硬编码输出数据二次封装为YuvImage，并直接输出为JPEG格式文件 硬编码搭配Surface，用OpenGL封装为RGBA数据格式，再利用Bitmap压缩为图片文件 二者皆可以调整图">
-<meta name="keywords" content="Android,视频,MediaCodeC">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MediaCodeC硬解码视频，并将视频帧存储为图片文件">
 <meta property="og:url" content="https://ailo.fun/2019/01/25/2019-01-25-MediaCodeC-Decode-1/index.html">
 <meta property="og:site_name" content="Life is Like A Boat">
 <meta property="og:description" content="原创文章，转载请联系作者  醉拍春衫惜旧香，天将离恨恼疏狂。年年陌上生秋草，日日楼中到夕阳。  目的 MediaCodeC搭配MediaExtractor将视频完整解码 视频帧存储为JPEG文件 使用两种方式达成 硬编码输出数据二次封装为YuvImage，并直接输出为JPEG格式文件 硬编码搭配Surface，用OpenGL封装为RGBA数据格式，再利用Bitmap压缩为图片文件 二者皆可以调整图">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/decode_line.png">
-<meta property="og:updated_time" content="2019-09-12T14:05:01.097Z">
+<meta property="article:published_time" content="2019-01-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-09-12T14:05:01.097Z">
+<meta property="article:author" content="AiLo">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="视频">
+<meta property="article:tag" content="MediaCodeC">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MediaCodeC硬解码视频，并将视频帧存储为图片文件">
-<meta name="twitter:description" content="原创文章，转载请联系作者  醉拍春衫惜旧香，天将离恨恼疏狂。年年陌上生秋草，日日楼中到夕阳。  目的 MediaCodeC搭配MediaExtractor将视频完整解码 视频帧存储为JPEG文件 使用两种方式达成 硬编码输出数据二次封装为YuvImage，并直接输出为JPEG格式文件 硬编码搭配Surface，用OpenGL封装为RGBA数据格式，再利用Bitmap压缩为图片文件 二者皆可以调整图">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/decode_line.png">
   <!-- Canonical links -->
   <link rel="canonical" href="https://ailo.fun/2019/01/25/2019-01-25-MediaCodeC-Decode-1/index.html">
@@ -40,14 +42,16 @@
   
     <link rel="icon" href="/favicon.png" type="image/x-icon">
   
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
   
   
     <link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
   
   
   
-</head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
 <body class="main-center" itemscope itemtype="http://schema.org/WebPage">
@@ -69,7 +73,7 @@
 
     <form class="search-form sidebar-form">
         <div class="input-group">
-            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
             <span class="input-group-btn">
                 <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
             </span>
@@ -79,7 +83,7 @@
   <div class="ins-search-mask"></div>
   <div class="ins-search-container">
     <div class="ins-input-wrapper">
-      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech>
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
       <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
     </div>
     <div class="ins-section-wrapper">
@@ -155,9 +159,9 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
     </ul>
 
@@ -174,7 +178,7 @@
     <div class="widget-body">
         <div id="board">
             <div class="content">
-                <p>AiLo，Android工程师，热爱开源。<br>近期在研究音视频开发和图像处理。业余时间研究研究深度学习，使用CRNN模型做过OCR图片识别项目。<br>感兴趣的伙伴们欢迎关注我的<a href="https://github.com/JadynAi" target="_blank"><font color="#00f">GitHub</font></a><br> 同时欢迎关注我的掘金主页<a href="https://juejin.im/user/566d95f260b2ed36d9580add/posts" target="_blank"><font color="#00f">掘金社区AiLo</font></a></p>
+                <p>AiLo，Android开发者<br>感兴趣的伙伴们欢迎关注我的<a href="https://github.com/JadynAi" target="_blank"><font color='#00f'>GitHub</font></a><br> 同时欢迎关注我的掘金主页<a href="https://juejin.im/user/566d95f260b2ed36d9580add/posts" target="_blank"><font color='#00f'>掘金社区AiLo</font></a></p>
             </div>
         </div>
     </div>
@@ -185,7 +189,7 @@
   <div class="widget">
     <h3 class="widget-title">分类</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Camera2/">Camera2</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/音视频/">音视频</a><span class="category-list-count">7</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Camera2/">Camera2</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a><span class="category-list-count">7</span></li></ul>
     </div>
   </div>
 
@@ -195,7 +199,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas动画/">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/交互体验/">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术讨论/">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普向/">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视觉设计/">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频/">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音视频/">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频/">音频</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas%E5%8A%A8%E7%94%BB/" rel="tag">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/" rel="tag">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/" rel="tag">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%A4%E4%BA%92%E4%BD%93%E9%AA%8C/" rel="tag">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E8%AE%A8%E8%AE%BA/" rel="tag">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE%E5%90%91/" rel="tag">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E8%A7%89%E8%AE%BE%E8%AE%A1/" rel="tag">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91/" rel="tag">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" rel="tag">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9F%B3%E9%A2%91/" rel="tag">音频</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -205,7 +209,7 @@
   <div class="widget">
     <h3 class="widget-title">标签云</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Canvas动画/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.5px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/交互体验/" style="font-size: 13.25px;">交互体验</a> <a href="/tags/技术讨论/" style="font-size: 13.5px;">技术讨论</a> <a href="/tags/科普向/" style="font-size: 13px;">科普向</a> <a href="/tags/算法/" style="font-size: 13px;">算法</a> <a href="/tags/视觉设计/" style="font-size: 13px;">视觉设计</a> <a href="/tags/视频/" style="font-size: 13.5px;">视频</a> <a href="/tags/音视频/" style="font-size: 13.5px;">音视频</a> <a href="/tags/音频/" style="font-size: 13px;">音频</a>
+      <a href="/tags/Android/" style="font-size: 14px;">Android</a> <a href="/tags/Canvas%E5%8A%A8%E7%94%BB/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.67px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/%E4%BA%A4%E4%BA%92%E4%BD%93%E9%AA%8C/" style="font-size: 13.33px;">交互体验</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E8%AE%A8%E8%AE%BA/" style="font-size: 13.67px;">技术讨论</a> <a href="/tags/%E7%A7%91%E6%99%AE%E5%90%91/" style="font-size: 13px;">科普向</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E8%A7%86%E8%A7%89%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">视觉设计</a> <a href="/tags/%E8%A7%86%E9%A2%91/" style="font-size: 13.67px;">视频</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 13.67px;">音视频</a> <a href="/tags/%E9%9F%B3%E9%A2%91/" style="font-size: 13px;">音频</a>
     </div>
   </div>
 
@@ -214,7 +218,7 @@
   <div class="widget">
     <h3 class="widget-title">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -230,7 +234,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/06/21/2019-06-21-camera2-video/" class="title">Camera2录制视频(二)：MediaCodeC+OpenGL视频编码</a>
@@ -245,7 +249,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/06/01/2019-06-01-camera2-record1/" class="title">Camera2录制视频(一)：音频的录制及编码</a>
@@ -260,7 +264,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/05/20/2019-05-20-audio-time/" class="title">解决MediaMuxer编码AAC文件时间戳计算</a>
@@ -290,7 +294,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/" class="title">使用MediaCodeC将图片集编码为视频</a>
@@ -336,13 +340,13 @@
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/音视频/">音视频</a>
+    <a class="article-category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Android/">Android</a>, <a class="article-tag-link" href="/tags/MediaCodeC/">MediaCodeC</a>, <a class="article-tag-link" href="/tags/视频/">视频</a>
+	<a class="article-tag-link-link" href="/tags/Android/" rel="tag">Android</a>, <a class="article-tag-link-link" href="/tags/MediaCodeC/" rel="tag">MediaCodeC</a>, <a class="article-tag-link-link" href="/tags/%E8%A7%86%E9%A2%91/" rel="tag">视频</a>
   </span>
 
 
@@ -369,11 +373,11 @@
 </li>
 </ul>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li>YUV的处理方式，强推大家观看这篇文章<a href="https://www.polarxiong.com/archives/Android-MediaCodec%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E7%A1%AC%E4%BB%B6%E8%A7%A3%E7%A0%81-%E9%AB%98%E6%95%88%E7%8E%87%E5%BE%97%E5%88%B0YUV%E6%A0%BC%E5%BC%8F%E5%B8%A7-%E5%BF%AB%E9%80%9F%E4%BF%9D%E5%AD%98JPEG%E5%9B%BE%E7%89%87-%E4%B8%8D%E4%BD%BF%E7%94%A8OpenGL.html" target="_blank" rel="noopener">高效率得到YUV格式帧</a>，绝对整的明明白白</li>
-<li>OpenGL的处理方式，当然是最出名的<a href="https://bigflake.com/mediacodec/ExtractMpegFramesTest_egl14.java.txt" target="_blank" rel="noopener">BigFlake</a>，硬编码相关的示例代码很是详细</li>
+<li>YUV的处理方式，强推大家观看这篇文章<a target="_blank" rel="noopener" href="https://www.polarxiong.com/archives/Android-MediaCodec%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E7%A1%AC%E4%BB%B6%E8%A7%A3%E7%A0%81-%E9%AB%98%E6%95%88%E7%8E%87%E5%BE%97%E5%88%B0YUV%E6%A0%BC%E5%BC%8F%E5%B8%A7-%E5%BF%AB%E9%80%9F%E4%BF%9D%E5%AD%98JPEG%E5%9B%BE%E7%89%87-%E4%B8%8D%E4%BD%BF%E7%94%A8OpenGL.html">高效率得到YUV格式帧</a>，绝对整的明明白白</li>
+<li>OpenGL的处理方式，当然是最出名的<a target="_blank" rel="noopener" href="https://bigflake.com/mediacodec/ExtractMpegFramesTest_egl14.java.txt">BigFlake</a>，硬编码相关的示例代码很是详细</li>
 </ul>
 <h3 id="解码效率分析"><a href="#解码效率分析" class="headerlink" title="解码效率分析"></a>解码效率分析</h3><ul>
-<li>参考对象为一段约为13.8s，H.264编码，FPS为24，72*1280的MPEG-4的视频文件。<a href="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/yazi.mp4" target="_blank" rel="noopener">鸭鸭戏水视频</a><ul>
+<li>参考对象为一段约为13.8s，H.264编码，FPS为24，72*1280的MPEG-4的视频文件。<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/yazi.mp4">鸭鸭戏水视频</a><ul>
 <li>此视频的视频帧数为332    </li>
 </ul>
 </li>
@@ -383,11 +387,11 @@
 </li>
 </ul>
 <h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><p>对整个视频的解析，以及压入MediaCodeC输入队列都是通用步骤。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mediaExtractor.setDataSource(dataSource)</span><br><span class="line">// 查看是否含有视频轨</span><br><span class="line">val trackIndex = mediaExtractor.selectVideoTrack()</span><br><span class="line">if (trackIndex &lt; 0) &#123;</span><br><span class="line">    throw RuntimeException(&quot;this data source not video&quot;)</span><br><span class="line">&#125;</span><br><span class="line">mediaExtractor.selectTrack(trackIndex)</span><br><span class="line">      </span><br><span class="line">       </span><br><span class="line">fun MediaExtractor.selectVideoTrack(): Int &#123;</span><br><span class="line">    val numTracks = trackCount</span><br><span class="line">    for (i in 0 until numTracks) &#123;</span><br><span class="line">        val format = getTrackFormat(i)</span><br><span class="line">        val mime = format.getString(MediaFormat.KEY_MIME)</span><br><span class="line">        if (mime.startsWith(&quot;video/&quot;)) &#123;</span><br><span class="line">            return i</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mediaExtractor.setDataSource(dataSource)</span><br><span class="line">&#x2F;&#x2F; 查看是否含有视频轨</span><br><span class="line">val trackIndex &#x3D; mediaExtractor.selectVideoTrack()</span><br><span class="line">if (trackIndex &lt; 0) &#123;</span><br><span class="line">    throw RuntimeException(&quot;this data source not video&quot;)</span><br><span class="line">&#125;</span><br><span class="line">mediaExtractor.selectTrack(trackIndex)</span><br><span class="line">      </span><br><span class="line">       </span><br><span class="line">fun MediaExtractor.selectVideoTrack(): Int &#123;</span><br><span class="line">    val numTracks &#x3D; trackCount</span><br><span class="line">    for (i in 0 until numTracks) &#123;</span><br><span class="line">        val format &#x3D; getTrackFormat(i)</span><br><span class="line">        val mime &#x3D; format.getString(MediaFormat.KEY_MIME)</span><br><span class="line">        if (mime.startsWith(&quot;video&#x2F;&quot;)) &#123;</span><br><span class="line">            return i</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>配置MediaCodeC解码器，将解码输出格式设置为<strong>COLOR_FormatYUV420Flexible</strong>，这种模式几乎所有设备都会支持。<br><strong>使用OpenGL渲染的话，MediaCodeC要配置一个输出Surface。使用YUV方式的话，则不需要配置</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">outputSurface = if (isSurface) OutputSurface(mediaFormat.width, mediaFormat.height) else null</span><br><span class="line"></span><br><span class="line">      // 指定帧格式COLOR_FormatYUV420Flexible,几乎所有的解码器都支持</span><br><span class="line">      if (decoder.codecInfo.getCapabilitiesForType(mediaFormat.mime).isSupportColorFormat(defDecoderColorFormat)) &#123;</span><br><span class="line">          mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, defDecoderColorFormat)</span><br><span class="line">          decoder.configure(mediaFormat, outputSurface?.surface, null, 0)</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">          throw RuntimeException(&quot;this mobile not support YUV 420 Color Format&quot;)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      val startTime = System.currentTimeMillis()</span><br><span class="line">      Log.d(TAG, &quot;start decode frames&quot;)</span><br><span class="line">      isStart = true</span><br><span class="line">      val bufferInfo = MediaCodec.BufferInfo()</span><br><span class="line">      // 是否输入完毕</span><br><span class="line">      var inputEnd = false</span><br><span class="line">      // 是否输出完毕</span><br><span class="line">      var outputEnd = false</span><br><span class="line">      decoder.start()</span><br><span class="line">      var outputFrameCount = 0</span><br><span class="line"></span><br><span class="line">      while (!outputEnd &amp;&amp; isStart) &#123;</span><br><span class="line">          if (!inputEnd) &#123;</span><br><span class="line">              val inputBufferId = decoder.dequeueInputBuffer(DEF_TIME_OUT)</span><br><span class="line">              if (inputBufferId &gt;= 0) &#123;</span><br><span class="line">                  // 获得一个可写的输入缓存对象</span><br><span class="line">                  val inputBuffer = decoder.getInputBuffer(inputBufferId)</span><br><span class="line">                  // 使用MediaExtractor读取数据</span><br><span class="line">                  val sampleSize = videoAnalyze.mediaExtractor.readSampleData(inputBuffer, 0)</span><br><span class="line">                  if (sampleSize &lt; 0) &#123;</span><br><span class="line">                      // 2019/2/8-19:15 没有数据</span><br><span class="line">                      decoder.queueInputBuffer(inputBufferId, 0, 0, 0L,</span><br><span class="line">                              MediaCodec.BUFFER_FLAG_END_OF_STREAM)</span><br><span class="line">                      inputEnd = true</span><br><span class="line">                  &#125; else &#123;</span><br><span class="line">                      // 将数据压入到输入队列</span><br><span class="line">                      val presentationTimeUs = videoAnalyze.mediaExtractor.sampleTime</span><br><span class="line">                      decoder.queueInputBuffer(inputBufferId, 0,</span><br><span class="line">                              sampleSize, presentationTimeUs, 0)</span><br><span class="line">                      videoAnalyze.mediaExtractor.advance()</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">outputSurface &#x3D; if (isSurface) OutputSurface(mediaFormat.width, mediaFormat.height) else null</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; 指定帧格式COLOR_FormatYUV420Flexible,几乎所有的解码器都支持</span><br><span class="line">      if (decoder.codecInfo.getCapabilitiesForType(mediaFormat.mime).isSupportColorFormat(defDecoderColorFormat)) &#123;</span><br><span class="line">          mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, defDecoderColorFormat)</span><br><span class="line">          decoder.configure(mediaFormat, outputSurface?.surface, null, 0)</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">          throw RuntimeException(&quot;this mobile not support YUV 420 Color Format&quot;)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      val startTime &#x3D; System.currentTimeMillis()</span><br><span class="line">      Log.d(TAG, &quot;start decode frames&quot;)</span><br><span class="line">      isStart &#x3D; true</span><br><span class="line">      val bufferInfo &#x3D; MediaCodec.BufferInfo()</span><br><span class="line">      &#x2F;&#x2F; 是否输入完毕</span><br><span class="line">      var inputEnd &#x3D; false</span><br><span class="line">      &#x2F;&#x2F; 是否输出完毕</span><br><span class="line">      var outputEnd &#x3D; false</span><br><span class="line">      decoder.start()</span><br><span class="line">      var outputFrameCount &#x3D; 0</span><br><span class="line"></span><br><span class="line">      while (!outputEnd &amp;&amp; isStart) &#123;</span><br><span class="line">          if (!inputEnd) &#123;</span><br><span class="line">              val inputBufferId &#x3D; decoder.dequeueInputBuffer(DEF_TIME_OUT)</span><br><span class="line">              if (inputBufferId &gt;&#x3D; 0) &#123;</span><br><span class="line">                  &#x2F;&#x2F; 获得一个可写的输入缓存对象</span><br><span class="line">                  val inputBuffer &#x3D; decoder.getInputBuffer(inputBufferId)</span><br><span class="line">                  &#x2F;&#x2F; 使用MediaExtractor读取数据</span><br><span class="line">                  val sampleSize &#x3D; videoAnalyze.mediaExtractor.readSampleData(inputBuffer, 0)</span><br><span class="line">                  if (sampleSize &lt; 0) &#123;</span><br><span class="line">                      &#x2F;&#x2F; 2019&#x2F;2&#x2F;8-19:15 没有数据</span><br><span class="line">                      decoder.queueInputBuffer(inputBufferId, 0, 0, 0L,</span><br><span class="line">                              MediaCodec.BUFFER_FLAG_END_OF_STREAM)</span><br><span class="line">                      inputEnd &#x3D; true</span><br><span class="line">                  &#125; else &#123;</span><br><span class="line">                      &#x2F;&#x2F; 将数据压入到输入队列</span><br><span class="line">                      val presentationTimeUs &#x3D; videoAnalyze.mediaExtractor.sampleTime</span><br><span class="line">                      decoder.queueInputBuffer(inputBufferId, 0,</span><br><span class="line">                              sampleSize, presentationTimeUs, 0)</span><br><span class="line">                      videoAnalyze.mediaExtractor.advance()</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br></pre></td></tr></table></figure>
 <p>可以大致画一个流程图如下：<br></p>
-<p><img src="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/decode_line.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/decode_line.png" alt=""></p>
 <h4 id="YUV"><a href="#YUV" class="headerlink" title="YUV"></a>YUV</h4><p>通过以上通用的步骤后，接下来就是对MediaCodeC的输出数据作YUV处理了。步骤如下：</p>
 <p>1.使用MediaCodeC的<code>getOutputImage (int index)</code>函数，得到一个只读的Image对象，其包含原始视频帧信息。</p>
 <blockquote>
@@ -401,17 +405,17 @@
 <blockquote>
 <p>getFormat = 35<br>getCropRect().width()=720<br>getCropRect().height()=1280</p>
 </blockquote>
-<p>35代表<code>ImageFormat.YUV_420_888格式</code>。Image的<code>getPlanes</code>会返回一个数组，其中0代表Y，1代表U，2代表V。由于是420格式，那么四个Y值共享一对UV分量，比例为4：1。<br><strong>代码如下，参考<a href="https://www.polarxiong.com/archives/Android-YUV_420_888%E7%BC%96%E7%A0%81Image%E8%BD%AC%E6%8D%A2%E4%B8%BAI420%E5%92%8CNV21%E6%A0%BC%E5%BC%8Fbyte%E6%95%B0%E7%BB%84.html" target="_blank" rel="noopener">YUV_420_888编码Image转换为I420和NV21格式byte数组</a>,不过我这里只保留了NV21格式的转换</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">fun Image.getDataByte(): ByteArray &#123;</span><br><span class="line">    val format = format</span><br><span class="line">    if (!isSupportFormat()) &#123;</span><br><span class="line">        throw RuntimeException(&quot;image can not support format is $format&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    // 指定了图片的有效区域，只有这个Rect内的像素才是有效的</span><br><span class="line">    val rect = cropRect</span><br><span class="line">    val width = rect.width()</span><br><span class="line">    val height = rect.height()</span><br><span class="line">    val planes = planes</span><br><span class="line">    val data = ByteArray(width * height * ImageFormat.getBitsPerPixel(format) / 8)</span><br><span class="line">    val rowData = ByteArray(planes[0].rowStride)</span><br><span class="line"></span><br><span class="line">    var channelOffset = 0</span><br><span class="line">    var outputStride = 1</span><br><span class="line">    for (i in 0 until planes.size) &#123;</span><br><span class="line">        when (i) &#123;</span><br><span class="line">            0 -&gt; &#123;</span><br><span class="line">                channelOffset = 0</span><br><span class="line">                outputStride = 1</span><br><span class="line">            &#125;</span><br><span class="line">            1 -&gt; &#123;</span><br><span class="line">                channelOffset = width * height + 1</span><br><span class="line">                outputStride = 2</span><br><span class="line">            &#125;</span><br><span class="line">            2 -&gt; &#123;</span><br><span class="line">                channelOffset = width * height</span><br><span class="line">                outputStride = 2</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 此时得到的ByteBuffer的position指向末端</span><br><span class="line">        val buffer = planes[i].buffer</span><br><span class="line">        //  行跨距</span><br><span class="line">        val rowStride = planes[i].rowStride</span><br><span class="line">        // 行内颜色值间隔，真实间隔值为此值减一</span><br><span class="line">        val pixelStride = planes[i].pixelStride</span><br><span class="line"></span><br><span class="line">        val TAG = &quot;getDataByte&quot;</span><br><span class="line"></span><br><span class="line">        Log.d(TAG, &quot;planes index is  $i&quot;)</span><br><span class="line">        Log.d(TAG, &quot;pixelStride $pixelStride&quot;)</span><br><span class="line">        Log.d(TAG, &quot;rowStride $rowStride&quot;)</span><br><span class="line">        Log.d(TAG, &quot;width $width&quot;)</span><br><span class="line">        Log.d(TAG, &quot;height $height&quot;)</span><br><span class="line">        Log.d(TAG, &quot;buffer size &quot; + buffer.remaining())</span><br><span class="line"></span><br><span class="line">        val shift = if (i == 0) 0 else 1</span><br><span class="line">        val w = width.shr(shift)</span><br><span class="line">        val h = height.shr(shift)</span><br><span class="line">        buffer.position(rowStride * (rect.top.shr(shift)) + pixelStride +</span><br><span class="line">                (rect.left.shr(shift)))</span><br><span class="line">        for (row in 0 until h) &#123;</span><br><span class="line">            var length: Int</span><br><span class="line">            if (pixelStride == 1 &amp;&amp; outputStride == 1) &#123;</span><br><span class="line">                length = w</span><br><span class="line">                // 2019/2/11-23:05 buffer有时候遗留的长度，小于length就会报错</span><br><span class="line">                buffer.getNoException(data, channelOffset, length)</span><br><span class="line">                channelOffset += length</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                length = (w - 1) * pixelStride + 1</span><br><span class="line">                buffer.getNoException(rowData, 0, length)</span><br><span class="line">                for (col in 0 until w) &#123;</span><br><span class="line">                    data[channelOffset] = rowData[col * pixelStride]</span><br><span class="line">                    channelOffset += outputStride</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (row &lt; h - 1) &#123;</span><br><span class="line">                buffer.position(buffer.position() + rowStride - length)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return data</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="最后封装YuvImage并压缩为文件"><a href="#最后封装YuvImage并压缩为文件" class="headerlink" title="最后封装YuvImage并压缩为文件"></a>最后封装YuvImage并压缩为文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val rect = image.cropRect</span><br><span class="line">   val yuvImage = YuvImage(image.getDataByte(), ImageFormat.NV21, rect.width(), rect.height(), null)</span><br><span class="line">   yuvImage.compressToJpeg(rect, 100, fileOutputStream)</span><br><span class="line">   fileOutputStream.close()</span><br></pre></td></tr></table></figure>
+<p>35代表<code>ImageFormat.YUV_420_888格式</code>。Image的<code>getPlanes</code>会返回一个数组，其中0代表Y，1代表U，2代表V。由于是420格式，那么四个Y值共享一对UV分量，比例为4：1。<br><strong>代码如下，参考<a target="_blank" rel="noopener" href="https://www.polarxiong.com/archives/Android-YUV_420_888%E7%BC%96%E7%A0%81Image%E8%BD%AC%E6%8D%A2%E4%B8%BAI420%E5%92%8CNV21%E6%A0%BC%E5%BC%8Fbyte%E6%95%B0%E7%BB%84.html">YUV_420_888编码Image转换为I420和NV21格式byte数组</a>,不过我这里只保留了NV21格式的转换</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">fun Image.getDataByte(): ByteArray &#123;</span><br><span class="line">    val format &#x3D; format</span><br><span class="line">    if (!isSupportFormat()) &#123;</span><br><span class="line">        throw RuntimeException(&quot;image can not support format is $format&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 指定了图片的有效区域，只有这个Rect内的像素才是有效的</span><br><span class="line">    val rect &#x3D; cropRect</span><br><span class="line">    val width &#x3D; rect.width()</span><br><span class="line">    val height &#x3D; rect.height()</span><br><span class="line">    val planes &#x3D; planes</span><br><span class="line">    val data &#x3D; ByteArray(width * height * ImageFormat.getBitsPerPixel(format) &#x2F; 8)</span><br><span class="line">    val rowData &#x3D; ByteArray(planes[0].rowStride)</span><br><span class="line"></span><br><span class="line">    var channelOffset &#x3D; 0</span><br><span class="line">    var outputStride &#x3D; 1</span><br><span class="line">    for (i in 0 until planes.size) &#123;</span><br><span class="line">        when (i) &#123;</span><br><span class="line">            0 -&gt; &#123;</span><br><span class="line">                channelOffset &#x3D; 0</span><br><span class="line">                outputStride &#x3D; 1</span><br><span class="line">            &#125;</span><br><span class="line">            1 -&gt; &#123;</span><br><span class="line">                channelOffset &#x3D; width * height + 1</span><br><span class="line">                outputStride &#x3D; 2</span><br><span class="line">            &#125;</span><br><span class="line">            2 -&gt; &#123;</span><br><span class="line">                channelOffset &#x3D; width * height</span><br><span class="line">                outputStride &#x3D; 2</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 此时得到的ByteBuffer的position指向末端</span><br><span class="line">        val buffer &#x3D; planes[i].buffer</span><br><span class="line">        &#x2F;&#x2F;  行跨距</span><br><span class="line">        val rowStride &#x3D; planes[i].rowStride</span><br><span class="line">        &#x2F;&#x2F; 行内颜色值间隔，真实间隔值为此值减一</span><br><span class="line">        val pixelStride &#x3D; planes[i].pixelStride</span><br><span class="line"></span><br><span class="line">        val TAG &#x3D; &quot;getDataByte&quot;</span><br><span class="line"></span><br><span class="line">        Log.d(TAG, &quot;planes index is  $i&quot;)</span><br><span class="line">        Log.d(TAG, &quot;pixelStride $pixelStride&quot;)</span><br><span class="line">        Log.d(TAG, &quot;rowStride $rowStride&quot;)</span><br><span class="line">        Log.d(TAG, &quot;width $width&quot;)</span><br><span class="line">        Log.d(TAG, &quot;height $height&quot;)</span><br><span class="line">        Log.d(TAG, &quot;buffer size &quot; + buffer.remaining())</span><br><span class="line"></span><br><span class="line">        val shift &#x3D; if (i &#x3D;&#x3D; 0) 0 else 1</span><br><span class="line">        val w &#x3D; width.shr(shift)</span><br><span class="line">        val h &#x3D; height.shr(shift)</span><br><span class="line">        buffer.position(rowStride * (rect.top.shr(shift)) + pixelStride +</span><br><span class="line">                (rect.left.shr(shift)))</span><br><span class="line">        for (row in 0 until h) &#123;</span><br><span class="line">            var length: Int</span><br><span class="line">            if (pixelStride &#x3D;&#x3D; 1 &amp;&amp; outputStride &#x3D;&#x3D; 1) &#123;</span><br><span class="line">                length &#x3D; w</span><br><span class="line">                &#x2F;&#x2F; 2019&#x2F;2&#x2F;11-23:05 buffer有时候遗留的长度，小于length就会报错</span><br><span class="line">                buffer.getNoException(data, channelOffset, length)</span><br><span class="line">                channelOffset +&#x3D; length</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                length &#x3D; (w - 1) * pixelStride + 1</span><br><span class="line">                buffer.getNoException(rowData, 0, length)</span><br><span class="line">                for (col in 0 until w) &#123;</span><br><span class="line">                    data[channelOffset] &#x3D; rowData[col * pixelStride]</span><br><span class="line">                    channelOffset +&#x3D; outputStride</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (row &lt; h - 1) &#123;</span><br><span class="line">                buffer.position(buffer.position() + rowStride - length)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return data</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="最后封装YuvImage并压缩为文件"><a href="#最后封装YuvImage并压缩为文件" class="headerlink" title="最后封装YuvImage并压缩为文件"></a>最后封装YuvImage并压缩为文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val rect &#x3D; image.cropRect</span><br><span class="line">   val yuvImage &#x3D; YuvImage(image.getDataByte(), ImageFormat.NV21, rect.width(), rect.height(), null)</span><br><span class="line">   yuvImage.compressToJpeg(rect, 100, fileOutputStream)</span><br><span class="line">   fileOutputStream.close()</span><br></pre></td></tr></table></figure>
 <h4 id="MediaCodeC配置输出Surface，使用OpenGL渲染"><a href="#MediaCodeC配置输出Surface，使用OpenGL渲染" class="headerlink" title="MediaCodeC配置输出Surface，使用OpenGL渲染"></a>MediaCodeC配置输出Surface，使用OpenGL渲染</h4><p>OpenGL的环境搭建和渲染代码不再赘述，只是强调几个点：</p>
 <ul>
 <li>渲染纹理的线程一定要和MediaCodeC配置Surface的线程保持一致</li>
 <li>在渲染纹理代码前，一定要调用MediaCodeC的<code>releaseOutputBuffer</code>函数，将输出数据及时渲染到输出Surface上，否则Surface内的纹理将不会收到任何数据</li>
 </ul>
-<h5 id="获得可用的RGBA数据，使用Bitmap压缩为指定格式文件"><a href="#获得可用的RGBA数据，使用Bitmap压缩为指定格式文件" class="headerlink" title="获得可用的RGBA数据，使用Bitmap压缩为指定格式文件"></a>获得可用的RGBA数据，使用Bitmap压缩为指定格式文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">fun saveFrame(fileName: String) &#123;</span><br><span class="line">        pixelBuf.rewind()</span><br><span class="line">        GLES20.glReadPixels(0, 0, width, height, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuf)</span><br><span class="line">        var bos: BufferedOutputStream? = null</span><br><span class="line">        try &#123;</span><br><span class="line">            bos = BufferedOutputStream(FileOutputStream(fileName))</span><br><span class="line">            val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)</span><br><span class="line">            pixelBuf.rewind()</span><br><span class="line">            bmp.copyPixelsFromBuffer(pixelBuf)</span><br><span class="line">            bmp.compress(Bitmap.CompressFormat.JPEG, 100, bos)</span><br><span class="line">            bmp.recycle()</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            bos?.close()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="获得可用的RGBA数据，使用Bitmap压缩为指定格式文件"><a href="#获得可用的RGBA数据，使用Bitmap压缩为指定格式文件" class="headerlink" title="获得可用的RGBA数据，使用Bitmap压缩为指定格式文件"></a>获得可用的RGBA数据，使用Bitmap压缩为指定格式文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">fun saveFrame(fileName: String) &#123;</span><br><span class="line">        pixelBuf.rewind()</span><br><span class="line">        GLES20.glReadPixels(0, 0, width, height, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuf)</span><br><span class="line">        var bos: BufferedOutputStream? &#x3D; null</span><br><span class="line">        try &#123;</span><br><span class="line">            bos &#x3D; BufferedOutputStream(FileOutputStream(fileName))</span><br><span class="line">            val bmp &#x3D; Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)</span><br><span class="line">            pixelBuf.rewind()</span><br><span class="line">            bmp.copyPixelsFromBuffer(pixelBuf)</span><br><span class="line">            bmp.compress(Bitmap.CompressFormat.JPEG, 100, bos)</span><br><span class="line">            bmp.recycle()</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            bos?.close()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <h3 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h3><p>到目前为止，针对样例视频，<code>YUV</code>解码出来的视频帧亮度会稍低一点，且图片边缘处有细微的失真。<code>OpenGL渲染</code>解码的视频帧会明亮一些，放大三四倍边缘无失真。后续会继续追踪这个问题，会使用<code>FFmpeg</code>解码来作为对比。</p>
-<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p><a href="https://github.com/JadynAi/MediaLearn/tree/master/app/src/main/java/com/jadyn/ai/medialearn/decode" target="_blank" rel="noopener">此处有项目地址，点击传送</a></p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p><a target="_blank" rel="noopener" href="https://github.com/JadynAi/MediaLearn/tree/master/app/src/main/java/com/jadyn/ai/medialearn/decode">此处有项目地址，点击传送</a></p>
 
       
     </div>
@@ -436,7 +440,7 @@
     <figure class="media">
       <div class="media-left">
         <a href="https://github.com/JadynAi" target="_blank" class="img-burn thumb-sm visible-lg">
-          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
         </a>
       </div>
       <div class="media-body">
@@ -508,14 +512,14 @@
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade active in" id="alipay">
               <div class="donate-payimg">
-                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
               </div>
               <p class="text-muted mv">扫码打赏，你说多少就多少</p>
               <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="wechatpay">
               <div class="donate-payimg">
-                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
               </div>
               <p class="text-muted mv">扫码打赏，你说多少就多少</p>
               <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
@@ -526,7 +530,7 @@
               <li role="presentation" class="active">
                 <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
               </li>
-              <li role="presentation" class>
+              <li role="presentation" class="">
                 <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
               </li>
             </ul>
@@ -546,9 +550,9 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
     </ul>
 
@@ -563,8 +567,12 @@
 <script>
 window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 </script>
+
 <script src="/js/plugin.min.js"></script>
+
+
 <script src="/js/application.js"></script>
+
 
     <script>
 (function (window) {
@@ -582,7 +590,9 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 
 

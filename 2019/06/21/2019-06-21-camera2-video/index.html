@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
   <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-transform">
-  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="format-detection" content="telephone=no,email=no,adress=no">
   <!-- Color theme for statusbar -->
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#000000" />
   <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
-  <meta http-equiv="window-target" content="_top">
+  <meta http-equiv="window-target" content="_top" />
   
   
   <title>Camera2录制视频(二)：MediaCodeC+OpenGL视频编码 | E = MC^2</title>
   <meta name="description" content="原创文章，未经作者允许不得转载  秋风清，秋月明叶叶梧桐槛外声难教归梦成  MediaLearn 欢迎大家关注我的项目MediaLearn，这是一个以学习分享音视频知识为目的建立的项目，目前仅局限于Android平台，后续会逐渐扩展。对音视频领域知识感兴趣的朋友，欢迎一起来学习！！！  在上一篇文章Camera2录制视频(一)：音频的录制及编码,主要分享了使用Camera2搭配MediaCodeC">
-<meta name="keywords" content="音视频,Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Camera2录制视频(二)：MediaCodeC+OpenGL视频编码">
 <meta property="og:url" content="https://ailo.fun/2019/06/21/2019-06-21-camera2-video/index.html">
 <meta property="og:site_name" content="Life is Like A Boat">
 <meta property="og:description" content="原创文章，未经作者允许不得转载  秋风清，秋月明叶叶梧桐槛外声难教归梦成  MediaLearn 欢迎大家关注我的项目MediaLearn，这是一个以学习分享音视频知识为目的建立的项目，目前仅局限于Android平台，后续会逐渐扩展。对音视频领域知识感兴趣的朋友，欢迎一起来学习！！！  在上一篇文章Camera2录制视频(一)：音频的录制及编码,主要分享了使用Camera2搭配MediaCodeC">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/encode_surface.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/camera2_1.png">
-<meta property="og:updated_time" content="2019-09-12T13:56:17.953Z">
+<meta property="article:published_time" content="2019-06-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-09-12T13:56:17.953Z">
+<meta property="article:author" content="AiLo">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="音视频">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Camera2录制视频(二)：MediaCodeC+OpenGL视频编码">
-<meta name="twitter:description" content="原创文章，未经作者允许不得转载  秋风清，秋月明叶叶梧桐槛外声难教归梦成  MediaLearn 欢迎大家关注我的项目MediaLearn，这是一个以学习分享音视频知识为目的建立的项目，目前仅局限于Android平台，后续会逐渐扩展。对音视频领域知识感兴趣的朋友，欢迎一起来学习！！！  在上一篇文章Camera2录制视频(一)：音频的录制及编码,主要分享了使用Camera2搭配MediaCodeC">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/encode_surface.png">
   <!-- Canonical links -->
   <link rel="canonical" href="https://ailo.fun/2019/06/21/2019-06-21-camera2-video/index.html">
@@ -41,14 +42,16 @@
   
     <link rel="icon" href="/favicon.png" type="image/x-icon">
   
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
   
   
     <link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
   
   
   
-</head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
 <body class="main-center" itemscope itemtype="http://schema.org/WebPage">
@@ -70,7 +73,7 @@
 
     <form class="search-form sidebar-form">
         <div class="input-group">
-            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
             <span class="input-group-btn">
                 <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
             </span>
@@ -80,7 +83,7 @@
   <div class="ins-search-mask"></div>
   <div class="ins-search-container">
     <div class="ins-input-wrapper">
-      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech>
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
       <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
     </div>
     <div class="ins-section-wrapper">
@@ -156,9 +159,9 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
     </ul>
 
@@ -175,7 +178,7 @@
     <div class="widget-body">
         <div id="board">
             <div class="content">
-                <p>AiLo，Android工程师，热爱开源。<br>近期在研究音视频开发和图像处理。业余时间研究研究深度学习，使用CRNN模型做过OCR图片识别项目。<br>感兴趣的伙伴们欢迎关注我的<a href="https://github.com/JadynAi" target="_blank"><font color="#00f">GitHub</font></a><br> 同时欢迎关注我的掘金主页<a href="https://juejin.im/user/566d95f260b2ed36d9580add/posts" target="_blank"><font color="#00f">掘金社区AiLo</font></a></p>
+                <p>AiLo，Android开发者<br>感兴趣的伙伴们欢迎关注我的<a href="https://github.com/JadynAi" target="_blank"><font color='#00f'>GitHub</font></a><br> 同时欢迎关注我的掘金主页<a href="https://juejin.im/user/566d95f260b2ed36d9580add/posts" target="_blank"><font color='#00f'>掘金社区AiLo</font></a></p>
             </div>
         </div>
     </div>
@@ -186,7 +189,7 @@
   <div class="widget">
     <h3 class="widget-title">分类</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Camera2/">Camera2</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/音视频/">音视频</a><span class="category-list-count">7</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Camera2/">Camera2</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a><span class="category-list-count">7</span></li></ul>
     </div>
   </div>
 
@@ -196,7 +199,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas动画/">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/交互体验/">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术讨论/">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普向/">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视觉设计/">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频/">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音视频/">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频/">音频</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas%E5%8A%A8%E7%94%BB/" rel="tag">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/" rel="tag">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/" rel="tag">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%A4%E4%BA%92%E4%BD%93%E9%AA%8C/" rel="tag">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E8%AE%A8%E8%AE%BA/" rel="tag">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE%E5%90%91/" rel="tag">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E8%A7%89%E8%AE%BE%E8%AE%A1/" rel="tag">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91/" rel="tag">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" rel="tag">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9F%B3%E9%A2%91/" rel="tag">音频</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -206,7 +209,7 @@
   <div class="widget">
     <h3 class="widget-title">标签云</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Canvas动画/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.5px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/交互体验/" style="font-size: 13.25px;">交互体验</a> <a href="/tags/技术讨论/" style="font-size: 13.5px;">技术讨论</a> <a href="/tags/科普向/" style="font-size: 13px;">科普向</a> <a href="/tags/算法/" style="font-size: 13px;">算法</a> <a href="/tags/视觉设计/" style="font-size: 13px;">视觉设计</a> <a href="/tags/视频/" style="font-size: 13.5px;">视频</a> <a href="/tags/音视频/" style="font-size: 13.5px;">音视频</a> <a href="/tags/音频/" style="font-size: 13px;">音频</a>
+      <a href="/tags/Android/" style="font-size: 14px;">Android</a> <a href="/tags/Canvas%E5%8A%A8%E7%94%BB/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.67px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/%E4%BA%A4%E4%BA%92%E4%BD%93%E9%AA%8C/" style="font-size: 13.33px;">交互体验</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E8%AE%A8%E8%AE%BA/" style="font-size: 13.67px;">技术讨论</a> <a href="/tags/%E7%A7%91%E6%99%AE%E5%90%91/" style="font-size: 13px;">科普向</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E8%A7%86%E8%A7%89%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">视觉设计</a> <a href="/tags/%E8%A7%86%E9%A2%91/" style="font-size: 13.67px;">视频</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 13.67px;">音视频</a> <a href="/tags/%E9%9F%B3%E9%A2%91/" style="font-size: 13px;">音频</a>
     </div>
   </div>
 
@@ -215,7 +218,7 @@
   <div class="widget">
     <h3 class="widget-title">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -231,7 +234,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/06/21/2019-06-21-camera2-video/" class="title">Camera2录制视频(二)：MediaCodeC+OpenGL视频编码</a>
@@ -246,7 +249,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/06/01/2019-06-01-camera2-record1/" class="title">Camera2录制视频(一)：音频的录制及编码</a>
@@ -261,7 +264,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/05/20/2019-05-20-audio-time/" class="title">解决MediaMuxer编码AAC文件时间戳计算</a>
@@ -291,7 +294,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/" class="title">使用MediaCodeC将图片集编码为视频</a>
@@ -337,13 +340,13 @@
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/音视频/">音视频</a>
+    <a class="article-category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Android/">Android</a>, <a class="article-tag-link" href="/tags/音视频/">音视频</a>
+	<a class="article-tag-link-link" href="/tags/Android/" rel="tag">Android</a>, <a class="article-tag-link-link" href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" rel="tag">音视频</a>
   </span>
 
 
@@ -360,17 +363,17 @@
 <p>秋风清，秋月明<br><br>叶叶梧桐槛外声<br><br>难教归梦成</p>
 </blockquote>
 <h3 id="MediaLearn"><a href="#MediaLearn" class="headerlink" title="MediaLearn"></a>MediaLearn</h3><blockquote>
-<p>欢迎大家关注我的项目<a href="https://github.com/JadynAi/MediaLearn" target="_blank" rel="noopener">MediaLearn</a>，这是一个以学习分享音视频知识为目的建立的项目，目前仅局限于Android平台，后续会逐渐扩展。<br>对音视频领域知识感兴趣的朋友，欢迎一起来学习！！！</p>
+<p>欢迎大家关注我的项目<a target="_blank" rel="noopener" href="https://github.com/JadynAi/MediaLearn">MediaLearn</a>，这是一个以学习分享音视频知识为目的建立的项目，目前仅局限于Android平台，后续会逐渐扩展。<br>对音视频领域知识感兴趣的朋友，欢迎一起来学习！！！</p>
 </blockquote>
-<p>在上一篇文章<a href="https://jadynai.github.io/2019/06/01/2019-06-01-camera2-record1/" target="_blank" rel="noopener">Camera2录制视频(一)：音频的录制及编码</a>,主要分享了使用Camera2搭配MediaCodeC和MediaMuxer进行视频录制中的<strong>音频录制部分</strong>。那么在这篇文章中呢，就着手分析使用MediaCodeC完成视频的录制编码和MediaMuxer完成Mux视频合成模块。有关使用MediaCodeC硬编码对视频编解码的相关视频，我之前也有分享，想看的朋友们可以点击以下传送门回顾。</p>
+<p>在上一篇文章<a target="_blank" rel="noopener" href="https://jadynai.github.io/2019/06/01/2019-06-01-camera2-record1/">Camera2录制视频(一)：音频的录制及编码</a>,主要分享了使用Camera2搭配MediaCodeC和MediaMuxer进行视频录制中的<strong>音频录制部分</strong>。那么在这篇文章中呢，就着手分析使用MediaCodeC完成视频的录制编码和MediaMuxer完成Mux视频合成模块。有关使用MediaCodeC硬编码对视频编解码的相关视频，我之前也有分享，想看的朋友们可以点击以下传送门回顾。</p>
 <blockquote>
-<p>MediaCodeC硬编码将图片集编码为视频Mp4文件<a href="https://jadynai.github.io/2019/04/01/2019-04-01-MediaCodeC-encoder1/" target="_blank" rel="noopener">MediaCodeC编码视频</a><br><br>MediaCodeC将视频完整解码，并存储为图片文件。使用两种不同的方式，<a href="https://jadynai.github.io/2019/01/25/2019-01-25-MediaCodeC-Decode-1/" target="_blank" rel="noopener">硬编码解码视频</a><br><br>MediaCodeC解码视频指定帧<a href="https://jadynai.github.io/2019/02/09/2019-02-09-MediaCodeC-frame/" target="_blank" rel="noopener">硬编码解码指定帧</a></p>
+<p>MediaCodeC硬编码将图片集编码为视频Mp4文件<a target="_blank" rel="noopener" href="https://jadynai.github.io/2019/04/01/2019-04-01-MediaCodeC-encoder1/">MediaCodeC编码视频</a><br><br>MediaCodeC将视频完整解码，并存储为图片文件。使用两种不同的方式，<a target="_blank" rel="noopener" href="https://jadynai.github.io/2019/01/25/2019-01-25-MediaCodeC-Decode-1/">硬编码解码视频</a><br><br>MediaCodeC解码视频指定帧<a target="_blank" rel="noopener" href="https://jadynai.github.io/2019/02/09/2019-02-09-MediaCodeC-frame/">硬编码解码指定帧</a></p>
 </blockquote>
 <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><blockquote>
 <p>项目中使用的摄像头API为<code>Camera2</code></p>
 </blockquote>
 <p>在文章开始之前，依然是老规矩，我们从结果导向，梳理流程。看看在视频录制这个阶段，流程是如何运作的，数据在这其中发生了什么变化。</p>
-<h3 id="流程梳理"><a href="#流程梳理" class="headerlink" title="流程梳理"></a>流程梳理</h3><p>当设备的摄像头在运转时，sensor【传感器】会将光信号转为电信号，再转为数字信号。sensor会输出四种格式的图片格式：YUV、RGB、RAW RGB DATA(DNG格式)、JPEG。YUV是最常用的一种格式，YUV输出的数据中亮度信号是无损的，RGB会有一定的损耗会丢掉一些原始信息。而RAW DATA是最原始的信息，但是存储空间会变大，而且需要一些特定软件才能打开。<br>在废弃的摄像头API——<code>Camera</code>中，默认的预览回调数据格式就是NV21。而在<code>Camera2</code>中，函数只提供了<code>Surface</code>作为桥接对象。若是想获取YUV、或者JPEG和RAW_SENSOR的话，可以使用<code>ImageReader</code>提供的Surface，再通过监听获取图像信息。<br>不管是Camera还是Camera2，都是支持设置Surface的。通过Surface，我们可以将Camera拿到的数据直接输送到GPU通过OpenGL来渲染处理。这样可以不用再CPU中处理Camera帧数据，从而节省大量时间。好了，接下来我用一张流程图，来展示<code>MediaCodeC</code>如何编码Camera帧数据的。<br><img src="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/encode_surface.png" alt></p>
+<h3 id="流程梳理"><a href="#流程梳理" class="headerlink" title="流程梳理"></a>流程梳理</h3><p>当设备的摄像头在运转时，sensor【传感器】会将光信号转为电信号，再转为数字信号。sensor会输出四种格式的图片格式：YUV、RGB、RAW RGB DATA(DNG格式)、JPEG。YUV是最常用的一种格式，YUV输出的数据中亮度信号是无损的，RGB会有一定的损耗会丢掉一些原始信息。而RAW DATA是最原始的信息，但是存储空间会变大，而且需要一些特定软件才能打开。<br>在废弃的摄像头API——<code>Camera</code>中，默认的预览回调数据格式就是NV21。而在<code>Camera2</code>中，函数只提供了<code>Surface</code>作为桥接对象。若是想获取YUV、或者JPEG和RAW_SENSOR的话，可以使用<code>ImageReader</code>提供的Surface，再通过监听获取图像信息。<br>不管是Camera还是Camera2，都是支持设置Surface的。通过Surface，我们可以将Camera拿到的数据直接输送到GPU通过OpenGL来渲染处理。这样可以不用再CPU中处理Camera帧数据，从而节省大量时间。好了，接下来我用一张流程图，来展示<code>MediaCodeC</code>如何编码Camera帧数据的。<br><img src="https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/encode_surface.png" alt=""></p>
 <ul>
 <li>1、因为我们需要的是H264数据，所以需要给MediaCodeC配置Mime为<code>video/avc</code></li>
 <li>2、MediaCodeC配置好之后，通过<code>createInputSurface</code>创建出一个作输入的Input—Surface</li>
@@ -378,14 +381,14 @@
 <li>4、创建OpenGL的program程序，得到一个可用的纹理ID，从而构建出一个SurfaceTexture。这个对象可以提供给已经废弃的CameraAPI，也可以构建出一个Surface提供给Camera2API。</li>
 </ul>
 <p>通过以上操作，我们就可以把Camera采集的数据直接传入到GPU，不用在CPU中费力的处理一番。</p>
-<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>在上一篇文章我提到过，会将整个视频录制中涉及到的各个功能模块化，以供后续复用。那么在视频的录制编码这块，我将它分装为了一个Runnable——<a href="https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit/src/main/java/com/jadyn/mediakit/video/encode/VideoRecorder.kt" target="_blank" rel="noopener">VideoRecorder</a>。<code>VideoRecorder</code>的内部职责为，封装了MediaCodeC+OpenGL编码的流程。对外提供OpenGL纹理的Surface，和硬编码编码后的ByteBuffer、以及BufferInfo和其他视频帧相关的信息。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// MediaCodeC配置</span><br><span class="line">codec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)</span><br><span class="line"></span><br><span class="line">val s = codec.createInputSurface()</span><br><span class="line">val surfaceTexture = encodeCore.buildEGLSurface(s)</span><br><span class="line">inputSurface = Surface(surfaceTexture)</span><br><span class="line">// 构建一个搭载了OpenGL纹理的Surface，然后回调出去</span><br><span class="line">readySurface.invoke(inputSurface)</span><br><span class="line">// 开始编码</span><br><span class="line">codec.start()</span><br><span class="line"></span><br><span class="line">// 计时</span><br><span class="line">val startTime = System.nanoTime()</span><br><span class="line"></span><br><span class="line">// 使用数组来保持视频录制线程和音频录制线程以及Mux线程的同步</span><br><span class="line">while (isRecording.isNotEmpty()) &#123;</span><br><span class="line">    // 编码数据</span><br><span class="line">    drainEncoder(false)</span><br><span class="line">    frameCount++</span><br><span class="line">    // OpenGL 绘制</span><br><span class="line">    encodeCore.draw()</span><br><span class="line">    val curFrameTime = System.nanoTime() - startTime</span><br><span class="line">    encodeCore.swapData(curFrameTime)</span><br><span class="line">&#125;</span><br><span class="line">// 发送编码结束信号</span><br><span class="line">drainEncoder(true)</span><br></pre></td></tr></table></figure>
-<p>以上伪代码代表了视频编码的全部流程，首先我们需要配置一个合适的MediaCodeC，通过MediaCodeC的<code>codec.createInputSurface</code>函数得到一个Surface对象，前文我称之为<em>InputSurface</em>。然后配置EGL环境，构建OpenGLProgram。<em>【有关OpenGL相关的代码，我都封装到了<a href="https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit/src/main/java/com/jadyn/mediakit/video/encode/SurfaceEncodeCore.kt" target="_blank" rel="noopener">SurfaceEncodeCore</a>这个类里面。<code>SurfaceEncodeCore</code>的内部职责主要是：构建EGL环境，配置OpenGL程序，绘制纹理】。</em><br>OpenGL本身是不负责窗口管理和上下文环境管理的，这个功能由各自平台提供。Android里负责为OpenGL提供窗口管理和上下文环境管理的就是EGL。在EGL里，是使用EGLSurface将输出渲染到设备屏幕。而创建EGLSurface有两种方式，一种是创建一个可实际显示的Surface，通过<code>eglCreateWindowSurface</code>函数，而这个函数需要一个Surface作为参数。另一个是通过<code>eglCreatePbufferSurface</code>创建一个离屏Surface。至此，MediaCodeC的输入渠道就搭建完毕，这个渠道会在录制期间，不停接受Camera回调的数据，并通过OpenGLProgram处理。我们只需要从MediaCodeC源源不断地提取出已经编码好的H264码流，对外回调视频帧数据即可。<br>函数drainEncoder的实现为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">fun MediaCodec.handleOutputBuffer(bufferInfo: MediaCodec.BufferInfo, defTimeOut: Long,</span><br><span class="line">                                  formatChanged: () -&gt; Unit = &#123;&#125;,</span><br><span class="line">                                  render: (bufferId: Int) -&gt; Unit,</span><br><span class="line">                                  needEnd: Boolean = true) &#123;</span><br><span class="line">    loopOut@ while (true) &#123;</span><br><span class="line">        //  获取可用的输出缓存队列</span><br><span class="line">        val outputBufferId = dequeueOutputBuffer(bufferInfo, defTimeOut)</span><br><span class="line">        Log.d(&quot;handleOutputBuffer&quot;, &quot;output buffer id : $outputBufferId &quot;)</span><br><span class="line">        if (outputBufferId == MediaCodec.INFO_TRY_AGAIN_LATER) &#123;</span><br><span class="line">            if (needEnd) &#123;</span><br><span class="line">                break@loopOut</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else if (outputBufferId == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) &#123;</span><br><span class="line">            formatChanged.invoke()</span><br><span class="line">        &#125; else if (outputBufferId &gt;= 0) &#123;</span><br><span class="line">            render.invoke(outputBufferId)</span><br><span class="line">            if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) &#123;</span><br><span class="line">                break@loopOut</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private fun drainEncoder(isEnd: Boolean = false) &#123;</span><br><span class="line">        if (isEnd) &#123;</span><br><span class="line">            codec.signalEndOfInputStream()</span><br><span class="line">        &#125;</span><br><span class="line">        codec.handleOutputBuffer(bufferInfo, 2500, &#123;</span><br><span class="line">            if (!isFormatChanged) &#123;</span><br><span class="line">                outputFormatChanged.invoke(codec.outputFormat)</span><br><span class="line">                isFormatChanged = true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            val encodedData = codec.getOutputBuffer(it)</span><br><span class="line">            if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) &#123;</span><br><span class="line">                bufferInfo.size = 0</span><br><span class="line">            &#125;</span><br><span class="line">            if (bufferInfo.size != 0) &#123;</span><br><span class="line">                Log.d(TAG, &quot;buffer info offset $&#123;bufferInfo.offset&#125; time is $&#123;bufferInfo.presentationTimeUs&#125; &quot;)</span><br><span class="line">                encodedData.position(bufferInfo.offset)</span><br><span class="line">                encodedData.limit(bufferInfo.offset + bufferInfo.size)</span><br><span class="line">                Log.d(TAG, &quot;sent &quot; + bufferInfo.size + &quot; bytes to muxer&quot;)</span><br><span class="line">                dataCallback.invoke(frameCount, bufferInfo.presentationTimeUs, bufferInfo, encodedData)</span><br><span class="line">            &#125;</span><br><span class="line">            codec.releaseOutputBuffer(it, false)</span><br><span class="line">        &#125;, !isEnd)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>在上一篇文章我提到过，会将整个视频录制中涉及到的各个功能模块化，以供后续复用。那么在视频的录制编码这块，我将它分装为了一个Runnable——<a target="_blank" rel="noopener" href="https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit/src/main/java/com/jadyn/mediakit/video/encode/VideoRecorder.kt">VideoRecorder</a>。<code>VideoRecorder</code>的内部职责为，封装了MediaCodeC+OpenGL编码的流程。对外提供OpenGL纹理的Surface，和硬编码编码后的ByteBuffer、以及BufferInfo和其他视频帧相关的信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; MediaCodeC配置</span><br><span class="line">codec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)</span><br><span class="line"></span><br><span class="line">val s &#x3D; codec.createInputSurface()</span><br><span class="line">val surfaceTexture &#x3D; encodeCore.buildEGLSurface(s)</span><br><span class="line">inputSurface &#x3D; Surface(surfaceTexture)</span><br><span class="line">&#x2F;&#x2F; 构建一个搭载了OpenGL纹理的Surface，然后回调出去</span><br><span class="line">readySurface.invoke(inputSurface)</span><br><span class="line">&#x2F;&#x2F; 开始编码</span><br><span class="line">codec.start()</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 计时</span><br><span class="line">val startTime &#x3D; System.nanoTime()</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 使用数组来保持视频录制线程和音频录制线程以及Mux线程的同步</span><br><span class="line">while (isRecording.isNotEmpty()) &#123;</span><br><span class="line">    &#x2F;&#x2F; 编码数据</span><br><span class="line">    drainEncoder(false)</span><br><span class="line">    frameCount++</span><br><span class="line">    &#x2F;&#x2F; OpenGL 绘制</span><br><span class="line">    encodeCore.draw()</span><br><span class="line">    val curFrameTime &#x3D; System.nanoTime() - startTime</span><br><span class="line">    encodeCore.swapData(curFrameTime)</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 发送编码结束信号</span><br><span class="line">drainEncoder(true)</span><br></pre></td></tr></table></figure>
+<p>以上伪代码代表了视频编码的全部流程，首先我们需要配置一个合适的MediaCodeC，通过MediaCodeC的<code>codec.createInputSurface</code>函数得到一个Surface对象，前文我称之为<em>InputSurface</em>。然后配置EGL环境，构建OpenGLProgram。<em>【有关OpenGL相关的代码，我都封装到了<a target="_blank" rel="noopener" href="https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit/src/main/java/com/jadyn/mediakit/video/encode/SurfaceEncodeCore.kt">SurfaceEncodeCore</a>这个类里面。<code>SurfaceEncodeCore</code>的内部职责主要是：构建EGL环境，配置OpenGL程序，绘制纹理】。</em><br>OpenGL本身是不负责窗口管理和上下文环境管理的，这个功能由各自平台提供。Android里负责为OpenGL提供窗口管理和上下文环境管理的就是EGL。在EGL里，是使用EGLSurface将输出渲染到设备屏幕。而创建EGLSurface有两种方式，一种是创建一个可实际显示的Surface，通过<code>eglCreateWindowSurface</code>函数，而这个函数需要一个Surface作为参数。另一个是通过<code>eglCreatePbufferSurface</code>创建一个离屏Surface。至此，MediaCodeC的输入渠道就搭建完毕，这个渠道会在录制期间，不停接受Camera回调的数据，并通过OpenGLProgram处理。我们只需要从MediaCodeC源源不断地提取出已经编码好的H264码流，对外回调视频帧数据即可。<br>函数drainEncoder的实现为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">fun MediaCodec.handleOutputBuffer(bufferInfo: MediaCodec.BufferInfo, defTimeOut: Long,</span><br><span class="line">                                  formatChanged: () -&gt; Unit &#x3D; &#123;&#125;,</span><br><span class="line">                                  render: (bufferId: Int) -&gt; Unit,</span><br><span class="line">                                  needEnd: Boolean &#x3D; true) &#123;</span><br><span class="line">    loopOut@ while (true) &#123;</span><br><span class="line">        &#x2F;&#x2F;  获取可用的输出缓存队列</span><br><span class="line">        val outputBufferId &#x3D; dequeueOutputBuffer(bufferInfo, defTimeOut)</span><br><span class="line">        Log.d(&quot;handleOutputBuffer&quot;, &quot;output buffer id : $outputBufferId &quot;)</span><br><span class="line">        if (outputBufferId &#x3D;&#x3D; MediaCodec.INFO_TRY_AGAIN_LATER) &#123;</span><br><span class="line">            if (needEnd) &#123;</span><br><span class="line">                break@loopOut</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else if (outputBufferId &#x3D;&#x3D; MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) &#123;</span><br><span class="line">            formatChanged.invoke()</span><br><span class="line">        &#125; else if (outputBufferId &gt;&#x3D; 0) &#123;</span><br><span class="line">            render.invoke(outputBufferId)</span><br><span class="line">            if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM !&#x3D; 0) &#123;</span><br><span class="line">                break@loopOut</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private fun drainEncoder(isEnd: Boolean &#x3D; false) &#123;</span><br><span class="line">        if (isEnd) &#123;</span><br><span class="line">            codec.signalEndOfInputStream()</span><br><span class="line">        &#125;</span><br><span class="line">        codec.handleOutputBuffer(bufferInfo, 2500, &#123;</span><br><span class="line">            if (!isFormatChanged) &#123;</span><br><span class="line">                outputFormatChanged.invoke(codec.outputFormat)</span><br><span class="line">                isFormatChanged &#x3D; true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            val encodedData &#x3D; codec.getOutputBuffer(it)</span><br><span class="line">            if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG !&#x3D; 0) &#123;</span><br><span class="line">                bufferInfo.size &#x3D; 0</span><br><span class="line">            &#125;</span><br><span class="line">            if (bufferInfo.size !&#x3D; 0) &#123;</span><br><span class="line">                Log.d(TAG, &quot;buffer info offset $&#123;bufferInfo.offset&#125; time is $&#123;bufferInfo.presentationTimeUs&#125; &quot;)</span><br><span class="line">                encodedData.position(bufferInfo.offset)</span><br><span class="line">                encodedData.limit(bufferInfo.offset + bufferInfo.size)</span><br><span class="line">                Log.d(TAG, &quot;sent &quot; + bufferInfo.size + &quot; bytes to muxer&quot;)</span><br><span class="line">                dataCallback.invoke(frameCount, bufferInfo.presentationTimeUs, bufferInfo, encodedData)</span><br><span class="line">            &#125;</span><br><span class="line">            codec.releaseOutputBuffer(it, false)</span><br><span class="line">        &#125;, !isEnd)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>这是MediaCodeC处理输出数据的老一套代码了，根据<code>dequeueOutputBuffer</code>返回的ID，确认目前编码器处于何种状态。再分别加以处理，将得到的原始数据对外回调。</p>
-<h3 id="混合器Mux模块"><a href="#混合器Mux模块" class="headerlink" title="混合器Mux模块"></a>混合器Mux模块</h3><p>至此为止，整个视频录制功能中，视频录制编码模块完成、音频录制编码模块完成，只需要一个Mux模块。将其余两个模块提供的数据，串联起来输出Mp4文件即可。<br>在Mux模块中，已经没有什么技术含量了，具体工作就是，维护了两个数据队列。一个是视频帧队列，另一个是音频帧队列。Mux模块无限循环地从两个队列中提取队列首端数据。然后比较视频帧数据和音频帧数据中的时间戳大小，将时间小的先行封装即可。具体代码可参考<a href="https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit/src/main/java/com/jadyn/mediakit/mux/Muxer.kt" target="_blank" rel="noopener">Muxer</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">mediaMuxer = MediaMuxer(p, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)</span><br><span class="line">// 添加视频轨</span><br><span class="line">val videoTrackId = mediaMuxer!!.addTrack(videoTrack)</span><br><span class="line">// 添加音频轨</span><br><span class="line">val audioTrackId = mediaMuxer!!.addTrack(audioTrack)</span><br><span class="line">mediaMuxer!!.start()</span><br><span class="line"></span><br><span class="line">while (isRecording.isNotEmpty()) &#123;</span><br><span class="line">    // 从队列中提取首端数据</span><br><span class="line">    val videoFrame = videoQueue.firstSafe</span><br><span class="line">    val audioFrame = audioQueue.firstSafe</span><br><span class="line"></span><br><span class="line">    val videoTime = videoFrame?.bufferInfo?.presentationTimeUs ?: -1L</span><br><span class="line">    val audioTime = audioFrame?.bufferInfo?.presentationTimeUs ?: -1L</span><br><span class="line">    </span><br><span class="line">    // 比较音频帧和视频帧的时间戳</span><br><span class="line">    if (videoTime == -1L &amp;&amp; audioTime != -1L) &#123;</span><br><span class="line">        writeAudio(audioTrackId)</span><br><span class="line">        &#125; else if (audioTime == -1L &amp;&amp; videoTime != -1L) &#123;</span><br><span class="line">            writeVideo(videoTrackId)</span><br><span class="line">        &#125; else if (audioTime != -1L &amp;&amp; videoTime != -1L) &#123;</span><br><span class="line">            // 先写小一点的时间戳的数据</span><br><span class="line">            if (audioTime &lt; videoTime) &#123;</span><br><span class="line">                // 封装音频帧数据</span><br><span class="line">                writeAudio(audioTrackId)</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                // 封装视频帧数据</span><br><span class="line">                writeVideo(videoTrackId)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // do nothing</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Camera2视频尺寸选择"><a href="#Camera2视频尺寸选择" class="headerlink" title="Camera2视频尺寸选择"></a>Camera2视频尺寸选择</h3><p>好了。整个视频录制全部功能已全部整理完毕。接下来我们分析一个视频的尺寸选择问题，以及Camera2中使我迷惑的点————如何选择视频尺寸？<br><br>在Android官方文档中，要想获取Camera2摄像头数据，必须依靠Surface。<code>To capture or stream images from a camera device, the application must first create a camera capture session with a set of output Surfaces for use with the camera device, with createCaptureSession(SessionConfiguration).</code>。Camera2会根据你配置的Surface来匹配相应的尺寸，<code>Each Surface has to be pre-configured with an appropriate size and format (if applicable) to match the sizes and formats available from the camera device</code>，每一个Surface都必须提前配置好相应的尺寸，以便去匹配Camera2合适的Size。<br>Camera2在配置的时候，会返回一个可供选择的尺寸集合，表示当前设备摄像头所支持的所有尺寸。我在测试视频录制时，测试设备返回的尺寸列表如下：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/camera2_1.png" alt></p>
+<h3 id="混合器Mux模块"><a href="#混合器Mux模块" class="headerlink" title="混合器Mux模块"></a>混合器Mux模块</h3><p>至此为止，整个视频录制功能中，视频录制编码模块完成、音频录制编码模块完成，只需要一个Mux模块。将其余两个模块提供的数据，串联起来输出Mp4文件即可。<br>在Mux模块中，已经没有什么技术含量了，具体工作就是，维护了两个数据队列。一个是视频帧队列，另一个是音频帧队列。Mux模块无限循环地从两个队列中提取队列首端数据。然后比较视频帧数据和音频帧数据中的时间戳大小，将时间小的先行封装即可。具体代码可参考<a target="_blank" rel="noopener" href="https://github.com/JadynAi/MediaLearn/blob/feature-0.9/mediakit/src/main/java/com/jadyn/mediakit/mux/Muxer.kt">Muxer</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">mediaMuxer &#x3D; MediaMuxer(p, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)</span><br><span class="line">&#x2F;&#x2F; 添加视频轨</span><br><span class="line">val videoTrackId &#x3D; mediaMuxer!!.addTrack(videoTrack)</span><br><span class="line">&#x2F;&#x2F; 添加音频轨</span><br><span class="line">val audioTrackId &#x3D; mediaMuxer!!.addTrack(audioTrack)</span><br><span class="line">mediaMuxer!!.start()</span><br><span class="line"></span><br><span class="line">while (isRecording.isNotEmpty()) &#123;</span><br><span class="line">    &#x2F;&#x2F; 从队列中提取首端数据</span><br><span class="line">    val videoFrame &#x3D; videoQueue.firstSafe</span><br><span class="line">    val audioFrame &#x3D; audioQueue.firstSafe</span><br><span class="line"></span><br><span class="line">    val videoTime &#x3D; videoFrame?.bufferInfo?.presentationTimeUs ?: -1L</span><br><span class="line">    val audioTime &#x3D; audioFrame?.bufferInfo?.presentationTimeUs ?: -1L</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 比较音频帧和视频帧的时间戳</span><br><span class="line">    if (videoTime &#x3D;&#x3D; -1L &amp;&amp; audioTime !&#x3D; -1L) &#123;</span><br><span class="line">        writeAudio(audioTrackId)</span><br><span class="line">        &#125; else if (audioTime &#x3D;&#x3D; -1L &amp;&amp; videoTime !&#x3D; -1L) &#123;</span><br><span class="line">            writeVideo(videoTrackId)</span><br><span class="line">        &#125; else if (audioTime !&#x3D; -1L &amp;&amp; videoTime !&#x3D; -1L) &#123;</span><br><span class="line">            &#x2F;&#x2F; 先写小一点的时间戳的数据</span><br><span class="line">            if (audioTime &lt; videoTime) &#123;</span><br><span class="line">                &#x2F;&#x2F; 封装音频帧数据</span><br><span class="line">                writeAudio(audioTrackId)</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                &#x2F;&#x2F; 封装视频帧数据</span><br><span class="line">                writeVideo(videoTrackId)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            &#x2F;&#x2F; do nothing</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Camera2视频尺寸选择"><a href="#Camera2视频尺寸选择" class="headerlink" title="Camera2视频尺寸选择"></a>Camera2视频尺寸选择</h3><p>好了。整个视频录制全部功能已全部整理完毕。接下来我们分析一个视频的尺寸选择问题，以及Camera2中使我迷惑的点————如何选择视频尺寸？<br><br>在Android官方文档中，要想获取Camera2摄像头数据，必须依靠Surface。<code>To capture or stream images from a camera device, the application must first create a camera capture session with a set of output Surfaces for use with the camera device, with createCaptureSession(SessionConfiguration).</code>。Camera2会根据你配置的Surface来匹配相应的尺寸，<code>Each Surface has to be pre-configured with an appropriate size and format (if applicable) to match the sizes and formats available from the camera device</code>，每一个Surface都必须提前配置好相应的尺寸，以便去匹配Camera2合适的Size。<br>Camera2在配置的时候，会返回一个可供选择的尺寸集合，表示当前设备摄像头所支持的所有尺寸。我在测试视频录制时，测试设备返回的尺寸列表如下：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/camera2_1.png" alt=""></p>
 <p><del>那么OK。既然知道了支持的尺寸，那么我在配置MediaCodeC的时候，设置的宽高从这里面选择就ok了，就不用再进一步的图像处理了。可是实际我试验的结果却不理想，在MediaCodeC设置第一个尺寸的时候，录制的视频画面毫无变形。可选择其他尺寸譬如720 X 960、720 X 1280却变形严重。可当我选择1088 X 1088 或者 960 X 960，这种等宽高尺寸时，录制的画面却毫无变形。对此我也是毫无头绪，因为摸不清楚Surface匹配的尺寸机制问题，在OpenGL绘制的时候，就不知道该如何裁剪，这才是大问题。如果有解决这个问题的朋友，希望能给我提一些建议。</del><br><strong>做视频图像处理的时候，我走了一些弯路【手动狗头】。之前我错误的判定了Surface尺寸的来源，导致在视频尺寸这里进行了不正确的逻辑判断。事实上使用SurfaceTexture的<code>setDefaultBufferSize</code>函数可以达到尺寸匹配。但相应的，Camera2返回的size是宽高相反的，所以这里的<code>setDefaultBufferSize</code>的宽高也是相反的才能匹配。</strong></p>
 <h3 id="以上"><a href="#以上" class="headerlink" title="以上"></a>以上</h3>
       
@@ -411,7 +414,7 @@
     <figure class="media">
       <div class="media-left">
         <a href="https://github.com/JadynAi" target="_blank" class="img-burn thumb-sm visible-lg">
-          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
         </a>
       </div>
       <div class="media-body">
@@ -479,14 +482,14 @@
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade active in" id="alipay">
               <div class="donate-payimg">
-                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
               </div>
               <p class="text-muted mv">扫码打赏，你说多少就多少</p>
               <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="wechatpay">
               <div class="donate-payimg">
-                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
               </div>
               <p class="text-muted mv">扫码打赏，你说多少就多少</p>
               <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
@@ -497,7 +500,7 @@
               <li role="presentation" class="active">
                 <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
               </li>
-              <li role="presentation" class>
+              <li role="presentation" class="">
                 <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
               </li>
             </ul>
@@ -517,9 +520,9 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
     </ul>
 
@@ -534,8 +537,12 @@
 <script>
 window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 </script>
+
 <script src="/js/plugin.min.js"></script>
+
+
 <script src="/js/application.js"></script>
+
 
     <script>
 (function (window) {
@@ -553,7 +560,9 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 
 

@@ -17,23 +17,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Android萤火虫飞舞粒子效果 | E = MC^2</title>
-  <meta name="description" content="GitHub地址  原创文章，转载请注明出处  萤火虫飞舞粒子效果 本项目中我提供了两种方案，最终呈现的效果如下：   先奉上GitHub地址戳这里，有兴趣的同鞋star一下咯 实现原理Android的粒子效果、粒子动画，已经有很多开源的轮子了。作为一个坚定的轮子主义者，我google了大半天，却没有找到这种类似于萤火虫飞舞的效果。只好自己来实现这种效果。  相比较普通的View，SurfaceV">
+  <title>面向面试——设计模式详谈 | E = MC^2</title>
+  <meta name="description" content="面向面试，话聊法——如何聊设计模式话聊开始">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android萤火虫飞舞粒子效果">
-<meta property="og:url" content="https://ailo.fun/2017/04/28/android-firefly/index.html">
+<meta property="og:title" content="面向面试——设计模式详谈">
+<meta property="og:url" content="https://ailo.fun/2019/02/20/2020-02-20design_mode/index.html">
 <meta property="og:site_name" content="Life is Like A Boat">
-<meta property="og:description" content="GitHub地址  原创文章，转载请注明出处  萤火虫飞舞粒子效果 本项目中我提供了两种方案，最终呈现的效果如下：   先奉上GitHub地址戳这里，有兴趣的同鞋star一下咯 实现原理Android的粒子效果、粒子动画，已经有很多开源的轮子了。作为一个坚定的轮子主义者，我google了大半天，却没有找到这种类似于萤火虫飞舞的效果。只好自己来实现这种效果。  相比较普通的View，SurfaceV">
+<meta property="og:description" content="面向面试，话聊法——如何聊设计模式话聊开始">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/20170428-blog-particle.gif">
-<meta property="article:published_time" content="2017-04-28T08:39:32.000Z">
-<meta property="article:modified_time" content="2019-04-26T03:08:38.561Z">
+<meta property="article:published_time" content="2019-02-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-06T07:22:26.481Z">
 <meta property="article:author" content="AiLo">
-<meta property="article:tag" content="Canvas动画">
+<meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/20170428-blog-particle.gif">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://ailo.fun/2017/04/28/android-firefly/index.html">
+  <link rel="canonical" href="https://ailo.fun/2019/02/20/2020-02-20design_mode/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Life is Like A Boat" type="application/atom+xml">
   
@@ -316,14 +314,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-android-firefly" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-2020-02-20design_mode" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      Android萤火虫飞舞粒子效果
+      面向面试——设计模式详谈
     </h1>
   
 
@@ -331,77 +329,32 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2017/04/28/android-firefly/" class="article-date">
-	  <time datetime="2017-04-28T08:39:32.000Z" itemprop="datePublished">2017-04-28</time>
+	<a href="/2019/02/20/2020-02-20design_mode/" class="article-date">
+	  <time datetime="2019-02-19T16:00:00.000Z" itemprop="datePublished">2019-02-20</time>
 	</a>
 </span>
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Android/">Android</a>
+    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/tags/Canvas%E5%8A%A8%E7%94%BB/" rel="tag">Canvas动画</a>
+	<a class="article-tag-link-link" href="/tags/Android/" rel="tag">Android</a>
   </span>
 
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2017/04/28/android-firefly/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/02/20/2020-02-20design_mode/#comments" class="article-comment-link">评论</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p><a target="_blank" rel="noopener" href="https://github.com/JadynAi/Particle">GitHub地址</a></p>
-<blockquote>
-<p>原创文章，转载请注明出处</p>
-</blockquote>
-<h2 id="萤火虫飞舞粒子效果"><a href="#萤火虫飞舞粒子效果" class="headerlink" title="萤火虫飞舞粒子效果"></a>萤火虫飞舞粒子效果</h2><blockquote>
-<p>本项目中我提供了两种方案，最终呈现的效果如下：</p>
-</blockquote>
-<p><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/20170428-blog-particle.gif" alt=""></p>
-<p><strong>先奉上GitHub地址</strong><a target="_blank" rel="noopener" href="https://github.com/JadynAi/Particle">戳这里</a>，有兴趣的同鞋star一下咯</p>
-<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>Android的粒子效果、粒子动画，已经有很多开源的轮子了。作为一个坚定的轮子主义者，我google了大半天，却没有找到这种类似于萤火虫飞舞的效果。只好自己来实现这种效果。</p>
-<hr>
-<p>相比较普通的View，SurfaceView更加适合这种不断变化的画面，所以选择SurfaceView来实现。现在把思路再重新梳理一下：</p>
-<ul>
-<li>大小不同的粒子在区域内随机分布</li>
-<li>粒子做无规则运动，然后消失</li>
-</ul>
-<h5 id="粒子区域内随机分布"><a href="#粒子区域内随机分布" class="headerlink" title="粒子区域内随机分布"></a>粒子区域内随机分布</h5><p>这个简单，我们在callBack的方法内直接循环生成一个粒子的数组即可。方位的话使用Random即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">if (mCircles.size() &#x3D;&#x3D; 0) &#123;</span><br><span class="line">    for (int i &#x3D; 0; i &lt; MAX_NUM; i++) &#123;</span><br><span class="line">        FloatParticleLine f &#x3D; new FloatParticleLine(getF() * mMeasuredWidth, getF() * mMeasuredHeight, mMeasuredWidth, mMeasuredHeight);</span><br><span class="line">        f.setRadius(mRandom.nextInt(2) + 1.2f);</span><br><span class="line">        mCircles.add(f);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">private float getF() &#123;</span><br><span class="line">        float v &#x3D; mRandom.nextFloat();</span><br><span class="line">        if (v &lt; 0.2f) &#123;</span><br><span class="line">            return v + 0.2f;</span><br><span class="line">        &#125; else if (v &gt;&#x3D; 0.85f) &#123;</span><br><span class="line">            return v - 0.2f;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return v;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>getF（）方法是限制在区域内取值，mMeasuredWidth、mMeasuredHeight为SurfaceView的宽和高。</p>
-<p>这里的宽和高在粒子对象FloatParticleLine，内会用到。</p>
-</blockquote>
-<p>然后我们在创建一个线程，在run（）方法内做无线循环的绘制即可，为了避免无意义的绘制，可以使用Thread.sleep方法来控制帧数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">while (isRun) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        mCanvas &#x3D; mHolder.lockCanvas(null);</span><br><span class="line">        if (mCanvas !&#x3D; null) &#123;</span><br><span class="line">            synchronized (mHolder) &#123;</span><br><span class="line">                &#x2F;&#x2F; 清屏</span><br><span class="line">                mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);</span><br><span class="line"></span><br><span class="line">                for (FloatParticleLine circle : mCircles) &#123;</span><br><span class="line">                    circle.drawItem(mCanvas);</span><br><span class="line">                &#125;</span><br><span class="line">                &#x2F;&#x2F; 控制帧数</span><br><span class="line">                Thread.sleep(25);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        if (mCanvas !&#x3D; null) &#123;</span><br><span class="line">            mHolder.unlockCanvasAndPost(mCanvas);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>isRun的变量我们会在SurfaceView内callBack的surfaceDestroyed方法中置为false</p>
-<h5 id="粒子做无规则运动"><a href="#粒子做无规则运动" class="headerlink" title="粒子做无规则运动"></a>粒子做无规则运动</h5><ul>
-<li>方案一</li>
-</ul>
-<p>其实看到这种粒子效果，首先应该想到的就是Canvas了。</p>
-<p>在SurfaceView里就是通过不断地循环调用FloatParticleLine类的drawItem（）方法来实现粒子的运动。我第一种方案的实现，就是每一个粒子在被创建出来的时候，就随机选择一个方向开始运动，滑过一定的轨迹之后让其消失就好了。</p>
-<p>至于怎么选择随机方向，我这里的做法是，分别随机生成一个x和y轴上的递增或者递减的数值，然后每次在前一次绘制的基础上，x和y分别递增递减，直到运动到屏幕边缘或者是规定的运动距离满足了再消失即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;随机生成参数</span><br><span class="line">private void setRandomParm() &#123;</span><br><span class="line">    &#x2F;&#x2F; 2017&#x2F;5&#x2F;2-上午10:47 x和y的方向</span><br><span class="line">    mIsAddX &#x3D; mRandom.nextBoolean();</span><br><span class="line">    mIsAddY &#x3D; mRandom.nextBoolean();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 2017&#x2F;5&#x2F;2-上午10:47 x和y的取值</span><br><span class="line">    mDisX &#x3D; mRandom.nextInt(2) + 0.2f;</span><br><span class="line">    mDisY &#x3D; mRandom.nextInt(2) + 0.3f;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 2017&#x2F;5&#x2F;2-上午10:47 内部区域的运动最远距离</span><br><span class="line">    mDistance &#x3D; mRandom.nextInt((int) (0.25f * mWidth)) + (0.125f * mWidth);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>绘制图形：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public void drawItem(Canvas canvas) &#123;</span><br><span class="line">    if (mX &#x3D;&#x3D; mStartX) &#123;</span><br><span class="line">        mPaint.setAlpha(ALPHA_MAX);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;绘制</span><br><span class="line">    canvas.drawCircle(mX +&#x3D; getPNValue(mIsAddX, mDisX), mY +&#x3D; getPNValue(mIsAddY, mDisY), mRadius, mPaint);</span><br><span class="line">    &#x2F;&#x2F;内部区域运动到一定距离消失</span><br><span class="line">    if (judgeInner()) &#123;</span><br><span class="line">        float gapX &#x3D; Math.abs(mX - mStartX);</span><br><span class="line">        float ratio &#x3D; 1 - (gapX &#x2F; mDistance);</span><br><span class="line">        mPaint.setAlpha((int) (255 * ratio));</span><br><span class="line">        mRadius &#x3D; mStartRadius * ratio;</span><br><span class="line">        if (gapX &gt;&#x3D; mDistance || mY - mStartY &gt;&#x3D; mDistance) &#123;</span><br><span class="line">            resetDisXY();</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;外部区域运动到屏幕边缘消失</span><br><span class="line">    if (judgeOutline()) &#123;</span><br><span class="line">        resetDisXY();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void resetDisXY() &#123;</span><br><span class="line">        setRandomParm();</span><br><span class="line"></span><br><span class="line">        mPaint.setAlpha(0);</span><br><span class="line">        mX &#x3D; mStartX;</span><br><span class="line">        mY &#x3D; mStartY;</span><br><span class="line">        mRadius &#x3D; mStartRadius;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>judgeInner()和judgeOutline()是判断区域的方法，内部区域的点和外部区域的店消失时机不同</p>
-</blockquote>
-<p>在透明度为0也就是粒子消失时，让粒子回到原点，再重新选择一个方向，进行下一步运动轨迹。</p>
-<ul>
-<li>方案二</li>
-</ul>
-<p>方案二粒子做的运动是贝塞尔曲线，函数实在网上找到的一个函数。每当粒子做完一次曲线运动后，再随机生成一段新的贝塞尔曲线即可。</p>
-<p>思路和方案一的思路都是一样的，无非就是运动的轨迹不同而已。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>做完之后回头再看，发现这个项目的原理其实并不难，可以说是简单了。但刚开始起步的时候真的还是比较懵的，原因就是没有思路。</p>
-<p>所以做任何效果，思路最重要。</p>
-
+        <h2 id="面向面试，话聊法——如何聊设计模式"><a href="#面向面试，话聊法——如何聊设计模式" class="headerlink" title="面向面试，话聊法——如何聊设计模式"></a>面向面试，话聊法——如何聊设计模式</h2><h3 id="话聊开始"><a href="#话聊开始" class="headerlink" title="话聊开始"></a>话聊开始</h3>
       
     </div>
     <div class="article-footer">
@@ -410,7 +363,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://ailo.fun/2017/04/28/android-firefly/" title="Android萤火虫飞舞粒子效果" target="_blank" rel="external">https://ailo.fun/2017/04/28/android-firefly/</a>
+      <a href="https://ailo.fun/2019/02/20/2020-02-20design_mode/" title="面向面试——设计模式详谈" target="_blank" rel="external">https://ailo.fun/2019/02/20/2020-02-20design_mode/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -457,12 +410,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2017/05/10/android-infinite-card/" title="低消耗、带回滚动画的仿探探交互效果"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/" title="使用MediaCodeC将图片集编码为视频"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/2017/04/28/hello-world/" title="Hello World"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2019/02/09/2019-02-09-MediaCodeC-frame/" title="MediaCodeC解码视频指定帧，迅捷、精确"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
@@ -596,7 +549,7 @@ var gitment = new Gitment({
   // id默认为当前页面url，如果url后带参数或锚点，gitment要重新初始化
   // https://github.com/imsun/gitment/issues/55
   // 解决方案：id:window.location.pathname,或者将id设置为当前页面标题
-  id: 'Android萤火虫飞舞粒子效果', 
+  id: '面向面试——设计模式详谈', 
   owner: 'JadynAi', // 可以是你的GitHub用户名，也可以是github id
   repo: 'JadynAi.github.io',
   oauth: {

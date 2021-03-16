@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
   <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-transform">
-  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="format-detection" content="telephone=no,email=no,adress=no">
   <!-- Color theme for statusbar -->
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#000000" />
   <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
-  <meta http-equiv="window-target" content="_top">
+  <meta http-equiv="window-target" content="_top" />
   
   
   <title>仿FlipBoard直板翻页效果 | E = MC^2</title>
   <meta name="description" content="原创文章，转载请联系作者  梧桐落，又还秋色，又还寂寞。  效果图,文件比较大，稍稍等一下 (●ﾟωﾟ●)： 前言首先，首先！Demo只是对FliBoard的立体感直板翻页式交互效果作了模仿，只是效果只是效果。那种翻页组件挺麻烦的，以后可能会抽时间做一下(￣▽￣)”立体感是一种模仿，在二维平面上，合理地利用光影、透视（远小近大）等方式，塑造一种近似现实三维世界的感jio。为什么会产生立体感? 是因">
-<meta name="keywords" content="Canvas动画,交互体验">
 <meta property="og:type" content="article">
 <meta property="og:title" content="仿FlipBoard直板翻页效果">
 <meta property="og:url" content="https://ailo.fun/2018/06/10/2018-06-10-flip/index.html">
 <meta property="og:site_name" content="Life is Like A Boat">
 <meta property="og:description" content="原创文章，转载请联系作者  梧桐落，又还秋色，又还寂寞。  效果图,文件比较大，稍稍等一下 (●ﾟωﾟ●)： 前言首先，首先！Demo只是对FliBoard的立体感直板翻页式交互效果作了模仿，只是效果只是效果。那种翻页组件挺麻烦的，以后可能会抽时间做一下(￣▽￣)”立体感是一种模仿，在二维平面上，合理地利用光影、透视（远小近大）等方式，塑造一种近似现实三维世界的感jio。为什么会产生立体感? 是因">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip_0.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip_1.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip_2.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip_3.jpg">
-<meta property="og:updated_time" content="2019-07-10T03:27:17.640Z">
+<meta property="article:published_time" content="2018-06-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-07-10T03:27:17.640Z">
+<meta property="article:author" content="AiLo">
+<meta property="article:tag" content="Canvas动画">
+<meta property="article:tag" content="交互体验">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="仿FlipBoard直板翻页效果">
-<meta name="twitter:description" content="原创文章，转载请联系作者  梧桐落，又还秋色，又还寂寞。  效果图,文件比较大，稍稍等一下 (●ﾟωﾟ●)： 前言首先，首先！Demo只是对FliBoard的立体感直板翻页式交互效果作了模仿，只是效果只是效果。那种翻页组件挺麻烦的，以后可能会抽时间做一下(￣▽￣)”立体感是一种模仿，在二维平面上，合理地利用光影、透视（远小近大）等方式，塑造一种近似现实三维世界的感jio。为什么会产生立体感? 是因">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip.gif">
   <!-- Canonical links -->
   <link rel="canonical" href="https://ailo.fun/2018/06/10/2018-06-10-flip/index.html">
@@ -44,14 +45,16 @@
   
     <link rel="icon" href="/favicon.png" type="image/x-icon">
   
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
   
   
     <link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
   
   
   
-</head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
 <body class="main-center" itemscope itemtype="http://schema.org/WebPage">
@@ -73,7 +76,7 @@
 
     <form class="search-form sidebar-form">
         <div class="input-group">
-            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
             <span class="input-group-btn">
                 <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
             </span>
@@ -83,7 +86,7 @@
   <div class="ins-search-mask"></div>
   <div class="ins-search-container">
     <div class="ins-input-wrapper">
-      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech>
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
       <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
     </div>
     <div class="ins-section-wrapper">
@@ -159,9 +162,9 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
     </ul>
 
@@ -178,7 +181,7 @@
     <div class="widget-body">
         <div id="board">
             <div class="content">
-                <p>AiLo，Android工程师，热爱开源。<br>近期在研究音视频开发和图像处理。业余时间研究研究深度学习，使用CRNN模型做过OCR图片识别项目。<br>感兴趣的伙伴们欢迎关注我的<a href="https://github.com/JadynAi" target="_blank"><font color="#00f">GitHub</font></a><br> 同时欢迎关注我的掘金主页<a href="https://juejin.im/user/566d95f260b2ed36d9580add/posts" target="_blank"><font color="#00f">掘金社区AiLo</font></a></p>
+                <p>AiLo，Android开发者<br>感兴趣的伙伴们欢迎关注我的<a href="https://github.com/JadynAi" target="_blank"><font color='#00f'>GitHub</font></a><br> 同时欢迎关注我的掘金主页<a href="https://juejin.im/user/566d95f260b2ed36d9580add/posts" target="_blank"><font color='#00f'>掘金社区AiLo</font></a></p>
             </div>
         </div>
     </div>
@@ -189,7 +192,7 @@
   <div class="widget">
     <h3 class="widget-title">分类</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Camera2/">Camera2</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/音视频/">音视频</a><span class="category-list-count">7</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Camera2/">Camera2</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a><span class="category-list-count">7</span></li></ul>
     </div>
   </div>
 
@@ -199,7 +202,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas动画/">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/交互体验/">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术讨论/">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普向/">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视觉设计/">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频/">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音视频/">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频/">音频</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas%E5%8A%A8%E7%94%BB/" rel="tag">Canvas动画</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MediaCodeC/" rel="tag">MediaCodeC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/" rel="tag">OpenGL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%A4%E4%BA%92%E4%BD%93%E9%AA%8C/" rel="tag">交互体验</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E8%AE%A8%E8%AE%BA/" rel="tag">技术讨论</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE%E5%90%91/" rel="tag">科普向</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E8%A7%89%E8%AE%BE%E8%AE%A1/" rel="tag">视觉设计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E9%A2%91/" rel="tag">视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" rel="tag">音视频</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9F%B3%E9%A2%91/" rel="tag">音频</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -209,7 +212,7 @@
   <div class="widget">
     <h3 class="widget-title">标签云</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Canvas动画/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.5px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/交互体验/" style="font-size: 13.25px;">交互体验</a> <a href="/tags/技术讨论/" style="font-size: 13.5px;">技术讨论</a> <a href="/tags/科普向/" style="font-size: 13px;">科普向</a> <a href="/tags/算法/" style="font-size: 13px;">算法</a> <a href="/tags/视觉设计/" style="font-size: 13px;">视觉设计</a> <a href="/tags/视频/" style="font-size: 13.5px;">视频</a> <a href="/tags/音视频/" style="font-size: 13.5px;">音视频</a> <a href="/tags/音频/" style="font-size: 13px;">音频</a>
+      <a href="/tags/Android/" style="font-size: 14px;">Android</a> <a href="/tags/Canvas%E5%8A%A8%E7%94%BB/" style="font-size: 14px;">Canvas动画</a> <a href="/tags/MediaCodeC/" style="font-size: 13.67px;">MediaCodeC</a> <a href="/tags/OpenGL/" style="font-size: 13px;">OpenGL</a> <a href="/tags/%E4%BA%A4%E4%BA%92%E4%BD%93%E9%AA%8C/" style="font-size: 13.33px;">交互体验</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E8%AE%A8%E8%AE%BA/" style="font-size: 13.67px;">技术讨论</a> <a href="/tags/%E7%A7%91%E6%99%AE%E5%90%91/" style="font-size: 13px;">科普向</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E8%A7%86%E8%A7%89%E8%AE%BE%E8%AE%A1/" style="font-size: 13px;">视觉设计</a> <a href="/tags/%E8%A7%86%E9%A2%91/" style="font-size: 13.67px;">视频</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 13.67px;">音视频</a> <a href="/tags/%E9%9F%B3%E9%A2%91/" style="font-size: 13px;">音频</a>
     </div>
   </div>
 
@@ -218,7 +221,7 @@
   <div class="widget">
     <h3 class="widget-title">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -234,7 +237,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/06/21/2019-06-21-camera2-video/" class="title">Camera2录制视频(二)：MediaCodeC+OpenGL视频编码</a>
@@ -249,7 +252,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/06/01/2019-06-01-camera2-record1/" class="title">Camera2录制视频(一)：音频的录制及编码</a>
@@ -264,7 +267,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/05/20/2019-05-20-audio-time/" class="title">解决MediaMuxer编码AAC文件时间戳计算</a>
@@ -294,7 +297,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/音视频/">音视频</a>
+                <a class="category-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
               </p>
               <p class="item-title">
                 <a href="/2019/04/01/2019-04-01-MediaCodeC-encoder1/" class="title">使用MediaCodeC将图片集编码为视频</a>
@@ -346,7 +349,7 @@
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Canvas动画/">Canvas动画</a>, <a class="article-tag-link" href="/tags/交互体验/">交互体验</a>
+	<a class="article-tag-link-link" href="/tags/Canvas%E5%8A%A8%E7%94%BB/" rel="tag">Canvas动画</a>, <a class="article-tag-link-link" href="/tags/%E4%BA%A4%E4%BA%92%E4%BD%93%E9%AA%8C/" rel="tag">交互体验</a>
   </span>
 
 
@@ -362,8 +365,8 @@
 <blockquote>
 <p>梧桐落，又还秋色，又还寂寞。</p>
 </blockquote>
-<p>效果图,文件比较大，稍稍等一下 (●ﾟωﾟ●)：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip.gif" alt></p>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>首先，首先！<code>Demo</code>只是对<code>FliBoard</code>的立体感直板翻页式交互效果作了模仿，<strong>只是效果只是效果</strong>。那种翻页组件挺麻烦的，以后可能会抽时间做一下(￣▽￣)”<br><br><code>立体感</code>是一种模仿，在二维平面上，合理地利用光影、透视（远小近大）等方式，塑造一种近似现实三维世界的感jio。为什么会产生<strong>立体感</strong>? 是因为人的视网膜接受到的，全是三维世界的投影。是你的大脑以及经验，脑补出了<strong>三维世界</strong>。<br>举栗子，下面这张图片，你会把它看作一个弯曲三角吗<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip_0.jpg" alt><br>同理，动画也无非是利用了人眼的<a href="https://zh.wikipedia.org/zh/%E8%A6%96%E8%A6%BA%E6%9A%AB%E7%95%99" target="_blank" rel="noopener">视觉暂留</a>而已。某种程度，它和魔术拥有相同的本质————<em>欺骗</em>。</p>
+<p>效果图,文件比较大，稍稍等一下 (●ﾟωﾟ●)：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip.gif" alt=""></p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>首先，首先！<code>Demo</code>只是对<code>FliBoard</code>的立体感直板翻页式交互效果作了模仿，<strong>只是效果只是效果</strong>。那种翻页组件挺麻烦的，以后可能会抽时间做一下(￣▽￣)”<br><br><code>立体感</code>是一种模仿，在二维平面上，合理地利用光影、透视（远小近大）等方式，塑造一种近似现实三维世界的感jio。为什么会产生<strong>立体感</strong>? 是因为人的视网膜接受到的，全是三维世界的投影。是你的大脑以及经验，脑补出了<strong>三维世界</strong>。<br>举栗子，下面这张图片，你会把它看作一个弯曲三角吗<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip_0.jpg" alt=""><br>同理，动画也无非是利用了人眼的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh/%E8%A6%96%E8%A6%BA%E6%9A%AB%E7%95%99">视觉暂留</a>而已。某种程度，它和魔术拥有相同的本质————<em>欺骗</em>。</p>
 <h3 id="效果解析"><a href="#效果解析" class="headerlink" title="效果解析"></a>效果解析</h3><blockquote>
 <p>解析效果前，先提一下会用到的知识点</p>
 </blockquote>
@@ -371,45 +374,45 @@
 <li>graphics.Camera，图形包下用来处理3D旋转的类</li>
 <li>canvas、Matrix</li>
 </ul>
-<h4 id="2、效果拆解"><a href="#2、效果拆解" class="headerlink" title="2、效果拆解"></a>2、效果拆解</h4><p>直板式的翻页，效果其实并不复杂。手机屏幕之后，是一个三维坐标系。想象一下有张板子(Bitmap)放在XY坐标系，要达到翻页效果，让其绕着X轴旋转即可。正常情况下，板子（Bitmap）是作为整体旋转。我们将板子中心点移到X轴上，那么绕着Z轴旋转时，上下两部分运动的方向肯定是相反的。就像这样：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip_1.jpg" alt></p>
+<h4 id="2、效果拆解"><a href="#2、效果拆解" class="headerlink" title="2、效果拆解"></a>2、效果拆解</h4><p>直板式的翻页，效果其实并不复杂。手机屏幕之后，是一个三维坐标系。想象一下有张板子(Bitmap)放在XY坐标系，要达到翻页效果，让其绕着X轴旋转即可。正常情况下，板子（Bitmap）是作为整体旋转。我们将板子中心点移到X轴上，那么绕着Z轴旋转时，上下两部分运动的方向肯定是相反的。就像这样：<br><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip_1.jpg" alt=""></p>
 <blockquote>
 <p>上图为绕着X轴旋转45度，缩放0.5f效果</p>
 </blockquote>
 <p>如上图所示，为达到效果，必须将上下两部分分开绘制。你可以采用将<code>Bitmap</code>分割的方式，也可以分割<code>Canvas</code>。Demo里，我采取的是分割<code>Canvas</code>。使用方法<code>canvas.clipRect(left, top, right, bottom)</code>。</p>
 <h4 id="3、手势拆解"><a href="#3、手势拆解" class="headerlink" title="3、手势拆解"></a>3、手势拆解</h4><p>翻页共有三种状态，静态、下翻以及上翻。静态不必赘述，下面会分析一下上翻和下翻绘制。</p>
-<h5 id="3-1-向下翻页绘制解析"><a href="#3-1-向下翻页绘制解析" class="headerlink" title="3.1 向下翻页绘制解析"></a>3.1 向下翻页绘制解析</h5><p>向下翻页，就是翻过当前页回到上一页。在效果拆解那部分，我们已经知道，45度时，上半部分会偏向屏幕后。所以要让上半部分向下翻转。旋转角度得是负数。也就是，在一个完整的下翻周期内，角度的变化为<code>0到-180度</code>。<br>其中<code>0到-90度</code>内，当前页正在下翻，页面变动在上半区域，此时可以看到的界面有：<strong>下翻ing的当前页上半部分</strong>、<strong>当前页产生的阴影</strong>、<strong>上一页的上半部分（保持不动）</strong>。而在<code>-90到-180度</code>阶段，此时下翻的动作接近完成，页面变动在下半区域，此时可以看到的界面有：<strong>即将翻过的上一页的下半部分</strong>、<strong>上一页翻转产生的阴影</strong>、<strong>当前页的下半部分</strong>。<img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip_2.jpg" alt></p>
+<h5 id="3-1-向下翻页绘制解析"><a href="#3-1-向下翻页绘制解析" class="headerlink" title="3.1 向下翻页绘制解析"></a>3.1 向下翻页绘制解析</h5><p>向下翻页，就是翻过当前页回到上一页。在效果拆解那部分，我们已经知道，45度时，上半部分会偏向屏幕后。所以要让上半部分向下翻转。旋转角度得是负数。也就是，在一个完整的下翻周期内，角度的变化为<code>0到-180度</code>。<br>其中<code>0到-90度</code>内，当前页正在下翻，页面变动在上半区域，此时可以看到的界面有：<strong>下翻ing的当前页上半部分</strong>、<strong>当前页产生的阴影</strong>、<strong>上一页的上半部分（保持不动）</strong>。而在<code>-90到-180度</code>阶段，此时下翻的动作接近完成，页面变动在下半区域，此时可以看到的界面有：<strong>即将翻过的上一页的下半部分</strong>、<strong>上一页翻转产生的阴影</strong>、<strong>当前页的下半部分</strong>。<img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip_2.jpg" alt=""></p>
 <h5 id="3-2-向上翻页绘制解析"><a href="#3-2-向上翻页绘制解析" class="headerlink" title="3.2 向上翻页绘制解析"></a>3.2 向上翻页绘制解析</h5><p>向上翻页，就是翻过当前页去下一页。和下翻逻辑相反，这是一个<code>0到180度</code>的周期活动。<code>0到90度</code>为正在上翻，页面变动在下半区域。而<code>90到180度</code>，上翻动作接近完成，页面变动在上班区域，很快会看到完整的下一页。</p>
 <h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><blockquote>
 <p>用自定义View来实现，这里只贴出主要代码，部分逻辑会用伪代码表述，完整代码文末提供。</p>
 </blockquote>
 <h4 id="1、绘制"><a href="#1、绘制" class="headerlink" title="1、绘制"></a>1、绘制</h4><p>因为只是仿写效果，所以全部逻辑放在了一个自定义View内部。先看一些主要的成员变量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">  //向下翻旋转角度,0~-180f</span><br><span class="line">  private var rotateF </span><br><span class="line"></span><br><span class="line">  //向上翻旋转角度,0~180f</span><br><span class="line">  private var rotateS</span><br><span class="line"></span><br><span class="line">  //翻动状态，0为松手，1为向下翻，-1为向上翻</span><br><span class="line">  private var statusFlip = 0</span><br><span class="line"></span><br><span class="line">  //当前页</span><br><span class="line">  private var curPage</span><br><span class="line"></span><br><span class="line">//用于3D旋转的Camera类</span><br><span class="line">  private val camera</span><br><span class="line"></span><br><span class="line">//绘制Bitmap的Matrix</span><br><span class="line">  private val drawMatrix</span><br><span class="line"></span><br><span class="line">//中心点X坐标</span><br><span class="line">  private val centerX</span><br><span class="line"></span><br><span class="line">//中心点Y坐标</span><br><span class="line">  private val centerY</span><br><span class="line"></span><br><span class="line">  //当前Bitmap</span><br><span class="line">  private var curBitmap: Bitmap</span><br><span class="line"></span><br><span class="line">  //上一张Bitmap</span><br><span class="line">  private var lastBitmap: Bitmap</span><br><span class="line">  </span><br><span class="line">  //下一张Bitmap</span><br><span class="line">  private var nextBitmap: Bitmap</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">  &#x2F;&#x2F;向下翻旋转角度,0~-180f</span><br><span class="line">  private var rotateF </span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F;向上翻旋转角度,0~180f</span><br><span class="line">  private var rotateS</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F;翻动状态，0为松手，1为向下翻，-1为向上翻</span><br><span class="line">  private var statusFlip &#x3D; 0</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F;当前页</span><br><span class="line">  private var curPage</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;用于3D旋转的Camera类</span><br><span class="line">  private val camera</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;绘制Bitmap的Matrix</span><br><span class="line">  private val drawMatrix</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;中心点X坐标</span><br><span class="line">  private val centerX</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;中心点Y坐标</span><br><span class="line">  private val centerY</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F;当前Bitmap</span><br><span class="line">  private var curBitmap: Bitmap</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F;上一张Bitmap</span><br><span class="line">  private var lastBitmap: Bitmap</span><br><span class="line">  </span><br><span class="line">  &#x2F;&#x2F;下一张Bitmap</span><br><span class="line">  private var nextBitmap: Bitmap</span><br></pre></td></tr></table></figure>
 <p>我维护了两个变量用来分别控制下翻和上翻的角度变化。与此同时，也分了两个方法，来分别绘制上半部分和下半部分。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//上半部分绘制</span><br><span class="line">fun drawFirstHalf(canvas: Canvas?, bitmap: Bitmap?, rotate: Float) &#123;</span><br><span class="line">    canvas?.save()</span><br><span class="line">    //将canvas上半部分切割</span><br><span class="line">    canvas?.clipRect(0, 0, width, height / 2)</span><br><span class="line">    camera.save()</span><br><span class="line">    //camera绕着X轴旋转</span><br><span class="line">    camera.rotateX(角度变化小于-90度，不再处理)</span><br><span class="line">    camera.getMatrix(drawMatrix)</span><br><span class="line">    camera.restore()</span><br><span class="line">    //随着旋转角度变化的缩放值，只缩放Y轴</span><br><span class="line">    drawMatrix.preScale(1.0f, 缩放比)</span><br><span class="line">    //将图片移到中心点</span><br><span class="line">    drawMatrix.preTranslate(-centerX, -centerY)</span><br><span class="line">    drawMatrix.postTranslate(centerX, centerY)</span><br><span class="line">    canvas?.drawBitmap(this, drawMatrix, null)</span><br><span class="line">    canvas?.restore()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">fun drawSecondHalf(canvas: Canvas?, bitmap: Bitmap?, rotate: Float) &#123;  </span><br><span class="line">    canvas?.save()</span><br><span class="line">    camera.save()</span><br><span class="line">    //切割下半部分canvas</span><br><span class="line">    canvas?.clipRect(0, height / 2, width, height)</span><br><span class="line">    camera.rotateX(绕着X轴旋转角度，大于90度后只不再处理变化)</span><br><span class="line">    camera.getMatrix(drawMatrix)</span><br><span class="line">    camera.restore()</span><br><span class="line">    drawMatrix.preScale(1.0f, 缩放比随着角度变化)</span><br><span class="line">    drawMatrix.preTranslate(-centerX, -centerY)</span><br><span class="line">    drawMatrix.postTranslate(centerX, centerY)</span><br><span class="line">    canvas?.drawBitmap(this, drawMatrix, null)</span><br><span class="line">    canvas?.restore()     </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;上半部分绘制</span><br><span class="line">fun drawFirstHalf(canvas: Canvas?, bitmap: Bitmap?, rotate: Float) &#123;</span><br><span class="line">    canvas?.save()</span><br><span class="line">    &#x2F;&#x2F;将canvas上半部分切割</span><br><span class="line">    canvas?.clipRect(0, 0, width, height &#x2F; 2)</span><br><span class="line">    camera.save()</span><br><span class="line">    &#x2F;&#x2F;camera绕着X轴旋转</span><br><span class="line">    camera.rotateX(角度变化小于-90度，不再处理)</span><br><span class="line">    camera.getMatrix(drawMatrix)</span><br><span class="line">    camera.restore()</span><br><span class="line">    &#x2F;&#x2F;随着旋转角度变化的缩放值，只缩放Y轴</span><br><span class="line">    drawMatrix.preScale(1.0f, 缩放比)</span><br><span class="line">    &#x2F;&#x2F;将图片移到中心点</span><br><span class="line">    drawMatrix.preTranslate(-centerX, -centerY)</span><br><span class="line">    drawMatrix.postTranslate(centerX, centerY)</span><br><span class="line">    canvas?.drawBitmap(this, drawMatrix, null)</span><br><span class="line">    canvas?.restore()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">fun drawSecondHalf(canvas: Canvas?, bitmap: Bitmap?, rotate: Float) &#123;  </span><br><span class="line">    canvas?.save()</span><br><span class="line">    camera.save()</span><br><span class="line">    &#x2F;&#x2F;切割下半部分canvas</span><br><span class="line">    canvas?.clipRect(0, height &#x2F; 2, width, height)</span><br><span class="line">    camera.rotateX(绕着X轴旋转角度，大于90度后只不再处理变化)</span><br><span class="line">    camera.getMatrix(drawMatrix)</span><br><span class="line">    camera.restore()</span><br><span class="line">    drawMatrix.preScale(1.0f, 缩放比随着角度变化)</span><br><span class="line">    drawMatrix.preTranslate(-centerX, -centerY)</span><br><span class="line">    drawMatrix.postTranslate(centerX, centerY)</span><br><span class="line">    canvas?.drawBitmap(this, drawMatrix, null)</span><br><span class="line">    canvas?.restore()     </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <h4 id="2、-手势处理"><a href="#2、-手势处理" class="headerlink" title="2、 手势处理"></a>2、 手势处理</h4><p>手势处理较为简单，只需要在MOVE的时候，判断此时的状态是上翻还是下翻。然后在抬手UP的时候，根据此时的距离，来判断是否下翻成功或是上翻成功。倘若距离不够标准阈值，那么一切归于原位。</p>
 <ul>
 <li>其中startX、startY为手指落点</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">MotionEvent.ACTION_MOVE -&gt; &#123;</span><br><span class="line">                    val x = this.x</span><br><span class="line">                    val y = this.y</span><br><span class="line">                    //当y运动距离大于x的1.5倍时，才判断为垂直翻动</span><br><span class="line">                    val disY = y - startY</span><br><span class="line">                    if (Math.abs(disY) &gt; 1f &amp;&amp; Math.abs(disY) &gt;= Math.abs(x - startX) * 1.5f) &#123;</span><br><span class="line">                        if (statusFlip == 0) &#123;</span><br><span class="line">                            //滑动间距为正并且不是第一页判断为向下翻，滑动间距为负并且不是最后一页判断为向上翻</span><br><span class="line">                            statusFlip = if (disY &gt; 0 &amp;&amp; curPage != 0) DOWN_FLIP</span><br><span class="line">                            else if (disY &lt; 0 &amp;&amp; curPage != girls.lastIndex) UP_FLIP else 0</span><br><span class="line">                        &#125;</span><br><span class="line">                        val ratio = Math.abs(disY) / centerY</span><br><span class="line">                        if (statusFlip == DOWN_FLIP) &#123;</span><br><span class="line">                            //向下翻并且当前页不等于0</span><br><span class="line">                            rotateF = ratio * -180f</span><br><span class="line">                            Log.d(&quot;cece&quot;, &quot;: rotateF : &quot; + rotateF);</span><br><span class="line">                            invalidate()</span><br><span class="line">                        &#125; else if (statusFlip == UP_FLIP) &#123;</span><br><span class="line">                            //向上翻，并且不是最后一页</span><br><span class="line">                            if (curPage != girls.lastIndex) &#123;</span><br><span class="line">                                rotateS = ratio * 180f</span><br><span class="line">                                Log.d(&quot;cece&quot;, &quot;: rotateS : &quot; + rotateS);</span><br><span class="line">                                invalidate()</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">MotionEvent.ACTION_MOVE -&gt; &#123;</span><br><span class="line">                    val x &#x3D; this.x</span><br><span class="line">                    val y &#x3D; this.y</span><br><span class="line">                    &#x2F;&#x2F;当y运动距离大于x的1.5倍时，才判断为垂直翻动</span><br><span class="line">                    val disY &#x3D; y - startY</span><br><span class="line">                    if (Math.abs(disY) &gt; 1f &amp;&amp; Math.abs(disY) &gt;&#x3D; Math.abs(x - startX) * 1.5f) &#123;</span><br><span class="line">                        if (statusFlip &#x3D;&#x3D; 0) &#123;</span><br><span class="line">                            &#x2F;&#x2F;滑动间距为正并且不是第一页判断为向下翻，滑动间距为负并且不是最后一页判断为向上翻</span><br><span class="line">                            statusFlip &#x3D; if (disY &gt; 0 &amp;&amp; curPage !&#x3D; 0) DOWN_FLIP</span><br><span class="line">                            else if (disY &lt; 0 &amp;&amp; curPage !&#x3D; girls.lastIndex) UP_FLIP else 0</span><br><span class="line">                        &#125;</span><br><span class="line">                        val ratio &#x3D; Math.abs(disY) &#x2F; centerY</span><br><span class="line">                        if (statusFlip &#x3D;&#x3D; DOWN_FLIP) &#123;</span><br><span class="line">                            &#x2F;&#x2F;向下翻并且当前页不等于0</span><br><span class="line">                            rotateF &#x3D; ratio * -180f</span><br><span class="line">                            Log.d(&quot;cece&quot;, &quot;: rotateF : &quot; + rotateF);</span><br><span class="line">                            invalidate()</span><br><span class="line">                        &#125; else if (statusFlip &#x3D;&#x3D; UP_FLIP) &#123;</span><br><span class="line">                            &#x2F;&#x2F;向上翻，并且不是最后一页</span><br><span class="line">                            if (curPage !&#x3D; girls.lastIndex) &#123;</span><br><span class="line">                                rotateS &#x3D; ratio * 180f</span><br><span class="line">                                Log.d(&quot;cece&quot;, &quot;: rotateS : &quot; + rotateS);</span><br><span class="line">                                invalidate()</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>当手指抬起时，首先判断此时的状态，然后再判断移动过的距离是否满足阈值。不满足的回归当前页，满足阈值的，继续执行未完成的状态。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">if (statusFlip != 0) &#123;</span><br><span class="line">            drawMatrix.reset()</span><br><span class="line">            //放手的时候，有动画发生</span><br><span class="line">            if (Math.abs(event.y - startY) &lt;= centerY / 2) &#123;</span><br><span class="line">                //滑动距离小于1/4屏幕高，判定仍停留在当前页</span><br><span class="line">                rotateF = 0f</span><br><span class="line">                rotateS = 0f</span><br><span class="line">                statusFlip = 0</span><br><span class="line">                invalidate()</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                //滑动距离超过临界值，判定为跳过当前页</span><br><span class="line">                if (statusFlip == DOWN_FLIP) &#123;</span><br><span class="line">                    //自动执行完下翻到上一页的动作</span><br><span class="line">                    for (i in rotateF.toInt() downTo -180 step 6) &#123;</span><br><span class="line">                        invalidate()</span><br><span class="line">                    &#125;</span><br><span class="line">                    curPage--</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    //自动执行完上翻到下一页的动作</span><br><span class="line">                    for (i in rotateS.toInt() until 180 step 6) &#123;</span><br><span class="line">                        invalidate()</span><br><span class="line">                    &#125;</span><br><span class="line">                    curPage++</span><br><span class="line">                &#125;</span><br><span class="line">                rotateF = 0f</span><br><span class="line">                rotateS = 0f</span><br><span class="line">                statusFlip = 0</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">if (statusFlip !&#x3D; 0) &#123;</span><br><span class="line">            drawMatrix.reset()</span><br><span class="line">            &#x2F;&#x2F;放手的时候，有动画发生</span><br><span class="line">            if (Math.abs(event.y - startY) &lt;&#x3D; centerY &#x2F; 2) &#123;</span><br><span class="line">                &#x2F;&#x2F;滑动距离小于1&#x2F;4屏幕高，判定仍停留在当前页</span><br><span class="line">                rotateF &#x3D; 0f</span><br><span class="line">                rotateS &#x3D; 0f</span><br><span class="line">                statusFlip &#x3D; 0</span><br><span class="line">                invalidate()</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                &#x2F;&#x2F;滑动距离超过临界值，判定为跳过当前页</span><br><span class="line">                if (statusFlip &#x3D;&#x3D; DOWN_FLIP) &#123;</span><br><span class="line">                    &#x2F;&#x2F;自动执行完下翻到上一页的动作</span><br><span class="line">                    for (i in rotateF.toInt() downTo -180 step 6) &#123;</span><br><span class="line">                        invalidate()</span><br><span class="line">                    &#125;</span><br><span class="line">                    curPage--</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    &#x2F;&#x2F;自动执行完上翻到下一页的动作</span><br><span class="line">                    for (i in rotateS.toInt() until 180 step 6) &#123;</span><br><span class="line">                        invalidate()</span><br><span class="line">                    &#125;</span><br><span class="line">                    curPage++</span><br><span class="line">                &#125;</span><br><span class="line">                rotateF &#x3D; 0f</span><br><span class="line">                rotateS &#x3D; 0f</span><br><span class="line">                statusFlip &#x3D; 0</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>当距离达到阈值时，就需要代码来继续完成下翻或者上翻的逻辑。这里我使用循环的方式。譬如上翻超过90度了，就循环到180度，继续完成上翻的动作。</p>
 </blockquote>
 <h4 id="3、-阴影部分和绘制顺序"><a href="#3、-阴影部分和绘制顺序" class="headerlink" title="3、 阴影部分和绘制顺序"></a>3、 阴影部分和绘制顺序</h4><p>在<code>onDraw(...)</code>方法内绘制时，一定要注意代码顺序。因为在这个方法内，顺序代表着层次。譬如阴影绘制一定要写在页面绘制之前。<br>阴影部分的绘制也分为上下两部分。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fun drawFirstShadow(canvas: Canvas?, rotate: Float) &#123;</span><br><span class="line">    canvas切割上半部分，绘制color即可    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun drawSecondShadow(canvas: Canvas?, rotate: Float) &#123;</span><br><span class="line">    canvas切割下半部分，绘制color即可 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在<code>onDraw(...)</code>方法内的绘制顺序一定要分明</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">//绘制当前页底下的一层,翻页进行中</span><br><span class="line">        if (statusFlip == DOWN_FLIP) &#123;</span><br><span class="line">            //向下翻，滑到上一页</span><br><span class="line">            drawFirstHalf(canvas, lastBitmap, 0f)</span><br><span class="line">            drawFirstShadow(canvas, rotateF)</span><br><span class="line">        &#125; else if (statusFlip == UP_FLIP) &#123;</span><br><span class="line">            drawSecondHalf(canvas, nextBitmap, 0f)</span><br><span class="line">            drawSecondShadow(canvas, rotateS)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //绘制当前页</span><br><span class="line">        drawFirstHalf(canvas, curBitmap, rotateF)</span><br><span class="line">        drawSecondHalf(canvas, curBitmap, rotateS)</span><br><span class="line"></span><br><span class="line">        //绘制当前页之上的一层，翻页完成后</span><br><span class="line">        if (statusFlip == DOWN_FLIP) &#123;</span><br><span class="line">            if (rotateF &lt;= -90f) &#123;</span><br><span class="line">                //先绘制阴影</span><br><span class="line">                drawSecondShadow(canvas, rotateF + 180f)</span><br><span class="line">                drawSecondHalf(canvas, lastBitmap, rotateF + 180f)</span><br><span class="line">            &#125;</span><br><span class="line">            //绘制覆盖在翻页Bitmap之上淡淡透明层，透明度固定</span><br><span class="line">            drawFirstColor(canvas, 20)</span><br><span class="line">        &#125; else if (statusFlip == UP_FLIP) &#123;</span><br><span class="line">            if (rotateS &gt;= 90f) &#123;</span><br><span class="line">                drawFirstShadow(canvas, rotateS - 180f)</span><br><span class="line">                drawFirstHalf(canvas, nextBitmap, rotateS - 180f)</span><br><span class="line">            &#125;</span><br><span class="line">            //淡淡透明度的阴影层</span><br><span class="line">            drawSecondColor(canvas, 20)</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;绘制当前页底下的一层,翻页进行中</span><br><span class="line">        if (statusFlip &#x3D;&#x3D; DOWN_FLIP) &#123;</span><br><span class="line">            &#x2F;&#x2F;向下翻，滑到上一页</span><br><span class="line">            drawFirstHalf(canvas, lastBitmap, 0f)</span><br><span class="line">            drawFirstShadow(canvas, rotateF)</span><br><span class="line">        &#125; else if (statusFlip &#x3D;&#x3D; UP_FLIP) &#123;</span><br><span class="line">            drawSecondHalf(canvas, nextBitmap, 0f)</span><br><span class="line">            drawSecondShadow(canvas, rotateS)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;绘制当前页</span><br><span class="line">        drawFirstHalf(canvas, curBitmap, rotateF)</span><br><span class="line">        drawSecondHalf(canvas, curBitmap, rotateS)</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;绘制当前页之上的一层，翻页完成后</span><br><span class="line">        if (statusFlip &#x3D;&#x3D; DOWN_FLIP) &#123;</span><br><span class="line">            if (rotateF &lt;&#x3D; -90f) &#123;</span><br><span class="line">                &#x2F;&#x2F;先绘制阴影</span><br><span class="line">                drawSecondShadow(canvas, rotateF + 180f)</span><br><span class="line">                drawSecondHalf(canvas, lastBitmap, rotateF + 180f)</span><br><span class="line">            &#125;</span><br><span class="line">            &#x2F;&#x2F;绘制覆盖在翻页Bitmap之上淡淡透明层，透明度固定</span><br><span class="line">            drawFirstColor(canvas, 20)</span><br><span class="line">        &#125; else if (statusFlip &#x3D;&#x3D; UP_FLIP) &#123;</span><br><span class="line">            if (rotateS &gt;&#x3D; 90f) &#123;</span><br><span class="line">                drawFirstShadow(canvas, rotateS - 180f)</span><br><span class="line">                drawFirstHalf(canvas, nextBitmap, rotateS - 180f)</span><br><span class="line">            &#125;</span><br><span class="line">            &#x2F;&#x2F;淡淡透明度的阴影层</span><br><span class="line">            drawSecondColor(canvas, 20)</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
 <p>还是得区分一下状态，当下翻时，我们得先绘制上一页的上半部分，而且是静态的。然后再绘制当前页下翻产生的阴影。再绘制当前页，然后在当前页顶上再绘制一层固定淡淡透明度的阴影层，让页面层次更加明显。</p>
 <h4 id="4、效果修正"><a href="#4、效果修正" class="headerlink" title="4、效果修正"></a>4、效果修正</h4><p>到这里主要的逻辑业已完成，但我注意到还是有一些小瑕疵。就是旋转角度和缩放比，变化不明显。通常要角度变化到超过45度，才会有很明显的缩放效果展现出来。<br>最开始我以为是缩放比的算法问题，后来才发现是<code>camera</code>的机位问题，<code>camera</code>默认的拍摄角度是<code>[0,0,-8]</code>，当距离屏幕很近时，变化自然不是很明显。<br>当然，<code>camera</code>提供了设置机位的方法<code>setLocation(x, y, z)</code>。最后我调整到<code>[0,0,-20]</code>才满意这个效果。</p>
 <blockquote>
 <p>下图，我给出了，默认机位和[0，0，-20]机位的效果区别。</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip_3.jpg" alt></p>
-<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>Demo里的实现方式并非是唯一，分享出来是为了提供一种思路。路有很多条，选择即是正确。<br><br><strong>以上</strong><br><a href="https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/flipboard" target="_blank" rel="noopener">项目代码</a>在此，大家要是喜欢的话不妨点个赞吧</p>
+<p><img src="https://raw.githubusercontent.com/JadynAi/oldpage.io/master/img/flip_3.jpg" alt=""></p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>Demo里的实现方式并非是唯一，分享出来是为了提供一种思路。路有很多条，选择即是正确。<br><br><strong>以上</strong><br><a target="_blank" rel="noopener" href="https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/flipboard">项目代码</a>在此，大家要是喜欢的话不妨点个赞吧</p>
 
       
     </div>
@@ -434,7 +437,7 @@
     <figure class="media">
       <div class="media-left">
         <a href="https://github.com/JadynAi" target="_blank" class="img-burn thumb-sm visible-lg">
-          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
         </a>
       </div>
       <div class="media-body">
@@ -506,14 +509,14 @@
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade active in" id="alipay">
               <div class="donate-payimg">
-                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
               </div>
               <p class="text-muted mv">扫码打赏，你说多少就多少</p>
               <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="wechatpay">
               <div class="donate-payimg">
-                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
               </div>
               <p class="text-muted mv">扫码打赏，你说多少就多少</p>
               <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
@@ -524,7 +527,7 @@
               <li role="presentation" class="active">
                 <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
               </li>
-              <li role="presentation" class>
+              <li role="presentation" class="">
                 <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
               </li>
             </ul>
@@ -544,9 +547,9 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/JadynAi" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
     </ul>
 
@@ -561,8 +564,12 @@
 <script>
 window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 </script>
+
 <script src="/js/plugin.min.js"></script>
+
+
 <script src="/js/application.js"></script>
+
 
     <script>
 (function (window) {
@@ -580,7 +587,9 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 
 
