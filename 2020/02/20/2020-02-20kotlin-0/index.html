@@ -17,25 +17,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>提供一个Glide灵活加载圆角图片的方法 | E = MC^2</title>
-  <meta name="description" content="原创文章，转载请联系作者 前言Glide是目前使用的颇为广泛的图片加载框架，同时也是Google官方推荐使用的。在图片处理方面，它提供了很多不错的功能。 如何才能灵活圆角图片显示，大概是很多APP都会出现的UI设计了，Glide本身也提供了圆角图片的加载方式——但也只是简单的四圆角。实际项目开发中，并不能应付多变的产品需求和善变的UI设计师了。譬如有时候，只需要顶部展示圆角，有时候又只需要左侧展示">
+  <title>E = MC^2</title>
+  <meta name="description" content="Kotlin碎片解析————泛型泛型的out、in、wherekotlin语言作为android生态中的一个重要一环，也承继了部分java的特效，譬如这个——泛型。作为一种编译时期的特性，泛型很大程度把类型转换错误这个问题解决了。在kotlin语言中，泛型依然适用，同时也保留了java泛型中的上下界特性。 outout可以看成java泛型中的上界通配符，简单理解就是就是这个泛型之下的子类都使用于当">
 <meta property="og:type" content="article">
-<meta property="og:title" content="提供一个Glide灵活加载圆角图片的方法">
-<meta property="og:url" content="https://ailo.fun/2018/07/01/2018-07-01-glide-round/index.html">
+<meta property="og:title" content="Life is Like A Boat">
+<meta property="og:url" content="https://ailo.fun/2020/02/20/2020-02-20kotlin-0/index.html">
 <meta property="og:site_name" content="Life is Like A Boat">
-<meta property="og:description" content="原创文章，转载请联系作者 前言Glide是目前使用的颇为广泛的图片加载框架，同时也是Google官方推荐使用的。在图片处理方面，它提供了很多不错的功能。 如何才能灵活圆角图片显示，大概是很多APP都会出现的UI设计了，Glide本身也提供了圆角图片的加载方式——但也只是简单的四圆角。实际项目开发中，并不能应付多变的产品需求和善变的UI设计师了。譬如有时候，只需要顶部展示圆角，有时候又只需要左侧展示">
+<meta property="og:description" content="Kotlin碎片解析————泛型泛型的out、in、wherekotlin语言作为android生态中的一个重要一环，也承继了部分java的特效，譬如这个——泛型。作为一种编译时期的特性，泛型很大程度把类型转换错误这个问题解决了。在kotlin语言中，泛型依然适用，同时也保留了java泛型中的上下界特性。 outout可以看成java泛型中的上界通配符，简单理解就是就是这个泛型之下的子类都使用于当">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wx3.sinaimg.cn/mw690/a28b91d8gy1fsuqu1pfaoj20qm0h0goy.jpg">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/jqw9LvhdsxJMVGR4oYRkW5Gk7G3EBkdv4IHqEN8ydtRhEw64Tofh36Wgl7ricaKYQ7n74VF1uia8IWwDGO3icx3IA/0?wx_fmt=png">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/jqw9LvhdsxJMVGR4oYRkW5Gk7G3EBkdvoPj9Uz8kvjGadIhNdLmPCI7BunGwxOHt6UfibIMN6vIlz4Zk16gyakQ/0?wx_fmt=png">
-<meta property="article:published_time" content="2018-06-30T16:00:00.000Z">
-<meta property="article:modified_time" content="2019-04-26T03:12:07.483Z">
+<meta property="article:published_time" content="2020-02-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-28T08:27:06.873Z">
 <meta property="article:author" content="AiLo">
-<meta property="article:tag" content="技术讨论">
+<meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://wx3.sinaimg.cn/mw690/a28b91d8gy1fsuqu1pfaoj20qm0h0goy.jpg">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://ailo.fun/2018/07/01/2018-07-01-glide-round/index.html">
+  <link rel="canonical" href="https://ailo.fun/2020/02/20/2020-02-20kotlin-0/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Life is Like A Boat" type="application/atom+xml">
   
@@ -318,67 +314,49 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-2018-07-01-glide-round" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-2020-02-20kotlin-0" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
-      
-        
-  
-    <h1 class="article-title" itemprop="name">
-      提供一个Glide灵活加载圆角图片的方法
-    </h1>
-  
-
       
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2018/07/01/2018-07-01-glide-round/" class="article-date">
-	  <time datetime="2018-06-30T16:00:00.000Z" itemprop="datePublished">2018-07-01</time>
+	<a href="/2020/02/20/2020-02-20kotlin-0/" class="article-date">
+	  <time datetime="2020-02-19T16:00:00.000Z" itemprop="datePublished">2020-02-20</time>
 	</a>
 </span>
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Android/">Android</a>
+    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/tags/%E6%8A%80%E6%9C%AF%E8%AE%A8%E8%AE%BA/" rel="tag">技术讨论</a>
+	<a class="article-tag-link-link" href="/tags/Android/" rel="tag">Android</a>
   </span>
 
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/07/01/2018-07-01-glide-round/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/02/20/2020-02-20kotlin-0/#comments" class="article-comment-link">评论</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p><strong>原创文章，转载请联系作者</strong></p>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><code>Glide</code>是目前使用的颇为广泛的图片加载框架，同时也是Google官方推荐使用的。在图片处理方面，它提供了很多不错的功能。</p>
-<h3 id="如何才能灵活"><a href="#如何才能灵活" class="headerlink" title="如何才能灵活"></a>如何才能灵活</h3><p>圆角图片显示，大概是很多APP都会出现的UI设计了，<code>Glide</code>本身也提供了圆角图片的加载方式——<em>但也只是简单的四圆角</em>。实际项目开发中，并不能应付多变的产品需求和善变的UI设计师了。譬如有时候，只需要顶部展示圆角，有时候又只需要左侧展示圆角等等。<br>那么，本次的方法适用于使用了<code>Glide</code>作为项目图片框架的小可爱们，开发者可以对四个圆角进行单独设置，不仅仅是显示隐藏，每个圆角的半径亦是独立存在的。</p>
-<h3 id="使用文档"><a href="#使用文档" class="headerlink" title="使用文档"></a>使用文档</h3><p><code>Glide</code>有对外暴露一个方法，可以在图片显示前，对图片作转换处理——就是<code>Transformations</code>。有关此方面的文字，小可爱们可以看看这篇——<a target="_blank" rel="noopener" href="https://mrfu.me/2016/02/28/Glide_Custom_Transformations/">Glide - 自定义转换</a>。本文的<code>RoundCorner</code>就是继承了<code>BitmapTransformation</code>类来实现的。它对外提供两个构造函数，一个构造函数有四个参数，分别是<code>leftTop:左上角</code>、<code>rightTop:右上角</code>、<code>leftBottom:左下角</code>、<code>rightBottom：右下角</code>。可以供外部，灵活的去选择设置哪几个圆角需要去展示，四个圆角的半径大小。另一个函数，只提供一个参数就是同时设置四个圆角，当然这是用于四个圆角同时展示且半径相同的情况下。于此同时，构造函数中只需要传数值即可，类内部已经做了dp处理。<br>下面做一下简单的展示。</p>
-<ul>
-<li>加载普通圆角图片</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(this).load(&quot;http:&#x2F;&#x2F;p15.qhimg.com&#x2F;bdm&#x2F;720_444_0&#x2F;t01b12dfd7f42342197.jpg&quot;)</span><br><span class="line">        .apply(RequestOptions.bitmapTransform(RoundCorner(20f)))</span><br><span class="line">        .into(img)</span><br></pre></td></tr></table></figure>
-<p><img src="https://wx3.sinaimg.cn/mw690/a28b91d8gy1fsuqu1pfaoj20qm0h0goy.jpg" alt=""></p>
-<ul>
-<li>只是顶部圆角</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(this).load(&quot;http:&#x2F;&#x2F;p15.qhimg.com&#x2F;bdm&#x2F;720_444_0&#x2F;t01b12dfd7f42342197.jpg&quot;)</span><br><span class="line">        .apply(RequestOptions.bitmapTransform(RoundCorner(leftTop &#x3D; 20f, rightTop &#x3D; 20f)))</span><br><span class="line">        .into(img)</span><br></pre></td></tr></table></figure>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/jqw9LvhdsxJMVGR4oYRkW5Gk7G3EBkdv4IHqEN8ydtRhEw64Tofh36Wgl7ricaKYQ7n74VF1uia8IWwDGO3icx3IA/0?wx_fmt=png" alt=""></p>
-<ul>
-<li>只是左侧圆角</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(this).load(&quot;http:&#x2F;&#x2F;p15.qhimg.com&#x2F;bdm&#x2F;720_444_0&#x2F;t01b12dfd7f42342197.jpg&quot;)</span><br><span class="line">        .apply(RequestOptions.bitmapTransform(RoundCorner(leftTop &#x3D; 20f, leftBottom &#x3D; 20f)))</span><br><span class="line">        .into(img)</span><br></pre></td></tr></table></figure>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/jqw9LvhdsxJMVGR4oYRkW5Gk7G3EBkdvoPj9Uz8kvjGadIhNdLmPCI7BunGwxOHt6UfibIMN6vIlz4Zk16gyakQ/0?wx_fmt=png" alt=""></p>
-<p>以上就是一次简单的展示了，如果你想更加灵活的加载圆角图片,选择这个方法没有错。代码在这里，传送门——<a target="_blank" rel="noopener" href="https://github.com/JadynAi/KotlinDiary/blob/master/app/src/main/java/com/jadynai/kotlindiary/function/img/RoundCorner.kt">RoundCorner</a></p>
-<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>以上</p>
+        <h2 id="Kotlin碎片解析————泛型"><a href="#Kotlin碎片解析————泛型" class="headerlink" title="Kotlin碎片解析————泛型"></a>Kotlin碎片解析————泛型</h2><h3 id="泛型的out、in、where"><a href="#泛型的out、in、where" class="headerlink" title="泛型的out、in、where"></a>泛型的out、in、where</h3><p>kotlin语言作为android生态中的一个重要一环，也承继了部分java的特效，譬如这个——<strong>泛型</strong>。作为一种编译时期的特性，泛型很大程度把类型转换错误这个问题解决了。<br/>在kotlin语言中，泛型依然适用，同时也保留了java泛型中的上下界特性。</p>
+<h4 id="out"><a href="#out" class="headerlink" title="out"></a>out</h4><p>out可以看成java泛型中的上界通配符，简单理解就是就是这个泛型之下的子类都使用于当下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val a: A&lt;View&gt; &#x3D; A&lt;TextView&gt;()</span><br><span class="line"></span><br><span class="line">class A&lt;out T&gt;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，out只能应用于类或者接口，在方法上是无法应用的</p>
+<h4 id="in"><a href="#in" class="headerlink" title="in"></a>in</h4><p>相应地，in可以看作java泛型中的下界通配符，就是这个类型就是下限了，往上都是可以的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val a: A&lt;TextView&gt; &#x3D; A&lt;View&gt;()</span><br><span class="line"></span><br><span class="line">class A&lt;in T&gt;</span><br></pre></td></tr></table></figure>
+<p>与out相同，in不能作用于方法</p>
+<h4 id="where"><a href="#where" class="headerlink" title="where"></a>where</h4><p>限定多个上界</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class A&lt;T&gt; where T : Button,T : Serializable&#123;&#125;</span><br><span class="line"></span><br><span class="line">fun &lt;T&gt; test(t: T) where T : CharSequence, T : TextView &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>where可作用于类或者函数</p>
+<p>##以上</p>
 
       
     </div>
@@ -388,7 +366,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://ailo.fun/2018/07/01/2018-07-01-glide-round/" title="提供一个Glide灵活加载圆角图片的方法" target="_blank" rel="external">https://ailo.fun/2018/07/01/2018-07-01-glide-round/</a>
+      <a href="https://ailo.fun/2020/02/20/2020-02-20kotlin-0/" title="" target="_blank" rel="external">https://ailo.fun/2020/02/20/2020-02-20kotlin-0/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -434,13 +412,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/2018/07/05/2018-07-05-kotlin-adapter/" title="使用DSL模式构建Recyclerview适配器"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/2018/06/21/2018-06-21-fragment-v/" title="提供一种Fragment可见性改变的监测方案"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2019/06/21/2019-06-21-camera2-video/" title="Camera2录制视频(二)：MediaCodeC+OpenGL视频编码"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
@@ -574,7 +548,7 @@ var gitment = new Gitment({
   // id默认为当前页面url，如果url后带参数或锚点，gitment要重新初始化
   // https://github.com/imsun/gitment/issues/55
   // 解决方案：id:window.location.pathname,或者将id设置为当前页面标题
-  id: '提供一个Glide灵活加载圆角图片的方法', 
+  id: '', 
   owner: 'JadynAi', // 可以是你的GitHub用户名，也可以是github id
   repo: 'JadynAi.github.io',
   oauth: {
