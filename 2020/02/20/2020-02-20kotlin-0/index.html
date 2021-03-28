@@ -17,16 +17,16 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>E = MC^2</title>
+  <title>Kotlin碎片解析——泛型 | E = MC^2</title>
   <meta name="description" content="Kotlin碎片解析————泛型泛型的out、in、wherekotlin语言作为android生态中的一个重要一环，也承继了部分java的特效，譬如这个——泛型。作为一种编译时期的特性，泛型很大程度把类型转换错误这个问题解决了。在kotlin语言中，泛型依然适用，同时也保留了java泛型中的上下界特性。 outout可以看成java泛型中的上界通配符，简单理解就是就是这个泛型之下的子类都使用于当">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Life is Like A Boat">
+<meta property="og:title" content="Kotlin碎片解析——泛型">
 <meta property="og:url" content="https://ailo.fun/2020/02/20/2020-02-20kotlin-0/index.html">
 <meta property="og:site_name" content="Life is Like A Boat">
 <meta property="og:description" content="Kotlin碎片解析————泛型泛型的out、in、wherekotlin语言作为android生态中的一个重要一环，也承继了部分java的特效，譬如这个——泛型。作为一种编译时期的特性，泛型很大程度把类型转换错误这个问题解决了。在kotlin语言中，泛型依然适用，同时也保留了java泛型中的上下界特性。 outout可以看成java泛型中的上界通配符，简单理解就是就是这个泛型之下的子类都使用于当">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-28T08:27:06.873Z">
+<meta property="article:modified_time" content="2021-03-28T08:29:56.037Z">
 <meta property="article:author" content="AiLo">
 <meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary">
@@ -185,7 +185,7 @@
   <div class="widget">
     <h3 class="widget-title">分类</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Camera2/">Camera2</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a><span class="category-list-count">7</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">13</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Camera2/">Camera2</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a><span class="category-list-count">7</span></li></ul>
     </div>
   </div>
 
@@ -230,10 +230,10 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                <a class="category-link" href="/categories/Android/">Android</a>
               </p>
               <p class="item-title">
-                <a href="/2020/02/20/2020-02-20kotlin-0/" class="title">(no title)</a>
+                <a href="/2020/02/20/2020-02-20kotlin-0/" class="title">Kotlin碎片解析——泛型</a>
               </p>
               <p class="item-date">
                 <time datetime="2020-02-19T16:00:00.000Z" itemprop="datePublished">2020-02-20</time>
@@ -318,6 +318,14 @@
     
     <div class="article-header">
       
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Kotlin碎片解析——泛型
+    </h1>
+  
+
+      
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
@@ -328,7 +336,7 @@
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
   </span>
 
         
@@ -366,7 +374,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://ailo.fun/2020/02/20/2020-02-20kotlin-0/" title="" target="_blank" rel="external">https://ailo.fun/2020/02/20/2020-02-20kotlin-0/</a>
+      <a href="https://ailo.fun/2020/02/20/2020-02-20kotlin-0/" title="Kotlin碎片解析——泛型" target="_blank" rel="external">https://ailo.fun/2020/02/20/2020-02-20kotlin-0/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -548,7 +556,7 @@ var gitment = new Gitment({
   // id默认为当前页面url，如果url后带参数或锚点，gitment要重新初始化
   // https://github.com/imsun/gitment/issues/55
   // 解决方案：id:window.location.pathname,或者将id设置为当前页面标题
-  id: '', 
+  id: 'Kotlin碎片解析——泛型', 
   owner: 'JadynAi', // 可以是你的GitHub用户名，也可以是github id
   repo: 'JadynAi.github.io',
   oauth: {
