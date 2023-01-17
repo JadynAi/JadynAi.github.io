@@ -17,20 +17,26 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>404 | E = MC^2</title>
-  <meta name="description" content="Android AI DeepLearning">
-<meta property="og:type" content="website">
-<meta property="og:title" content="404">
-<meta property="og:url" content="https://ailo.fun/404/index.html">
+  <title>compose快码一编--气泡升起和水滴下坠动画 | E = MC^2</title>
+  <meta name="description" content="原创文章，转载请联系作者 摘要今天用compose来构建一个气泡上升粘连动画和水滴下坠动画,Github源码点击这里,欢迎大家start  知识点 compose动画 贝塞尔曲线 缓动函数 compose canvas  解析 compose动画使用updateTransition,理由是： updateTransition可以管理多个动画作为子项，并且可以在多个状态间同时运行 这个动画恰巧需要维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="compose快码一编--气泡升起和水滴下坠动画">
+<meta property="og:url" content="https://ailo.fun/2023/01/15/2023-01-10compose-water-anim/index.html">
 <meta property="og:site_name" content="Life is Like A Boat">
-<meta property="og:description" content="Android AI DeepLearning">
+<meta property="og:description" content="原创文章，转载请联系作者 摘要今天用compose来构建一个气泡上升粘连动画和水滴下坠动画,Github源码点击这里,欢迎大家start  知识点 compose动画 贝塞尔曲线 缓动函数 compose canvas  解析 compose动画使用updateTransition,理由是： updateTransition可以管理多个动画作为子项，并且可以在多个状态间同时运行 这个动画恰巧需要维">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-04-24T02:33:54.000Z">
-<meta property="article:modified_time" content="2019-04-24T02:33:54.128Z">
+<meta property="og:image" content="https://github.com/JadynAi/oldpage.io/blob/master/img/20230112-waterDrop.gif?raw=true">
+<meta property="og:image" content="https://developer.android.com/images/reference/androidx/compose/animation-core/ease_out_bounce.gif?hl=zh-cn">
+<meta property="og:image" content="https://github.com/JadynAi/oldpage.io/blob/master/img/compose_water_anim.png?raw=true">
+<meta property="article:published_time" content="2023-01-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-01-17T12:17:23.172Z">
 <meta property="article:author" content="AiLo">
+<meta property="article:tag" content="Canvas动画">
+<meta property="article:tag" content="Compose">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/JadynAi/oldpage.io/blob/master/img/20230112-waterDrop.gif?raw=true">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://ailo.fun/404/index.html">
+  <link rel="canonical" href="https://ailo.fun/2023/01/15/2023-01-10compose-water-anim/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Life is Like A Boat" type="application/atom+xml">
   
@@ -313,14 +319,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="page-" class="article article-type-page" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-2023-01-10compose-water-anim" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      404
+      compose快码一编--气泡升起和水滴下坠动画
     </h1>
   
 
@@ -328,22 +334,71 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/404/index.html" class="article-date">
-	  <time datetime="2019-04-24T02:33:54.000Z" itemprop="datePublished">2019-04-24</time>
+	<a href="/2023/01/15/2023-01-10compose-water-anim/" class="article-date">
+	  <time datetime="2023-01-14T16:00:00.000Z" itemprop="datePublished">2023-01-15</time>
 	</a>
 </span>
         
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </span>
+
         
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Canvas%E5%8A%A8%E7%94%BB/" rel="tag">Canvas动画</a>, <a class="article-tag-link-link" href="/tags/Compose/" rel="tag">Compose</a>
+  </span>
+
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/404/index.html#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/01/15/2023-01-10compose-water-anim/#comments" class="article-comment-link">评论</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        
+        <p><strong>原创文章，转载请联系作者</strong></p>
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>今天用compose来构建一个气泡上升粘连动画和水滴下坠动画,<a target="_blank" rel="noopener" href="https://github.com/JadynAi/ComposeD/blob/master/app/src/main/java/com/xixi/composed/animator/WaterDropAnim.kt">Github源码点击这里</a>,欢迎大家start</p>
+<p><img src="https://github.com/JadynAi/oldpage.io/blob/master/img/20230112-waterDrop.gif?raw=true" alt="image"></p>
+<h4 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h4><ul>
+<li>compose动画</li>
+<li>贝塞尔曲线</li>
+<li>缓动函数</li>
+<li>compose canvas</li>
+</ul>
+<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><ol>
+<li>compose动画使用<code>updateTransition</code>,理由是：<ul>
+<li><code>updateTransition</code>可以管理多个动画作为子项，并且可以在多个状态间同时运行</li>
+<li>这个动画恰巧需要维护两个状态，自定义状态数据Circle和Bubble</li>
+</ul>
+</li>
+<li>贝塞尔曲线，两个动画球之前的粘连效果使用贝塞尔曲线达成，目前android提供了二阶和三阶的贝塞尔曲线，在此处作动画够用了</li>
+<li><p>==缓动函数==</p>
+<ul>
+<li>动画当然是越接近现实中的物理规则越好看</li>
+<li>++缓动函数++自定义参数随时间变化的规律，特定的缓动函数有助于动画的良好构建</li>
+<li><img src="https://developer.android.com/images/reference/androidx/compose/animation-core/ease_out_bounce.gif?hl=zh-cn" alt="image"></li>
+<li>compose中提供了Easing来做差值器，常见的有：<a target="_blank" rel="noopener" href="https://developer.android.com/reference/kotlin/androidx/compose/animation/core/package-summary?hl=zh-cn#EaseInBounce(">compose内置的EaseIN</a>)</li>
+</ul>
+</li>
+<li><p>所有效果都由canvas画出，就是一些主要的canvas的api的熟练度问题</p>
+</li>
+</ol>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><hr>
+<p>其实这种动画在工程实装的时候，比较麻烦的一个点就是状态的管理，可能会写不少的代码用来维护以及表示当前动画的状态。<br>使用<code>updateTransition</code>这个api的好处就是可以借用它的参数<strong>targetState</strong>来帮我们管理维护当前动画的状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">val transition &#x3D; updateTransition(targetState &#x3D; currentState, label &#x3D; &quot;Water&quot;)</span><br><span class="line"></span><br><span class="line">val durationMillis &#x3D; 1111</span><br><span class="line">val progress by transition.animateFloat(label &#x3D; &quot;Water&quot;, transitionSpec &#x3D; &#123;</span><br><span class="line">    when &#123;</span><br><span class="line">        WaterState.Circle isTransitioningTo WaterState.Bubble -&gt;</span><br><span class="line">            TweenSpec(durationMillis &#x3D; durationMillis, easing &#x3D; EaseOutBounce)</span><br><span class="line">        else -&gt; TweenSpec(durationMillis &#x3D; durationMillis, easing &#x3D; EaseOutExpo)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;) &#123;</span><br><span class="line">    when (it) &#123;</span><br><span class="line">        WaterState.Bubble -&gt; 1f</span><br><span class="line">        WaterState.Circle -&gt; -0.2f</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在这段代码里我们维护了两个状态，并且在不同的状态切换间使用了不同的transitionSpec</p>
+</blockquote>
+<h4 id="动画绘制"><a href="#动画绘制" class="headerlink" title="动画绘制"></a>动画绘制</h4><h5 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h5><p><img src="https://github.com/JadynAi/oldpage.io/blob/master/img/compose_water_anim.png?raw=true" alt=""></p>
+<p>两种状态下的动画结构都是一致的，跟qq的粘连小球动画结构一样，两个圆形以及中间联结的两段贝塞尔曲线</p>
+<h5 id="circle-to-bubble"><a href="#circle-to-bubble" class="headerlink" title="circle to bubble"></a>circle to bubble</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">val fixCircleCenterX &#x3D; centerX</span><br><span class="line">val fixCircleCenterY &#x3D; centerY</span><br><span class="line">val currentCircleRadius &#x3D; pointRadius * (1f - linearProgress)</span><br><span class="line">drawCircle(</span><br><span class="line">    color &#x3D; pointColor,</span><br><span class="line">    radius &#x3D; currentCircleRadius,</span><br><span class="line">    center &#x3D; Offset(x &#x3D; fixCircleCenterX, y &#x3D; fixCircleCenterY)</span><br><span class="line">)</span><br><span class="line">val bubbleCenterX &#x3D; centerX</span><br><span class="line">val currentDist &#x3D; gap * linearProgress * 1.25f</span><br><span class="line">val bubbleCenterY &#x3D; fixCircleCenterY - currentDist</span><br><span class="line">val linearChangeBubbleCenterY &#x3D; fixCircleCenterY - gap * linearProgress * 1.25f</span><br><span class="line"></span><br><span class="line">val iAnchorX &#x3D; bubbleCenterX</span><br><span class="line">val iAnchorY &#x3D; (fixCircleCenterY + linearChangeBubbleCenterY) * 0.5f</span><br><span class="line"></span><br><span class="line">val linearChangedBubbleRadius &#x3D; pointRadius + (bubbleRadius - pointRadius) * linearProgress</span><br><span class="line">val currentBubbleRadius &#x3D; pointRadius + (bubbleRadius - pointRadius) * progress</span><br><span class="line"></span><br><span class="line">val angel &#x3D; 30.0</span><br><span class="line">val iBubStartX &#x3D; bubbleCenterX + currentBubbleRadius * cos(angel * Math.PI &#x2F; 180).toFloat()</span><br><span class="line">val iBubStartY &#x3D; bubbleCenterY + currentBubbleRadius * sin(angel * Math.PI &#x2F; 180).toFloat()</span><br><span class="line"></span><br><span class="line">val iBubEndX &#x3D; bubbleCenterX + currentBubbleRadius * cos((180 - angel) * Math.PI &#x2F; 180).toFloat()</span><br><span class="line">val iBubEndY &#x3D; bubbleCenterY + currentBubbleRadius * sin((180 - angel) * Math.PI &#x2F; 180).toFloat()</span><br><span class="line"></span><br><span class="line">val circleAngel &#x3D; -angel</span><br><span class="line">val iFixCircleStartX &#x3D; fixCircleCenterX + currentCircleRadius * cos(circleAngel * Math.PI &#x2F; 180).toFloat()</span><br><span class="line">val iFixCircleStartY &#x3D; fixCircleCenterY + currentCircleRadius * sin(circleAngel * Math.PI &#x2F; 180).toFloat()</span><br><span class="line"></span><br><span class="line">val iFixCircleEndX &#x3D; fixCircleCenterX + currentCircleRadius * cos((180 - circleAngel) * Math.PI &#x2F; 180).toFloat()</span><br><span class="line">val iFixCircleEndY &#x3D; fixCircleCenterY + currentCircleRadius * sin((180 - circleAngel) * Math.PI &#x2F; 180).toFloat()</span><br><span class="line">path.reset()</span><br><span class="line">path.moveTo(iBubStartX, iBubStartY)</span><br><span class="line">path.quadraticBezierTo(iAnchorX, iAnchorY, iFixCircleStartX, iFixCircleStartY)</span><br><span class="line">path.lineTo(iFixCircleEndX, iFixCircleEndY)</span><br><span class="line">path.quadraticBezierTo(iAnchorX, iAnchorY, iBubEndX, iBubEndY)</span><br><span class="line">path.close()</span><br><span class="line">drawPath(path &#x3D; path, color &#x3D; pointColor)</span><br><span class="line"></span><br><span class="line">drawOval(</span><br><span class="line">    color &#x3D; pointColor, topLeft &#x3D; Offset(bubbleCenterX - linearChangedBubbleRadius, linearChangeBubbleCenterY - linearChangedBubbleRadius),</span><br><span class="line">    size &#x3D; Size(linearChangedBubbleRadius * 2, currentBubbleRadius * 2)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>用<code>drawOval</code>画椭圆的api来画圆形，主要是为了实现动画末端圆形在y轴上的形变,剩下的bubble to circle的动画与上面类似。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/JadynAi/ComposeD/blob/master/app/src/main/java/com/xixi/composed/animator/WaterDropAnim.kt">源代码链接</a></p>
+<p>欢迎大家留言讨论star</p>
+
       
     </div>
     <div class="article-footer">
@@ -352,7 +407,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://ailo.fun/404/index.html" title="404" target="_blank" rel="external">https://ailo.fun/404/index.html</a>
+      <a href="https://ailo.fun/2023/01/15/2023-01-10compose-water-anim/" title="compose快码一编--气泡升起和水滴下坠动画" target="_blank" rel="external">https://ailo.fun/2023/01/15/2023-01-10compose-water-anim/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -395,6 +450,16 @@
 
   <nav class="bar bar-footer clearfix" data-stick-bottom>
   <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2020/02/20/2020-02-20kotlin-0/" title="Kotlin碎片解析——泛型"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
   
   
   <!-- Button trigger modal -->
@@ -511,6 +576,10 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+   
+
+
+
 
    
     
@@ -520,7 +589,7 @@ var gitment = new Gitment({
   // id默认为当前页面url，如果url后带参数或锚点，gitment要重新初始化
   // https://github.com/imsun/gitment/issues/55
   // 解决方案：id:window.location.pathname,或者将id设置为当前页面标题
-  id: '404', 
+  id: 'compose快码一编--气泡升起和水滴下坠动画', 
   owner: 'JadynAi', // 可以是你的GitHub用户名，也可以是github id
   repo: 'JadynAi.github.io',
   oauth: {
